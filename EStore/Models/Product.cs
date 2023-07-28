@@ -16,14 +16,17 @@ namespace EStore.Models
 
         public string Description { get; set; }
 
+        public string AdditionalDescription { get; set; }
+
         [Required(ErrorMessage ="Please enter cost of product")]
         [RegularExpression(@"^[0-9]*$")]
         public int Cost { get; set; }
 
-        enum ProductTypes
+        public enum ProductTypes
         {
             Electronics,
-            Grocessory
+            Grocessory,
+            Stationery
         }
     }
 }
