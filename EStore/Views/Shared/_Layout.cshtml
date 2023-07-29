@@ -18,29 +18,68 @@
     <link href="css/styles.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .wrapper {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            padding: 20px;
+            /* Set a minimum height to fill at least the viewport */
+            min-height: calc(100vh - 143px); /* 100px for header and footer height */
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
+    <div class="wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                @Html.ActionLink("EStore", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    </ul>
+                    <form class="d-flex" action="@Url.Action("Checkout", "Home")" method="post">
+                        <button class="btn btn-outline-dark" type="submit" onclick="onCartIconClick()" id="cartButton">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart-count">
+                                @(Session[EStore.Models.Cart.CartCountSessionString])
+                            </span>
+                        </button>
+                    </form>
+                    @if (Session[EStore.Models.User.UserSessionString] != null)
+                    {
+                        EStore.Models.User user = (EStore.Models.User)Session[EStore.Models.User.UserSessionString];
+                            <div class="dropdown" style="margin-left:2%">
+                                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Hi, @user.FirstName
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="customDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("UpdateUser", "Home")">Profile Update</a>
+                                    <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home")">Purchase History</a>
+                                    <!-- Add more options as needed -->
+                                </div>
+                            </div>
+                    }
+                    else
+                    {
+                        <p class="nav-item" style="margin:0% 0% 0% 2%">@Html.ActionLink("Login", "SignIn", "Login", new { area = "" }, new { @class = "nav-link" })</p>
+                    }
+                </div>
             </div>
+        </nav>
+        <div class="container body-content main-content">
+            @RenderBody()
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <!-- Footer-->
+        <footer class="py-4 bg-dark" style="left: 0; bottom: 0; width: 100%;">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
         </footer>
     </div>
     <!-- Bootstrap core JS-->
