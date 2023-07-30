@@ -1,0 +1,320 @@
+﻿
+@model EStore.Models.User
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<main class="mt-5 pt-4">
+    @using (Html.BeginForm("PlaceOrder", "Home", FormMethod.Post))
+    {
+        <div class="container">
+            <!-- Heading -->
+            <h2 class="my-5 text-center">Checkout form</h2>
+
+            <!--Grid row-->
+            <div class="row">
+                <!--Grid column-->
+                <div class="col-md-8 mb-4">
+                    <!--Card-->
+                    <div class="card p-4">
+                        <!--Grid row-->
+                        <div class="row mb-3">
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-2">
+                                <!--firstName-->
+                                <div class="form-outline">
+                                    @Html.TextBoxFor(m => m.FirstName, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = "Firstname",
+                                        required = "Firstname",
+                                        value = Model.FirstName
+                                    })
+                                    <label class="form-label" for="typeText">First name</label>
+                                </div>
+                            </div>
+                            <!--Grid column-->
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-2">
+                                <!--lastName-->
+                                <div class="form-outline">
+                                    @Html.TextBoxFor(m => m.LastName, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = "Lastname",
+                                        required = "required",
+                                        value = Model.LastName
+                                    })
+                                    <label class="form-label" for="typeText">Last name</label>
+                                </div>
+                            </div>
+                            <!--Grid column-->
+                        </div>
+                        <!--Grid row-->
+                        <!--Username-->
+                        <div class="input-group mb-4">
+                            <span class="input-group-text" id="basic-addon1"></span>
+                            <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.UserName" />
+                            @Html.HiddenFor(m => m.UserName);
+                        </div>
+
+                        <!--email-->
+                        <p class="mb-0">
+                            Email (optional)
+                        </p>
+                        <div class="form-outline mb-4">
+                            @Html.TextBoxFor(m => m.EmailAddress, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Email Address",
+                                required = "required",
+                                value = Model.EmailAddress
+                            })
+                        </div>
+
+                        <!--address-->
+                        <p class="mb-0">
+                            Address
+                        </p>
+                        <div class="form-outline mb-4">
+                            @Html.TextBoxFor(m => m.Address, new
+                            {
+                                @class = "form-control",
+                                placeholder = "1234 Main St",
+                                required = "required",
+                                value = Model.Address
+                            })
+                        </div>
+
+                        <!--address-2-->
+                        <p class="mb-0">
+                            Address 2 (optional)
+                        </p>
+                        <div class="form-outline mb-4">
+                            @Html.TextBoxFor(m => m.Address, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Apartment or suite",
+                                required = "required",
+                                value = Model.Address
+                            })
+                        </div>
+
+                        <!--Grid row-->
+                        <div class="row">
+                            <!--Grid column-->
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <p class="mb-0">
+                                    Country
+                                </p>
+                                <div class="form-outline mb-4">
+                                    @Html.TextBoxFor(m => m.Country, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = "India",
+                                        required = "required",
+                                        value = Model.Country
+                                    })
+                                </div>
+                            </div>
+                            <!--Grid column-->
+                            <!--Grid column-->
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <p class="mb-0">
+                                    State
+                                </p>
+                                <div class="form-outline mb-4">
+                                    @Html.TextBoxFor(m => m.State, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = "Kerla",
+                                        required = "required",
+                                        value = Model.State
+                                    })
+                                </div>
+                            </div>
+                            <!--Grid column-->
+                            <!--Grid column-->
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <p class="mb-0">
+                                    Zip
+                                </p>
+                                <div class="form-outline">
+                                    @Html.TextBoxFor(m => m.ZipCode, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = "Zipcode",
+                                        required = "required",
+                                        value = Model.ZipCode
+                                    })
+                                </div>
+                            </div>
+                            <!--Grid column-->
+                        </div>
+                        <!--Grid row-->
+
+                        <hr />
+
+                        <div class="my-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
+                                <label class="form-check-label" for="flexRadioDefault1"> Credit card </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                                <label class="form-check-label" for="flexRadioDefault2"> Debit card </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
+                                <label class="form-check-label" for="flexRadioDefault3"> Paytm </label>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <p class="mb-0">
+                                    Name on card
+                                </p>
+                                <div class="form-outline">
+                                    <input type="text" class="form-control" />
+                                    <div class="form-helper">Full name as displayed on card</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <p class="mb-0">
+                                    Credit card number
+                                </p>
+                                <div class="form-outline">
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <p class="mb-0">
+                                    Expiration
+                                </p>
+                                <div class="form-outline">
+                                    <input type="text" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <p class="mb-0">
+                                    CVV
+                                </p>
+                                <div class="form-outline">
+                                    <input type="text" class="form-control" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-4" />
+                        @{
+                            int cartCount = (int)Session[EStore.Models.Cart.CartCountSessionString];
+                            if (cartCount == 0)
+                            {
+                                <button disabled class="btn btn-primary" type="submit">Continue to checkout</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" type="submit">Continue to checkout</button>
+                            }
+                        }
+
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-md-4 mb-4">
+                    <!-- Heading -->
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Your cart</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="checkout-cart-count">@Session[EStore.Models.Cart.CartCountSessionString]</span>
+                    </h4>
+
+                    <!-- Cart -->
+                    <ul class="list-group mb-3">
+                        @{
+                            var totalCost = 0;
+                            var cartItems = Session[EStore.Models.Cart.CartSessionString] as List<EStore.Models.Cart>;
+                            if (cartItems != null)
+                            {
+                                foreach (var item in cartItems)
+                                {
+                                    var itemCost = item.Cost * item.Quantity;
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <div class="flex-row">
+                                            <div>
+                                                <h6 class="my-0">@item.Name</h6>
+                                                <small class="text-muted">
+                                                    Quantity:
+                                                    <span class="badge bg-dark text-white ms-1 rounded-pill">@item.Quantity</span>
+                                                </small>
+                                            </div>
+                                            <button id="@item.Id" class="delete-button btn btn-outline-danger" style="font-size:14px; padding:1px" data-id="@item.Id">Remove</button>
+                                        </div>
+                                        <span class="text-muted">$@itemCost</span>
+                                    </li>
+                                    totalCost += itemCost;
+                                }
+                            }
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Total (USD)</span>
+                                <strong id="total-cost">$@totalCost</strong>
+                            </li>
+                        }
+                    </ul>
+                    <!-- Cart -->
+                    <!-- Promo code -->
+                    <form class="card p-2">
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Promo code"
+                                   aria-label="Promo code"
+                                   aria-describedby="button-addon2" />
+                            <button class="btn btn-primary" type="button" id="button-addon2" data-mdb-ripple-color="dark">
+                                redeem
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Promo code -->
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </div>
+     }
+</main>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete-button').on('click', function () {
+                var itemId = $(this).data('id');
+
+                // Find the parent div element containing the item and remove it from the UI
+                var listItem = $(this).closest('li');
+                
+                // Update the session variable using AJAX
+                $.ajax({
+                    url: '@Url.Action("DeleteCartItems", "Home")',
+                    type: 'POST',
+                    data: { id: itemId },
+                    success: function (data) {
+                        listItem.remove();
+                        $("#total-cost").text("$" + data.total);
+                        $("#cart-count").text(data.totalCount);
+                        $("#checkout-cart-count").text(data.totalCount)
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle the error if needed
+                    }
+                });
+            });
+        });
+    </script>
+}
+<!--Main layout-->
