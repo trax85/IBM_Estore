@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,28 +21,46 @@ namespace EStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SignIn(UserLoginCredentials userCred)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand("verifyUser", connection))
+            {
+                try
+                {
+                    cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = userCred.UserName;
+                    cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = userCred.Password;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    connection.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        // Copy to User obeject
+                        User user = new User();
                         user.FirstName = reader["firstname"].ToString();
                         user.LastName = reader["lastname"].ToString();
                         user.UserName = userCred.UserName;
+                        user.Type = reader["type"].ToString();
+                        //Get all user details and store it in session
 
-                            connection.Close();
-                            HttpContext.Session[Models.User.UserSessionString] = user;
-                            if (user.Type == Models.User.UserTypes.Customer.ToString())
-                                return RedirectToAction("Index", "Home");
-                            else //This needs to be re-routed 
-                                return RedirectToAction("Index", "Home");
-                        }
-                        else
-                        {
-                            connection.Close();
-                            TempData["ErrorMessage"] = "Please enter correct username/password";
+                        connection.Close();
+                        HttpContext.Session[Models.User.UserSessionString] = user;
+                        if (user.Type == Models.User.UserTypes.Customer.ToString())
+                            return RedirectToAction("Index", "Home");
+                        else //This needs to be re-routed
+                            return RedirectToAction("Dashboard", "Admin");        
+                    }
+                    else
+                    {
+                        connection.Close();
+                        TempData["ErrorMessage"] = "Please enter correct username/password";
                         System.Diagnostics.Debug.WriteLine("Please enter correct username/password");
                     }
-                    catch (Exception ex)
-                    {
-                        //TO-DO: Handle execptions
-                        System.Diagnostics.Debug.WriteLine(ex.ToString());
-                    }
+                }
+                catch (Exception ex)
+                {
+                    //TO-DO: Handle execptions
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
                 }
             }
             return View(userCred);
