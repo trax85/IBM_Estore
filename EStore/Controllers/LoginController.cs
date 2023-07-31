@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,28 +21,9 @@ namespace EStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SignIn(UserLoginCredentials userCred)
-        {
-            if (ModelState.IsValid)
-            {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand("verifyUser", connection))
-                {
-                    try
-                    {
-                        cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = userCred.UserName;
-                        cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = userCred.Password;
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        connection.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.HasRows)
-                        {
-                            reader.Read();
-                            // Copy to User obeject
-                            User user = new User();
-                            user.Name = reader["name"].ToString();
-                            user.UserName = userCred.UserName;
-                            user.Type = reader["type"].ToString();
-                            //Get all user details and store it in session
+                        user.FirstName = reader["firstname"].ToString();
+                        user.LastName = reader["lastname"].ToString();
+                        user.UserName = userCred.UserName;
 
                             connection.Close();
                             HttpContext.Session[Models.User.UserSessionString] = user;
@@ -55,7 +36,7 @@ namespace EStore.Controllers
                         {
                             connection.Close();
                             TempData["ErrorMessage"] = "Please enter correct username/password";
-                        }
+                        System.Diagnostics.Debug.WriteLine("Please enter correct username/password");
                     }
                     catch (Exception ex)
                     {
@@ -83,9 +64,15 @@ namespace EStore.Controllers
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = user.Name;
+                        cmd.Parameters.Add("@firstname", SqlDbType.VarChar).Value = user.FirstName;
+                        cmd.Parameters.Add("@lastname", SqlDbType.VarChar).Value = user.LastName;
                         cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = user.UserName;
                         cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = user.Password;
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = user.EmailAddress;
+                        cmd.Parameters.Add("@address", SqlDbType.VarChar).Value = user.Address;
+                        cmd.Parameters.Add("@country", SqlDbType.VarChar).Value = user.Country;
+                        cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = user.State;
+                        cmd.Parameters.Add("@zipcode", SqlDbType.Int).Value = user.ZipCode;
                         cmd.Parameters.Add("@type", SqlDbType.VarChar).Value = Models.User.UserTypes.Customer.ToString();
                         
                         connection.Open();
@@ -100,7 +87,7 @@ namespace EStore.Controllers
                         {
                             connection.Close();
                             System.Diagnostics.Debug.WriteLine("Error in stored procedure");
-                            TempData["ErrorMessage"] = "Username already exists choose a diffrent username";
+                            TempData["ErrorMessage"] = "Username already exists choose a different username";
                             return View(user);
                         }
                     }
