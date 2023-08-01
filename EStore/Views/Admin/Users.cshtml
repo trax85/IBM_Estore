@@ -1,0 +1,64 @@
+﻿@model IEnumerable<EStore.Models.User>
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/_LayoutPageAdmin.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
+                        </div>
+                        <div class="col-auto">
+                            <a class="text-info mr-4 justify-content-end" href="@Url.Action("CreateUser", "Admin")">Create User</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table no-wrap user-table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Email</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">User Type</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 0;
+                                foreach (var user in Model)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td class="pl-4">@i</td>
+                                        <td>
+                                            <h5 class="font-medium mb-0">@user.FirstName @user.LastName</h5>
+                                            <span class="text-muted">@user.State, @user.Country</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">@user.EmailAddress</span><br>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">@user.Type</span><br>
+                                        </td>
+                                        <td>
+                                            <a class="text-info mr-4" href="@Url.Action("EditUser", "Admin", new { userid = user.UserName })">Edit</a>
+                                            <a class="text-danger" href="@Url.Action("DeleteUser", "Admin", new { userid = user.UserName })">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
