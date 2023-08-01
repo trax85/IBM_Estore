@@ -1,0 +1,177 @@
+﻿@model EStore.Models.User
+@{
+    ViewBag.Title = "UpdateUser";
+}
+
+<main>
+    <h2 class="my-5 text-center">Update User Information</h2>
+
+    <!--Grid row-->
+    <div class="row justify-content-center">
+        <!--Grid column-->
+        <div class="col-md-8 mb-4">
+            <!--Card-->
+            <div class="card p-4">
+                <!--Grid row-->
+                <div class="row mb-3">
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-2">
+                        <!--firstName-->
+                        <div class="form-outline">
+                            @Html.TextBoxFor(m => m.FirstName, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Firstname",
+                                required = "Firstname",
+                                value = Model.FirstName
+                            })
+                            <label class="form-label" for="typeText">First name</label>
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-2">
+                        <!--lastName-->
+                        <div class="form-outline">
+                            @Html.TextBoxFor(m => m.LastName, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Lastname",
+                                required = "required",
+                                value = Model.LastName
+                            })
+                            <label class="form-label" for="typeText">Last name</label>
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+                <!--Username-->
+                <p class="mb-0">
+                    Username
+                </p>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                    <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.UserName" />
+                    @Html.HiddenFor(m => m.UserName)
+                </div>
+
+                <!--Password-->
+                <p class="mb-0">
+                    Password
+                </p>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                    @Html.PasswordFor(m => m.Password, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Password",
+                        required = "required",
+                        @Value = Model.Password
+                    })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red" })
+                </div>
+
+                <!--ConfirmPassword-->
+                <p class="mb-0">
+                    Confirm Password
+                </p>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                    @Html.PasswordFor(m => m.ComfirmPassword, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Confirm Password",
+                        required = "required",
+                        @Value = Model.Password
+                    })
+                    @Html.ValidationMessageFor(m => m.ComfirmPassword, "", new { @style = "color:red" })
+                </div>
+
+                <!--email-->
+                <p class="mb-0">
+                    Email (optional)
+                </p>
+                <div class="form-outline mb-4">
+                    @Html.TextBoxFor(m => m.EmailAddress, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Email Address",
+                        required = "required",
+                        value = Model.EmailAddress
+                    })
+                </div>
+
+                <!--address-->
+                <p class="mb-0">
+                    Address
+                </p>
+                <div class="form-outline mb-4">
+                    @Html.TextBoxFor(m => m.Address, new
+                    {
+                        @class = "form-control",
+                        placeholder = "1234 Main St",
+                        required = "required",
+                        value = Model.Address
+                    })
+                </div>                
+
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <p class="mb-0">
+                            Country
+                        </p>
+                        <div class="form-outline mb-4">
+                            @Html.TextBoxFor(m => m.Country, new
+                            {
+                                @class = "form-control",
+                                placeholder = "India",
+                                required = "required",
+                                value = Model.Country
+                            })
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <p class="mb-0">
+                            State
+                        </p>
+                        <div class="form-outline mb-4">
+                            @Html.TextBoxFor(m => m.State, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Kerla",
+                                required = "required",
+                                value = Model.State
+                            })
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <p class="mb-0">
+                            Zip
+                        </p>
+                        <div class="form-outline">
+                            @Html.TextBoxFor(m => m.ZipCode, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Zipcode",
+                                required = "required",
+                                value = Model.ZipCode
+                            })
+                            @Html.ValidationMessageFor(m => m.ZipCode, "", new { @style = "color:red" })
+                        </div>
+                        
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <hr class="mb-4"/>
+                <button class="btn btn-outline-dark" type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</main>
