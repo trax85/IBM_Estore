@@ -23,62 +23,163 @@
     </div>
     <div class="main">
         <div class="col-md-6 col-sm-12">
-            <div class="register-form">
-                @using (Html.BeginForm("Register", "Login", FormMethod.Post))
-                {
-                    <form>
-                        <div class="form-group">
-                            <label>Name</label>
-                            @Html.TextBoxFor(m => m.Name, new
-                            {
-                                @class = "form-control",
-                                placeholder = "Name",
-                                required = "required"
-                            })
-                            @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:red" })
-                        </div>
-                        <div class="form-group">
-                            <label>User Name</label>
-                            @Html.TextBoxFor(m => m.UserName, new
-                            {
-                                @class = "form-control",
-                                placeholder = "Username",
-                                required = "required"
-                            })
-                            @Html.ValidationMessageFor(m => m.UserName, "", new { @style = "color:red" })
-                            @if (TempData["ErrorMessage"] != null)
-                            {
-                                <p style="color:red">@TempData["ErrorMessage"]</p>
-                            }
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            @Html.TextBoxFor(m => m.Password, new
-                            {
-                                @class = "form-control",
-                                placeholder = "Password",
-                                required = "required",
-                                @type = "password"
-                            })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red" })
-                        </div>
-                        <div class="form-group">
-                            <label>Confirm Password</label>
-                            @Html.TextBoxFor(m => m.ComfirmPassword, new
-                           {
-                               @class = "form-control",
-                               placeholder = "Confirm Password",
-                               required = "required",
-                               @type = "password"
-                           })
-                            @Html.ValidationMessageFor(m => m.ComfirmPassword, "", new { @style = "color:red" })
-                        </div>
-                        <button type="submit" class="btn btn-black">Submit</button>
-                        <input type="button" value="Cancle" class="btn btn-secondary" onclick="@("window.location.href='" + @Url.Action("SignIn", "Login") + "'");" />
-                    </form>
-                }
+            <!--Grid row-->
+            @using (Html.BeginForm("Register", "Login", FormMethod.Post))
+            {
+                <div class="row" style="width:240%; margin-top:10%">
+                    <!--Grid column-->
+                    <div class="col-md-8 mb-4">
+                        <!--Card-->
+                        <div class="card p-4">
+                            <!--Grid row-->
+                            <div class="row mb-3">
+                                <!--Grid column-->
+                                <div class="col-md-6 mb-2">
+                                    <!--firstName-->
+                                    <div class="form-outline">
+                                        <label class="form-label" for="typeText">First name</label>
+                                        @Html.TextBoxFor(m => m.FirstName, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "First Name",
+                                            required = "required"
+                                        })
+                                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @style = "color:red" })
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+                                <!--Grid column-->
+                                <div class="col-md-6 mb-2">
+                                    <!--lastName-->
+                                    <div class="form-outline">
+                                        <label class="form-label" for="typeText">Last name</label>
+                                        @Html.TextBoxFor(m => m.LastName, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "Last Name",
+                                            required = "required"
+                                        })
+                                        @Html.ValidationMessageFor(m => m.LastName, "", new { @style = "color:red" })
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+                            </div>
+                            <!--Grid row-->
+                            <!--Username-->
+                            <div class="input-group mb-4">
+                                <span class="input-group-text" id="basic-addon1"></span>
+                                @Html.TextBoxFor(m => m.UserName, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Username",
+                                    required = "required"
+                                })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @style = "color:red" })
+                            </div>
+
+                            <!--Password-->
+                            <div class="input-group mb-4">
+                                <span class="input-group-text" id="basic-addon1"></span>
+                                @Html.PasswordFor(m => m.Password, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Password",
+                                    required = "required"
+                                })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red" })
+                            </div>
+
+                            <!--ConfirmPassword-->
+                            <div class="input-group mb-4">
+                                <span class="input-group-text" id="basic-addon1"></span>
+                                @Html.PasswordFor(m => m.ComfirmPassword, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Confirm Password",
+                                    required = "required"
+                                })
+                                @Html.ValidationMessageFor(m => m.ComfirmPassword, "", new { @style = "color:red" })
+                            </div>
+
+                            <!--email-->
+                            <p class="mb-0">
+                                Email (optional)
+                            </p>
+                            <div class="form-outline mb-4">
+                                @Html.TextBoxFor(m => m.EmailAddress, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "youremail@example.com",
+                                })
+                                @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @style = "color:red" })
+                            </div>
+
+                            <!--address-->
+                            <p class="mb-0">
+                                Address
+                            </p>
+                            <div class="form-outline mb-4">
+                                @Html.TextBoxFor(m => m.Address, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "1234 Main St",
+                                })
+                            </div>
+
+                            <!--Grid row-->
+                            <div class="row">
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <p class="mb-0">
+                                        Country
+                                    </p>
+                                    <div class="form-outline mb-4">
+                                        @Html.TextBoxFor(m => m.Country, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "United States",
+                                        })
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <p class="mb-0">
+                                        State
+                                    </p>
+                                    <div class="form-outline mb-4">
+                                        @Html.TextBoxFor(m => m.State, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "California",
+                                        })
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <p class="mb-0">
+                                        Zip
+                                    </p>
+                                    <div class="form-outline">
+                                        @Html.TextBoxFor(m => m.ZipCode, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "",
+                                        })
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-black" style="margin-left:3%">Submit</button>
+                                <input type="button" value="Cancle" class="btn btn-secondary"
+                                       onclick="@("window.location.href='" + @Url.Action("SignIn", "Login") + "'");"
+                                       style="margin-left:2%" />
+                                <!--Grid column-->
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            }
             </div>
-        </div>
     </div>
 </body>
 </html>
