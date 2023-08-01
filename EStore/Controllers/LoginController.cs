@@ -118,5 +118,11 @@ namespace EStore.Controllers
             }
             return View(user);
         }
+
+        public ActionResult Logout() 
+        {
+            Session.Remove(Models.User.UserSessionString);
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
