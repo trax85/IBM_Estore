@@ -1,0 +1,129 @@
+﻿@model EStore.Models.Product
+@{
+    Layout = "~/Views/_LayoutPageAdmin.cshtml";
+}
+
+@using (Html.BeginForm("SaveProduct", "Admin", FormMethod.Post))
+{
+    <div class="">
+        <!-- Heading -->
+        @if (TempData["isEdit"] as string == "false")
+        {
+            @Html.Hidden("isEdit", false)
+            <h2 class="mb-5 text-center">Create Product</h2>
+        }
+        else
+        {
+            @Html.Hidden("isEdit", true)
+            <h2 class="mb-5 text-center">Edit Product</h2>
+        }
+
+        <div class="row">
+            <!--Grid column-->
+            <div class="">
+                <!--Card-->
+                <div class="card p-4">
+                    <!--Grid row-->
+                    <div class="row mb-3">
+                        <!--Grid column-->
+                        <div class="col-md-6 mb-2">
+                            <!--Product Name-->
+                            <div class="form-outline">
+                                <label class="form-label" for="typeText">Product name</label>
+                                @if (Model.Name.IsEmpty())
+                                {
+                                    @Html.TextBoxFor(m => m.Name, new
+                               {
+                                   @class = "form-control",
+                                   placeholder = "Product Name",
+                                   required = "required",
+                                   value = Model.Name
+                               })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:red" })
+                                }
+                                else
+                                {
+                                    <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.Name" />
+                                    @Html.HiddenFor(m => m.Name);
+                                }
+
+                            </div>
+                        </div>
+                        <!--Grid column-->
+                    </div>
+                    <!--Grid row-->
+                    <!--Product Description-->
+                    <label class="form-label" for="typeText">Description</label>
+                    <div class="input-group mb-1" >
+                    @Html.TextAreaFor(m => m.Description, new
+               {
+                   @class = "form-control col-8",
+                   placeholder = "Username",
+                   required = "required"
+
+               })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Description, "", new { @style = "color:red" })
+
+                    <!--Product Additional Desciption-->
+                    <label class="form-label" for="typeText">Additional Description</label>
+                    <div class="input-group mb-1">
+                        @Html.TextAreaFor(m => m.AdditionalDescription, new
+                   {
+                       @class = "form-control col-8",
+                       placeholder = "Additonal Details",
+                       value = Model.AdditionalDescription,
+                       required = "required"
+                   })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.AdditionalDescription, "", new { @style = "color:red", @class = "mb-2" })
+
+                    <!--Product Cost-->
+                    <label class="form-label" for="typeText">Cost</label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.Cost, new
+                   {
+                       @class = "form-control",
+                       placeholder = "1200",
+                       value = Model.Cost,
+                       required = "required"
+                   })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Cost, "", new { @style = "color:red", @class = "mb-2" })
+
+                    <!--Product Category-->
+                    <p class="mb-1">
+                        Category
+                    </p>
+                    @{ 
+                        var selectList = new SelectList(Model.products);
+                    }
+                    <div class="form-outline mb-4">
+                        @Html.DropDownListFor(
+                               m => m.Category,
+                               selectList,
+                               "Select Item",
+                             new { @class = "form-control" }
+                        )
+                        @Html.HiddenFor(m => m.products)
+                        @Html.ValidationMessageFor(m => m.Category, "", new { @style = "color:red" })
+                    </div>
+                    
+                    <div class="card-body">
+                        <hr />
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark mb-2"
+                            onclick="@("window.location.href='" + @Url.Action("SaveProduct", "Admin") + "'");" )>
+                        Submit
+                    </button>
+                    <button type="button" value="Cancle" class="btn btn-secondary btn-dark"
+                            onclick="@("window.location.href='" + @Url.Action("Products", "Admin") + "'");" >
+                        Cancle 
+                    </button>
+                    <!--Grid column-->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
