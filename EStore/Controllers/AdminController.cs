@@ -4,11 +4,15 @@ using EStore.Models;
 using EStore.Utilities.DataRepository;
 using EStore.Utilities;
 using System.Web.WebPages;
+using System.Linq;
+using System;
+using PagedList;
 
 namespace EStore.Controllers
 {
     public class AdminController : Controller
     {
+        static int pageSize = 2;
         // GET: Admin
         public ActionResult DashBoard()
         {
@@ -29,9 +33,23 @@ namespace EStore.Controllers
             return RedirectToAction("SignIn", "Login");
         }
 
+        public ActionResult Users(string sortBy = "All", int page = 1)
+        {
             if (isAuthorized())
             {
+                List<User> userList = new List<User>();
+                UserDataRepository dataRepository = new UserDataRepository();
+                userList = dataRepository.getAllUsers();
+                System.Diagnostics.Debug.WriteLine("sort:" + sortBy);
+                ViewBag.sortBy = sortBy;
+
+                if (!sortBy.Equals("All"))
+                    ViewBag.sortBy = sortBy;
+                    userList = userList.Where(p => p.Type == sortBy).ToList();
+                }
+                return View(userList.OrderBy(p => p.FirstName).ToPagedList(page, pageSize));
             }
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult CreateUser()
@@ -74,9 +92,24 @@ namespace EStore.Controllers
 
             return RedirectToAction("Users");
             }
+        public ActionResult Products(string sortBy = "All", int page = 1)
+        {
             if (isAuthorized())
             {
+                ProductDataRepository dataRepository = new ProductDataRepository();
+                List<Product> productList = dataRepository.getAllProducts();
+                dataRepository = new ProductDataRepository();
+                List<string> categories = dataRepository.getProductCategories();
+                ViewBag.Categories = categories;
+                ViewBag.sortBy = sortBy;
+
+                if (!sortBy.Equals("All"))
+                {
+                    productList = productList.Where(p => p.Category == sortBy).ToList();
+                }                 
+                return View(productList.OrderBy(p => p.Name).ToPagedList(page, pageSize));
             }
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult CreateProduct()
