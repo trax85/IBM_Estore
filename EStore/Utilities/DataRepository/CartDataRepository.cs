@@ -6,9 +6,9 @@ using System.Data.SqlClient;
 
 namespace EStore.Utilities.DataRepository
 {
-    public class CartDataRepository : Connection
+    public class CartDataRepository : Connection, ICartDataRepository
     {
-        public List<Cart> getPurchaseHistory(string userName)
+        public List<Cart> GetPurchaseHistory(string userName)
         {
             List<Cart> cartList = new List<Cart>();
             using (_connection = new SqlConnection(_sqlConnectionString))
