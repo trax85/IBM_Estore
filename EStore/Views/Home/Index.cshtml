@@ -1,4 +1,6 @@
-﻿@model List<EStore.Models.Product>
+﻿@model PagedList.IPagedList<EStore.Models.Product>
+@using PagedList.Mvc
+
 @{
     ViewBag.Title = "Products Page";
 }
@@ -16,7 +18,7 @@
     <section class="py-5">
         <div class="nav-item dropdown" id="dropdown">
             <button class="btn btn-outline-dark" onclick="toggleDropdown()">
-                <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by</div>
+                <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by: @ViewBag.SortBy</div>
             </button>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-menu">
                 <li>
@@ -24,11 +26,11 @@
                 </li>
                 <hr style="margin-top:-1%; margin-bottom:-1%" />
                 @{
-                    var productTypes = TempData["ProductCategories"] as List<string>;
+                    var productTypes = ViewBag.Categories as IEnumerable<string>;
                     foreach (var item in productTypes)
                     {
                         <li>
-                            <a class="dropdown-item" href="@Url.Action("Index", "Home", new {type = item.ToString()})">@item</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "Home", new { sortBy = item})">@item</a>
                         </li>
                     }
                 }
@@ -63,5 +65,22 @@
                     </div>
                 }
     </section>
-    <script src="~/Scripts/scripts.js"></script>
+    
+    <div class="pagination-container">
+        @{
+            var pagingOptions = new PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "page-item" },
+                UlElementClasses = new[] { "pagination", "custom-pagination" },
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                LinkToPreviousPageFormat = "<",
+                LinkToNextPageFormat = ">",
+            };
+        }
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+    </div>
+    <script src="~/Scripts/scripts.js">
+
+    </script>
 </main>
