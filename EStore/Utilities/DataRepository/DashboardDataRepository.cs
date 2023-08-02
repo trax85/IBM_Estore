@@ -6,9 +6,9 @@ using System.Data.SqlClient;
 
 namespace EStore.Utilities.DataRepository
 {
-    public class DashboardDataRepository : Connection
+    public class DashboardDataRepository : Connection, IDashboardDataRepository
     {
-        public AdminDashboard getDashBoardCardData()
+        public AdminDashboard GetDashBoardCardData()
         {
             AdminDashboard dashboard = new AdminDashboard();
             using (_connection = new SqlConnection(_sqlConnectionString))
