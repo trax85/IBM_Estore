@@ -7,12 +7,13 @@ using EStore.Models;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using EStore.Utilities;
+using System.Web.WebPages;
 
 namespace EStore.Controllers
 {
     public class LoginController : Controller
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["MSSQLServer"].ConnectionString;
         public ActionResult SignIn() 
         {
             return View();
@@ -22,48 +23,23 @@ namespace EStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SignIn(UserLoginCredentials userCred)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand("verifyUser", connection))
+            UserDataRepository loginDataRepository = new UserDataRepository();
+            User user = loginDataRepository.VerifyUser(userCred);
+            if (!user.Type.IsEmpty())
             {
-                try
-                {
-                    cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = userCred.UserName;
-                    cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = userCred.Password;
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    connection.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        // Copy to User obeject
-                        User user = new User();
-                        user.FirstName = reader["firstname"].ToString();
-                        user.LastName = reader["lastname"].ToString();
-                        user.UserName = userCred.UserName;
-                        user.Type = reader["type"].ToString();
-                        //Get all user details and store it in session
-
-                        connection.Close();
-                        HttpContext.Session[Models.User.UserSessionString] = user;
-                        if (user.Type == Models.User.UserTypes.Customer.ToString())
-                            return RedirectToAction("Index", "Home");
-                        else //This needs to be re-routed
-                            return RedirectToAction("Dashboard", "Admin");        
-                    }
-                    else
-                    {
-                        connection.Close();
-                        TempData["ErrorMessage"] = "Please enter correct username/password";
-                        System.Diagnostics.Debug.WriteLine("Please enter correct username/password");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //TO-DO: Handle execptions
-                    System.Diagnostics.Debug.WriteLine(ex.ToString());
-                }
+                HttpContext.Session[Models.User.UserSessionString] = user;
+                if (user.Type == Models.User.UserTypes.Customer.ToString())
+                    return RedirectToAction("Index", "Home");
+                else //This needs to be re-routed
+                    return RedirectToAction("Dashboard", "Admin");
             }
-            return View(userCred);
+            else
+            {
+                TempData["ErrorMessage"] = "Please enter correct username/password";
+                System.Diagnostics.Debug.WriteLine("Please enter correct username/password");
+            }
+
+            return View(userCred);  
         }
 
         public ActionResult Register()
@@ -75,47 +51,18 @@ namespace EStore.Controllers
         public ActionResult Register(User user)
         {
             if (ModelState.IsValid)
-            {       
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand("createUser", connection))
+            {
+                UserDataRepository loginDataRepository = new UserDataRepository();
+                user.Type = Models.User.UserTypes.Customer.ToString();
+                if (loginDataRepository.createUser(user))
                 {
-                    try
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@firstname", SqlDbType.VarChar).Value = user.FirstName;
-                        cmd.Parameters.Add("@lastname", SqlDbType.VarChar).Value = user.LastName;
-                        cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = user.UserName;
-                        cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = user.Password;
-                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = user.EmailAddress;
-                        cmd.Parameters.Add("@address", SqlDbType.VarChar).Value = user.Address;
-                        cmd.Parameters.Add("@country", SqlDbType.VarChar).Value = user.Country;
-                        cmd.Parameters.Add("@state", SqlDbType.VarChar).Value = user.State;
-                        cmd.Parameters.Add("@zipcode", SqlDbType.Int).Value = user.ZipCode;
-                        cmd.Parameters.Add("@type", SqlDbType.VarChar).Value = Models.User.UserTypes.Customer.ToString();
-                        
-                        connection.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        
-                        if (reader.HasRows)
-                        {
-                            connection.Close();
-                            return RedirectToAction("SignIn", "Login");
-                        }
-                        else
-                        {
-                            connection.Close();
-                            System.Diagnostics.Debug.WriteLine("Error in stored procedure");
-                            TempData["ErrorMessage"] = "Username already exists choose a different username";
-                            return View(user);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ex.ToString());
-                        //TO-DO: Handle execptions
-                    }
+                    TempData.Remove("ErrorMessage");
+                    return RedirectToAction("SignIn", "Login");
                 }
+                System.Diagnostics.Debug.WriteLine("Could not register user");
+                TempData["ErrorMessage"] = "Username already exists choose a different username";
             }
+
             return View(user);
         }
 
