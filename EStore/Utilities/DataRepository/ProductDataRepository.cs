@@ -1,4 +1,4 @@
-using EStore.Models;
+﻿using EStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -115,7 +115,7 @@ namespace EStore.Utilities.DataRepository
             return productList;
         }
 
-        public void orderProduct(List<Cart> cartItems, string userName)
+        public bool orderProduct(List<Cart> cartItems, string userName)
         {
             using (_connection = new SqlConnection(_sqlConnectionString))
             {
@@ -135,7 +135,7 @@ namespace EStore.Utilities.DataRepository
                                 .Value = item.Cost;
                             _connection.Open();
                             cmd.ExecuteNonQuery();
-                            _connection.Close();
+                            return true;
                         }
                         catch (Exception ex)
                         {
@@ -144,6 +144,7 @@ namespace EStore.Utilities.DataRepository
                     }
                 }
             }
+            return false;
         }
 
         public List<string> getProductCategories()
