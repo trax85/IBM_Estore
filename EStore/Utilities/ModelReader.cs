@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using EStore.Models;
-using System.Reflection;
 using EStore.Utilities.DataRepository;
-using System.Runtime.Remoting.Messaging;
-using System.Xml.Linq;
 
 namespace EStore.Utilities
 {
@@ -35,7 +32,7 @@ namespace EStore.Utilities
         private User copyToUser(SqlDataReader reader)
         {
             User user = new User();
-            user.FirstName = ReadStringColumn(reader, VariableNameHelper.GetPropertyName(() => user.UserName));
+            user.FirstName = ReadStringColumn(reader, VariableNameHelper.GetPropertyName(() => user.FirstName));
             user.LastName = ReadStringColumn(reader, VariableNameHelper.GetPropertyName(() => user.LastName));
             user.UserName = ReadStringColumn(reader, VariableNameHelper.GetPropertyName(() => user.UserName));
             user.Password = ReadStringColumn(reader, VariableNameHelper.GetPropertyName(() => user.Password));
