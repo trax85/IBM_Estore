@@ -16,9 +16,9 @@ namespace EStore.Controllers
         public ActionResult Index(string sortBy = "All", int page = 1)
         {
             ProductDataRepository dataRepository = new ProductDataRepository();
-            List<Product> productList = dataRepository.getAllProducts();
+            List<Product> productList = dataRepository.GetAllProducts();
             dataRepository = new ProductDataRepository();
-            ViewBag.Categories = dataRepository.getProductCategories();
+            ViewBag.Categories = dataRepository.GetProductCategories();
             ViewBag.SortBy = sortBy;
 
             if (!sortBy.Equals("All"))
@@ -32,7 +32,7 @@ namespace EStore.Controllers
         public ActionResult Product(string productName)
         {
             ProductDataRepository homeDataRepository = new ProductDataRepository();
-            Product product = homeDataRepository.getProduct(productName);
+            Product product = homeDataRepository.GetProduct(productName);
             if(product.Name.IsEmpty())
                 return RedirectToAction("Index");
             return View(product);
@@ -70,7 +70,7 @@ namespace EStore.Controllers
             if (user != null)
             {
                 UserDataRepository userDataRepository = new UserDataRepository();
-                user = userDataRepository.getUser(user.UserName);
+                user = userDataRepository.GetUser(user.UserName);
                 return View(user);
             } 
 
@@ -82,7 +82,7 @@ namespace EStore.Controllers
         {
             List<Cart> cartItems = Session[Cart.CartSessionString] as List<Cart>;
             ProductDataRepository productDataRepository = new ProductDataRepository();
-            if (!productDataRepository.orderProduct(cartItems, user.UserName))
+            if (!productDataRepository.OrderProduct(cartItems, user.UserName))
                 return RedirectToAction("Checkout");
             //Reset Session strings
             Session[Cart.CartCountSessionString] = 0;
@@ -121,7 +121,7 @@ namespace EStore.Controllers
             if (user != null)
             {
                 UserDataRepository userDataRepository = new UserDataRepository();
-                user = userDataRepository.getUser(user.UserName);
+                user = userDataRepository.GetUser(user.UserName);
                 return View(user);
             }
             return RedirectToAction("SignIn", "Login"); 
@@ -134,7 +134,7 @@ namespace EStore.Controllers
             if (ModelState.IsValid)
             {
                 UserDataRepository userDataRepository = new UserDataRepository();
-                user = userDataRepository.updateUser(user);
+                user = userDataRepository.UpdateUser(user);
                 if (!user.UserName.IsEmpty())
                 {
                     Session[Models.User.UserSessionString] = user;
@@ -150,7 +150,7 @@ namespace EStore.Controllers
             if (user != null)
             {
                 CartDataRepository productDataRepository = new CartDataRepository();
-                List<Cart> userCartList = productDataRepository.getPurchaseHistory(user.UserName);
+                List<Cart> userCartList = productDataRepository.GetPurchaseHistory(user.UserName);
                 return View(userCartList);
             }
             else System.Diagnostics.Debug.Write("User not present");

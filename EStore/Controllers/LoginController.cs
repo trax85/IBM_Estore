@@ -50,7 +50,7 @@ namespace EStore.Controllers
             {
                 UserDataRepository loginDataRepository = new UserDataRepository();
                 user.Type = Models.User.UserTypes.Customer.ToString();
-                if (loginDataRepository.createUser(user))
+                if (loginDataRepository.CreateUser(user))
                 {
                     TempData.Remove("ErrorMessage");
                     return RedirectToAction("SignIn", "Login");
