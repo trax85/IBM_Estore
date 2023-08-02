@@ -1,4 +1,4 @@
-﻿@model List<EStore.Models.Product>
+@model List<EStore.Models.Product>
 @{
     ViewBag.Title = "Products Page";
 }
@@ -19,6 +19,10 @@
                 <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by</div>
             </button>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Home", new {type = "All"})">All</a>
+                </li>
+                <hr style="margin-top:-1%; margin-bottom:-1%" />
                 @{
                     var productTypes = Enum.GetValues(typeof(EStore.Models.Product.ProductTypes)).Cast<EStore.Models.Product.ProductTypes>().ToList();
                     foreach (var item in productTypes)
