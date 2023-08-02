@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using EStore.Models;
-using System.Data.SqlClient;
-using System.Configuration;
-using System.Data;
 using EStore.Utilities;
 using System.Web.WebPages;
 
@@ -25,13 +18,16 @@ namespace EStore.Controllers
         {
             UserDataRepository loginDataRepository = new UserDataRepository();
             User user = loginDataRepository.VerifyUser(userCred);
+
             if (!user.Type.IsEmpty())
             {
                 HttpContext.Session[Models.User.UserSessionString] = user;
                 if (user.Type == Models.User.UserTypes.Customer.ToString())
                     return RedirectToAction("Index", "Home");
-                else //This needs to be re-routed
+                else
+                {
                     return RedirectToAction("Dashboard", "Admin");
+                }
             }
             else
             {
