@@ -22,12 +22,6 @@ namespace EStore.Models
         [RegularExpression(@"^[0-9]*$")]
         public int Cost { get; set; }
 
-        public List<string> products { get; set; }
-        public enum ProductTypes
-        {
-            Electronics,
-            Grocessory,
-            Stationery
-        }
+        public List<string> ProductCategories { get; set; }
     }
 }
