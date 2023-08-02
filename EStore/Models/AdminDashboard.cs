@@ -11,7 +11,7 @@ namespace EStore.Models
 
         public int TotalLoggedUsers { get; set; }
 
-        public int TotalProductSold { get; set; }
+        public int TotalProductsSold { get; set; }
 
         public int TotalUsers { get; set; }
 
@@ -19,6 +19,10 @@ namespace EStore.Models
         public int WSalesAmount { get; set; }
 
         public float WVSalesAmount { get; set; }
+
+        public float WProductsSold { get; set; }
+
+        public float WVProductsSold { get; set; }
 
         public int WProductsAddition { get; set; }
 
