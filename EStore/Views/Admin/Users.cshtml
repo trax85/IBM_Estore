@@ -1,5 +1,5 @@
-﻿@model IEnumerable<EStore.Models.User>
-
+﻿@model PagedList.IPagedList<EStore.Models.User>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Users";
     Layout = "~/Views/_LayoutPageAdmin.cshtml";
@@ -15,7 +15,23 @@
                             <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
                         </div>
                         <div class="col-auto">
-                            <a class="text-info mr-4 justify-content-end" href="@Url.Action("CreateUser", "Admin")">Create User</a>
+                            <div class="nav-item dropdown" id="dropdown">
+                                <button class="btn btn-outline-dark" onclick="toggleDropdown()">
+                                    <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by: @ViewBag.sortBy</div>
+                                </button>
+                                <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                                    </li>
+                                    <hr style="margin-top:-1%; margin-bottom:-1%" />
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Admin", page = Model.PageNumber})">Admin</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Customer", page = Model.PageNumber})">Customer</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,4 +77,28 @@
             </div>
         </div>
     </div>
+    <a class="btn btn-dark mt-2 col-md-12 col-xl-12" href="@Url.Action("CreateUser", "Admin")">Create User</a>
 </div>
+
+<div>
+    @{
+        var pagingOptions = new PagedListRenderOptions
+        {
+            LiElementClasses = new[] { "page-item" },
+            UlElementClasses = new[] { "pagination", "custom-pagination" },
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            LinkToPreviousPageFormat = "<",
+            LinkToNextPageFormat = ">",
+        };
+    }
+    @Html.PagedListPager(Model, page => Url.Action("Users", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+</div>
+@section Scripts{
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdown-menu");
+            dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+        }
+    </script>
+}
