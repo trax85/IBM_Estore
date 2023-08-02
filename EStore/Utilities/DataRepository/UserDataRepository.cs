@@ -9,7 +9,7 @@ using EStore.Utilities.DataRepository;
 
 namespace EStore.Utilities
 {
-    public class UserDataRepository : Connection
+    public class UserDataRepository : Connection, IUserDataRepository
     {
         public User VerifyUser(UserLoginCredentials userCred)
         {
@@ -41,7 +41,7 @@ namespace EStore.Utilities
             return user;
         }
 
-        public bool createUser(User user)
+        public bool CreateUser(User user)
         {
             using (_connection = new SqlConnection(_sqlConnectionString))
             using (SqlCommand cmd = new SqlCommand("createUser", _connection))
@@ -78,7 +78,7 @@ namespace EStore.Utilities
             return false;
         }
 
-        public User getUser(string userName)
+        public User GetUser(string userName)
         {
             User user = new User();
             using (_connection = new SqlConnection(_sqlConnectionString))
@@ -104,7 +104,7 @@ namespace EStore.Utilities
             return user;
         }
 
-        public User updateUser(User user)
+        public User UpdateUser(User user)
         {
             using (_connection = new SqlConnection(_sqlConnectionString))
             using (SqlCommand cmd = new SqlCommand("updateUser", _connection))
@@ -146,7 +146,7 @@ namespace EStore.Utilities
             return user;
         }
 
-        public List<User> getAllUsers()
+        public List<User> GetAllUsers()
         { 
             List<User> users = new List<User>();
             using (_connection = new SqlConnection(_sqlConnectionString))
@@ -169,7 +169,7 @@ namespace EStore.Utilities
             return users;
         }
 
-        public void deleteUser(string userName)
+        public void DeleteUser(string userName)
         {
             User user = new User();
             using (_connection = new SqlConnection(_sqlConnectionString))
