@@ -23,9 +23,11 @@ namespace EStore.Utilities.DataRepository
                     {
                         dashboard = modelReader.getDashboardCard(reader);
                     }
+                    _connection.Close();
                 } catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
 
@@ -47,10 +49,12 @@ namespace EStore.Utilities.DataRepository
                     {
                         dashboard = modelReader.GetDashboardTable(reader);
                     }
+                    _connection.Close();
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
 

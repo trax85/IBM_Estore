@@ -35,6 +35,7 @@ namespace EStore.Utilities
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.ToString());
+                    _connection.Close();
                 }
             }
 
@@ -72,6 +73,7 @@ namespace EStore.Utilities
                 catch(Exception ex) 
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
 
@@ -95,9 +97,11 @@ namespace EStore.Utilities
                     {
                         user = modelReader.getUser(reader);
                     }
+                    _connection.Close();
                 } catch(Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
 
@@ -136,10 +140,12 @@ namespace EStore.Utilities
                     {
                         user = modelReader.getUser(reader);
                     }
+                    _connection.Close();
                 } 
                 catch(Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
 
@@ -161,9 +167,11 @@ namespace EStore.Utilities
                     {
                         users = modelReader.getUserList(reader);
                     }
+                    _connection.Close();
                 } catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
             return users;
@@ -181,10 +189,12 @@ namespace EStore.Utilities
                 {
                     _connection.Open();
                     cmd.ExecuteNonQuery();
+                    _connection.Close();
                 }
                 catch(Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
         }     

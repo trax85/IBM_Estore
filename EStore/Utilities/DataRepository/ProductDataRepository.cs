@@ -28,10 +28,12 @@ namespace EStore.Utilities.DataRepository
                 {
                     _connection.Open();
                     cmd.ExecuteNonQuery();
+                    _connection.Close();
                     return true;
                 } catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
             return false;
@@ -57,11 +59,13 @@ namespace EStore.Utilities.DataRepository
                 {
                     _connection.Open();
                     cmd.ExecuteNonQuery();
+                    _connection.Close();
                     return true;
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
             return false;
@@ -84,9 +88,11 @@ namespace EStore.Utilities.DataRepository
                     {
                         product = productModelReader.getProduct(reader);
                     }
+                    _connection.Close();
                 } catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
             return product;
@@ -106,9 +112,11 @@ namespace EStore.Utilities.DataRepository
                     {
                         productList = productModelReader.getProductList(reader);
                     }
+                    _connection.Close();
                 } catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
 
@@ -135,11 +143,13 @@ namespace EStore.Utilities.DataRepository
                                 .Value = item.Cost;
                             _connection.Open();
                             cmd.ExecuteNonQuery();
+                            _connection.Close();
                             return true;
                         }
                         catch (Exception ex)
                         {
                             System.Diagnostics.Debug.Write(ex.Message);
+                            _connection.Close();
                         }
                     }
                 }
@@ -162,10 +172,12 @@ namespace EStore.Utilities.DataRepository
                     {
                         categories = modelReader.GetProductCategories(reader);
                     }
+                    _connection.Close();
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
             return categories;
@@ -182,10 +194,12 @@ namespace EStore.Utilities.DataRepository
                 {
                     _connection.Open();
                     cmd.ExecuteNonQuery();
+                    _connection.Close();
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
         }

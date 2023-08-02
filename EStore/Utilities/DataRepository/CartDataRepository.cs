@@ -24,10 +24,12 @@ namespace EStore.Utilities.DataRepository
                     {
                         cartList = cartModelReader.getCartList(reader);
                     }
+                    _connection.Close();
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
+                    _connection.Close();
                 }
             }
             return cartList;
