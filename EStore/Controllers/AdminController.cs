@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities.DataRepository;
@@ -18,19 +18,28 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
+                AdminDashboard dashboard = new AdminDashboard();
+                if (HttpContext.Application["UserCount"] != null)
+                {
+                    dashboard.TotalLoggedUsers = (int)HttpContext.Application["UserCount"];
+                }
+                else
+                {
+                    dashboard.TotalLoggedUsers = 0;
+                }
 
-                    DashboardDataRepository dataRepository = new DashboardDataRepository();
-                    dashboard = dataRepository.getDashBoardCardData();
-                    dataRepository = new DashboardDataRepository();
-                    AdminDashboard tempDashboard = dataRepository.GetAdminDashboardTable();
-                    dashboard.ProductCategories = tempDashboard.ProductCategories;
-                    dashboard.CategoryCount = tempDashboard.CategoryCount;
-                    dashboard.TotalCost = tempDashboard.TotalCost;
+                DashboardDataRepository dataRepository = new DashboardDataRepository();
+                dashboard = dataRepository.getDashBoardCardData();
+                dataRepository = new DashboardDataRepository();
+                AdminDashboard tempDashboard = dataRepository.GetAdminDashboardTable();
+                dashboard.ProductCategories = tempDashboard.ProductCategories;
+                dashboard.CategoryCount = tempDashboard.CategoryCount;
+                dashboard.TotalCost = tempDashboard.TotalCost;
 
-                    return View(dashboard);
+                return View(dashboard);
             }
-            }
-            return RedirectToAction("SignIn", "Login");
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Users(string sortBy = "All", int page = 1)
@@ -44,6 +53,7 @@ namespace EStore.Controllers
                 ViewBag.sortBy = sortBy;
 
                 if (!sortBy.Equals("All"))
+                {
                     ViewBag.sortBy = sortBy;
                     userList = userList.Where(p => p.Type == sortBy).ToList();
                 }
@@ -53,15 +63,30 @@ namespace EStore.Controllers
         }
 
         public ActionResult CreateUser()
+        {
             if (isAuthorized())
             {
+                TempData["isEdit"] = "false";
+                User user = new User();
+                return View("CreateEditUser", user);
             }
+            return RedirectToAction("Index", "Home");
+        }
 
         public ActionResult EditUser(string userid)
+        {
             if (isAuthorized())
             {
+                TempData["isEdit"] = "true";
+                UserDataRepository dataRepository = new UserDataRepository();
+                User user = dataRepository.getUser(userid);
+                if (!user.UserName.IsEmpty())
+                    return View("CreateEditUser", user);
 
+                return RedirectToAction("Users");
             }
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost]
         public ActionResult Save(User user, bool isEdit)
@@ -71,14 +96,14 @@ namespace EStore.Controllers
                 UserDataRepository dataRepository = new UserDataRepository();
                 if (isEdit)
                 {
-                    user = dataRepository.updateUser(user.UserName);
-                    if(!user.UserName.IsEmpty()) return RedirectToAction("Users");
+                    user = dataRepository.updateUser(user);
+                    if (!user.UserName.IsEmpty()) return RedirectToAction("Users");
                 }
                 else
                 {
                     if (dataRepository.createUser(user)) return RedirectToAction("Users");
-                } 
-                
+                }
+
             }
             if (isEdit) TempData["isEdit"] = "true";
             else TempData["isEdit"] = "false";
@@ -87,11 +112,17 @@ namespace EStore.Controllers
         }
 
         public ActionResult DeleteUser(string userId)
+        {
             if (isAuthorized())
             {
+                UserDataRepository dataRepository = new UserDataRepository();
+                dataRepository.deleteUser(userId);
 
-            return RedirectToAction("Users");
+                return RedirectToAction("Users");
             }
+            return RedirectToAction("Index", "Home");
+        }
+
         public ActionResult Products(string sortBy = "All", int page = 1)
         {
             if (isAuthorized())
@@ -113,22 +144,53 @@ namespace EStore.Controllers
         }
 
         public ActionResult CreateProduct()
+        {
             if (isAuthorized())
             {
+                // TO-DO: get products from db 
+                TempData["isEdit"] = "false";
+                ProductDataRepository dataRepository = new ProductDataRepository();
+                Product product = new Product()
+                {
+                    ProductCategories = dataRepository.getProductCategories(),
+                };
 
+                return View("CreateEditProduct", product);
             }
+            return RedirectToAction("Index", "Home");
+        }
 
         public ActionResult EditProduct(string productId)
         {
             if (isAuthorized())
             {
+                ProductDataRepository dataRepository = new ProductDataRepository();
+                Product product = dataRepository.getProduct(productId);
+                dataRepository = new ProductDataRepository();
+                product.ProductCategories = dataRepository.getProductCategories();
+                if (!product.Name.IsEmpty())
+                {
+                    TempData["isEdit"] = "true";
+                    return View("CreateEditProduct", product);
+                }
+
+                return RedirectToAction("Products");
             }
+
+            return RedirectToAction("Index", "Home"); 
+        }
 
         public ActionResult DeleteProduct(string productId)
+        {
             if (isAuthorized())
             {
+                ProductDataRepository dataRepository = new ProductDataRepository();
+                dataRepository.deleteProduct(productId);
 
+                return RedirectToAction("Products");
             }
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost]
         public ActionResult SaveProduct(Product product, bool isEdit)
@@ -163,6 +225,8 @@ namespace EStore.Controllers
             }
             return View("CreateEditProduct",product);
         }
+
+
         public bool isAuthorized() 
         {
             User user = Session[Models.User.UserSessionString] as User;
