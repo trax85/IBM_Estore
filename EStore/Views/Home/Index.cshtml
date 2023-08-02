@@ -1,4 +1,4 @@
-@model List<EStore.Models.Product>
+﻿@model List<EStore.Models.Product>
 @{
     ViewBag.Title = "Products Page";
 }
@@ -24,7 +24,7 @@
                 </li>
                 <hr style="margin-top:-1%; margin-bottom:-1%" />
                 @{
-                    var productTypes = Enum.GetValues(typeof(EStore.Models.Product.ProductTypes)).Cast<EStore.Models.Product.ProductTypes>().ToList();
+                    var productTypes = TempData["ProductCategories"] as List<string>;
                     foreach (var item in productTypes)
                     {
                         <li>
