@@ -1,4 +1,5 @@
-﻿@model IEnumerable<EStore.Models.Product>
+﻿@model PagedList.IPagedList<EStore.Models.Product>
+@using PagedList.Mvc
 
 @{
     ViewBag.Title = "Products";
@@ -7,9 +8,30 @@
 
 <div class="container">
     <h2 class="text-center mt-2 mb-4">Products Details</h2>
-    <div class="row justify-content-center mb-3">
+    
+    <div class="row justify-content-center mb-3 mt-2">
         <div class="col-md-12 col-xl-10">
-            <div class="card shadow-0 border rounded-3">
+            <div class="nav-item dropdown" id="dropdown">
+                <button class="btn btn-outline-dark" onclick="toggleDropdown()">
+                    <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by: @ViewBag.sortBy</div>
+                </button>
+                <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                    </li>
+                    <hr style="margin-top:-1%; margin-bottom:-1%" />
+                    @{
+                        var categories = ViewBag.Categories as IEnumerable<string>;
+                        foreach (var item in categories)
+                        {
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("Product", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="card shadow-0 border rounded-3 mt-3">
                 @foreach (var item in Model)
                 {
                     <div class="card-body">
@@ -46,11 +68,31 @@
                             </div>
                         </div>
                     </div>
-                    <hr class="mb-2" />
                 }
             </div>
             <a class="btn btn-dark mt-2 col-md-12 col-xl-12" href="@Url.Action("CreateProduct", "Admin")">Create</a>
         </div>
     </div>
 </div>
-
+<div>
+    @{
+        var pagingOptions = new PagedListRenderOptions
+        {
+            LiElementClasses = new[] { "page-item" },
+            UlElementClasses = new[] { "pagination", "custom-pagination" },
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            LinkToPreviousPageFormat = "<",
+            LinkToNextPageFormat = ">",
+        };
+    }
+    @Html.PagedListPager(Model, page => Url.Action("Products", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+</div>
+@section Scripts{
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdown-menu");
+            dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+        }
+    </script>
+}
