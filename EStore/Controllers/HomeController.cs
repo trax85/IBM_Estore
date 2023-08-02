@@ -12,13 +12,22 @@ namespace EStore.Controllers
 {
     public class HomeController : Controller
     {
-        static int pageSize = 8;
+        private static int pageSize = 8;
+
+        private readonly IProductDataRepository _productDataRepository;
+        private readonly IUserDataRepository _userDataRepository;
+        private readonly ICartDataRepository _cartDataRepository;
+
+        public HomeController(IProductDataRepository product, IUserDataRepository user, ICartDataRepository cart) 
+        {
+            _productDataRepository = product;
+            _userDataRepository = user;
+            _cartDataRepository = cart;
+        }
         public ActionResult Index(string sortBy = "All", int page = 1)
         {
-            ProductDataRepository dataRepository = new ProductDataRepository();
-            List<Product> productList = dataRepository.GetAllProducts();
-            dataRepository = new ProductDataRepository();
-            ViewBag.Categories = dataRepository.GetProductCategories();
+            List<Product> productList = _productDataRepository.GetAllProducts();
+            ViewBag.Categories = _productDataRepository.GetProductCategories();
             ViewBag.SortBy = sortBy;
 
             if (!sortBy.Equals("All"))
@@ -31,8 +40,7 @@ namespace EStore.Controllers
 
         public ActionResult Product(string productName)
         {
-            ProductDataRepository homeDataRepository = new ProductDataRepository();
-            Product product = homeDataRepository.GetProduct(productName);
+            Product product = _productDataRepository.GetProduct(productName);
             if(product.Name.IsEmpty())
                 return RedirectToAction("Index");
             return View(product);
@@ -69,8 +77,7 @@ namespace EStore.Controllers
             User user = Session[Models.User.UserSessionString] as User;
             if (user != null)
             {
-                UserDataRepository userDataRepository = new UserDataRepository();
-                user = userDataRepository.GetUser(user.UserName);
+                user = _userDataRepository.GetUser(user.UserName);
                 return View(user);
             } 
 
@@ -81,8 +88,7 @@ namespace EStore.Controllers
         public ActionResult PlaceOrder(User user)
         {
             List<Cart> cartItems = Session[Cart.CartSessionString] as List<Cart>;
-            ProductDataRepository productDataRepository = new ProductDataRepository();
-            if (!productDataRepository.OrderProduct(cartItems, user.UserName))
+            if (!_productDataRepository.OrderProduct(cartItems, user.UserName))
                 return RedirectToAction("Checkout");
             //Reset Session strings
             Session[Cart.CartCountSessionString] = 0;
@@ -120,8 +126,7 @@ namespace EStore.Controllers
             System.Diagnostics.Debug.WriteLine("user:" + user.UserName);
             if (user != null)
             {
-                UserDataRepository userDataRepository = new UserDataRepository();
-                user = userDataRepository.GetUser(user.UserName);
+                user = _userDataRepository.GetUser(user.UserName);
                 return View(user);
             }
             return RedirectToAction("SignIn", "Login"); 
@@ -133,8 +138,7 @@ namespace EStore.Controllers
             System.Diagnostics.Debug.WriteLine("came here");
             if (ModelState.IsValid)
             {
-                UserDataRepository userDataRepository = new UserDataRepository();
-                user = userDataRepository.UpdateUser(user);
+                user = _userDataRepository.UpdateUser(user);
                 if (!user.UserName.IsEmpty())
                 {
                     Session[Models.User.UserSessionString] = user;
@@ -149,8 +153,7 @@ namespace EStore.Controllers
             User user = Session[Models.User.UserSessionString] as User;
             if (user != null)
             {
-                CartDataRepository productDataRepository = new CartDataRepository();
-                List<Cart> userCartList = productDataRepository.GetPurchaseHistory(user.UserName);
+                List<Cart> userCartList = _cartDataRepository.GetPurchaseHistory(user.UserName);
                 return View(userCartList);
             }
             else System.Diagnostics.Debug.Write("User not present");

@@ -13,6 +13,12 @@ namespace EStore.Controllers
     public class AdminController : Controller
     {
         static int pageSize = 2;
+        private readonly IUserDataRepository _userDataRepository;
+        private readonly IProductDataRepository _productDataRepository;
+        public AdminController() 
+        {
+        
+        }
         // GET: Admin
         public ActionResult DashBoard()
         {

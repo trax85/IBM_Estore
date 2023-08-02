@@ -2,11 +2,17 @@
 using EStore.Models;
 using EStore.Utilities;
 using System.Web.WebPages;
+using EStore.Utilities.DataRepository;
 
 namespace EStore.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly IUserDataRepository _userDataRepository;
+        public LoginController(IUserDataRepository user) 
+        { 
+            _userDataRepository = user;
+        }
         public ActionResult SignIn() 
         {
             return View();
@@ -16,8 +22,7 @@ namespace EStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SignIn(UserLoginCredentials userCred)
         {
-            UserDataRepository loginDataRepository = new UserDataRepository();
-            User user = loginDataRepository.VerifyUser(userCred);
+            User user = _userDataRepository.VerifyUser(userCred);
 
             if (!user.Type.IsEmpty())
             {
@@ -48,9 +53,8 @@ namespace EStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserDataRepository loginDataRepository = new UserDataRepository();
                 user.Type = Models.User.UserTypes.Customer.ToString();
-                if (loginDataRepository.CreateUser(user))
+                if (_userDataRepository.CreateUser(user))
                 {
                     TempData.Remove("ErrorMessage");
                     return RedirectToAction("SignIn", "Login");
