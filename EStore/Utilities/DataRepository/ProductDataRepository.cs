@@ -1,12 +1,8 @@
-﻿using EStore.Models;
+using EStore.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace EStore.Utilities.DataRepository
 {
@@ -17,11 +13,16 @@ namespace EStore.Utilities.DataRepository
             using (_connection = new SqlConnection(_sqlConnectionString))
             using (SqlCommand cmd = new SqlCommand("createProduct", _connection))
             {
-                cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = product.Name;
-                cmd.Parameters.Add("@category", SqlDbType.VarChar).Value = product.Category;
-                cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = product.Description;
-                cmd.Parameters.Add("@AdditionalDescription", SqlDbType.VarChar).Value = product.AdditionalDescription;
-                cmd.Parameters.Add("@cost", SqlDbType.Int).Value = product.Cost;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Name), SqlDbType.VarChar)
+                    .Value = product.Name;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Category), SqlDbType.VarChar)
+                    .Value = product.Category;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Description), SqlDbType.VarChar)
+                    .Value = product.Description;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.AdditionalDescription),
+                    SqlDbType.VarChar).Value = product.AdditionalDescription;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Cost), SqlDbType.Int)
+                    .Value = product.Cost;
                 cmd.CommandType = CommandType.StoredProcedure;
                 try
                 {
@@ -41,11 +42,16 @@ namespace EStore.Utilities.DataRepository
             using (_connection = new SqlConnection(_sqlConnectionString))
             using (SqlCommand cmd = new SqlCommand("updateProduct", _connection))
             {
-                cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = product.Name;
-                cmd.Parameters.Add("@category", SqlDbType.VarChar).Value = product.Category;
-                cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = product.Description;
-                cmd.Parameters.Add("@AdditionalDescription", SqlDbType.VarChar).Value = product.AdditionalDescription;
-                cmd.Parameters.Add("@cost", SqlDbType.Int).Value = product.Cost;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Name), SqlDbType.VarChar)
+                    .Value = product.Name;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Category), SqlDbType.VarChar)
+                    .Value = product.Category;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Description), SqlDbType.VarChar)
+                    .Value = product.Description;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.AdditionalDescription), SqlDbType.VarChar)
+                    .Value = product.AdditionalDescription;
+                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Cost), SqlDbType.Int)
+                    .Value = product.Cost;
                 cmd.CommandType = CommandType.StoredProcedure;
                 try
                 {
@@ -69,7 +75,8 @@ namespace EStore.Utilities.DataRepository
             {
                 try
                 {
-                    cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = productName;
+                    cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => product.Name), SqlDbType.VarChar)
+                        .Value = productName;
                     cmd.CommandType = CommandType.StoredProcedure;
                     _connection.Open();
                     ModelReader productModelReader = new ModelReader();
@@ -120,9 +127,12 @@ namespace EStore.Utilities.DataRepository
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
-                            cmd.Parameters.Add("@product_name", SqlDbType.VarChar).Value = item.Name;
-                            cmd.Parameters.Add("@quantity", SqlDbType.VarChar).Value = item.Quantity;
-                            cmd.Parameters.Add("@cost", SqlDbType.VarChar).Value = item.Cost;
+                            cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => item.Name), SqlDbType.VarChar)
+                                .Value = item.Name;
+                            cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => item.Quantity), SqlDbType.VarChar)
+                                .Value = item.Quantity;
+                            cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => item.Cost), SqlDbType.VarChar)
+                                .Value = item.Cost;
                             _connection.Open();
                             cmd.ExecuteNonQuery();
                             _connection.Close();
