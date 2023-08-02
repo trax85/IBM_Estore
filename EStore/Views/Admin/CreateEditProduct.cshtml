@@ -96,7 +96,7 @@
                         Category
                     </p>
                     @{ 
-                        var selectList = new SelectList(Model.products);
+                        var selectList = new SelectList(Model.ProductCategories);
                     }
                     <div class="form-outline mb-4">
                         @Html.DropDownListFor(
@@ -105,7 +105,7 @@
                                "Select Item",
                              new { @class = "form-control" }
                         )
-                        @Html.HiddenFor(m => m.products)
+                        @Html.HiddenFor(m => m.ProductCategories)
                         @Html.ValidationMessageFor(m => m.Category, "", new { @style = "color:red" })
                     </div>
                     
