@@ -6,9 +6,9 @@ using System.Data.SqlClient;
 
 namespace EStore.Utilities.DataRepository
 {
-    public class ProductDataRepository :Connection
+    public class ProductDataRepository : Connection, IProductDataRepository 
     {
-        public bool createProduct(Product product)
+        public bool CreateProduct(Product product)
         {
             using (_connection = new SqlConnection(_sqlConnectionString))
             using (SqlCommand cmd = new SqlCommand("createProduct", _connection))
@@ -37,7 +37,7 @@ namespace EStore.Utilities.DataRepository
             return false;
          }
 
-        public bool editProduct(Product product)
+        public bool EditProduct(Product product)
         {
             using (_connection = new SqlConnection(_sqlConnectionString))
             using (SqlCommand cmd = new SqlCommand("updateProduct", _connection))
@@ -67,7 +67,7 @@ namespace EStore.Utilities.DataRepository
             return false;
         }
 
-        public Product getProduct(string productName)
+        public Product GetProduct(string productName)
         {
             Product product = new Product();
             using (_connection = new SqlConnection(_sqlConnectionString))
@@ -91,7 +91,7 @@ namespace EStore.Utilities.DataRepository
             }
             return product;
         }
-        public List<Product> getAllProducts()
+        public List<Product> GetAllProducts()
         {
             List<Product> productList = new List<Product>();
             string query = "SELECT * FROM products;";
@@ -115,7 +115,7 @@ namespace EStore.Utilities.DataRepository
             return productList;
         }
 
-        public bool orderProduct(List<Cart> cartItems, string userName)
+        public bool OrderProduct(List<Cart> cartItems, string userName)
         {
             using (_connection = new SqlConnection(_sqlConnectionString))
             {
@@ -147,7 +147,7 @@ namespace EStore.Utilities.DataRepository
             return false;
         }
 
-        public List<string> getProductCategories()
+        public List<string> GetProductCategories()
         { 
             List<string> categories = new List<string>();
             using (_connection = new SqlConnection(_sqlConnectionString))
@@ -171,7 +171,7 @@ namespace EStore.Utilities.DataRepository
             return categories;
         }
 
-        public void deleteProduct(string productId)
+        public void DeleteProduct(string productId)
         {
             using (_connection = new SqlConnection(_sqlConnectionString))
             using (SqlCommand cmd = new SqlCommand("deleteProduct", _connection))
