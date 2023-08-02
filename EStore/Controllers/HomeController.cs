@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -14,24 +14,21 @@ namespace EStore.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(string type)
+        static int pageSize = 8;
+        public ActionResult Index(string sortBy = "All", int page = 1)
         {
-            //TO-DO: DUmmy data
-            //products = new List<Models.Product>() 
-            //{ 
-            //  new Models.Product { Name = "BreadBoard", Cost = 100, Category="Electronics" },
-            //  new Models.Product { Name = "Apple", Cost = 80 , Category="Grocessory"},
-            //  new Models.Product { Name = "IC", Cost = 60, Category="Electronics" },
-            //  new Models.Product { Name = "Orange", Cost = 120 , Category = "Grocessory"},
-            //  new Models.Product { Name = "Musambi", Cost = 70 , Category = "Grocessory"},
-            //};
             ProductDataRepository dataRepository = new ProductDataRepository();
             List<Product> productList = dataRepository.getAllProducts();
             dataRepository = new ProductDataRepository();
-            TempData["ProductCategories"] = dataRepository.getProductCategories();
-            if (type.IsEmpty() || type == "All")
-                return View(productList);
-            return View(productList.Where(p => p.Category == type).ToList());
+            ViewBag.Categories = dataRepository.getProductCategories();
+            ViewBag.SortBy = sortBy;
+
+            if (!sortBy.Equals("All"))
+            {
+                productList = productList.Where(p => p.Category == sortBy).ToList();
+            }
+                
+            return View(productList.OrderBy(p => p.Name).ToPagedList(page, pageSize));
         }
 
         public ActionResult Product(string productName)
