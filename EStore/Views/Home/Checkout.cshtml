@@ -253,7 +253,7 @@
                                                     <span class="badge bg-dark text-white ms-1 rounded-pill">@item.Quantity</span>
                                                 </small>
                                             </div>
-                                            <button id="@item.Id" class="delete-button btn btn-outline-danger" style="font-size:14px; padding:1px" data-id="@item.Id">Remove</button>
+                                            <button type="button" id="@item.Id" class="delete-button btn btn-outline-danger" style="font-size:14px; padding:1px" data-id="@item.Id">Remove</button>
                                         </div>
                                         <span class="text-muted">$@itemCost</span>
                                     </li>
@@ -297,22 +297,31 @@
 
                 // Find the parent div element containing the item and remove it from the UI
                 var listItem = $(this).closest('li');
-                
+
                 // Update the session variable using AJAX
-                $.ajax({
-                    url: '@Url.Action("DeleteCartItems", "Home")',
-                    type: 'POST',
-                    data: { id: itemId },
-                    success: function (data) {
-                        listItem.remove();
-                        $("#total-cost").text("$" + data.total);
-                        $("#cart-count").text(data.totalCount);
-                        $("#checkout-cart-count").text(data.totalCount)
+                fetch('@Url.Action("DeleteCartItems", "Home")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    error: function (xhr, status, error) {
-                        // Handle the error if needed
+                    body: JSON.stringify({ id: itemId })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    listItem.remove();
+                    $("#total-cost").text("$" + data.total);
+                    $("#cart-count").text(data.totalCount);
+                    $("#checkout-cart-count").text(data.totalCount)
+                })
+                .catch(error => {
+                    console.error(error);
                 });
+                
             });
         });
     </script>
