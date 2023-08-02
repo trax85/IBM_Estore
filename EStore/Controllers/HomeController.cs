@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using EStore.Models;
 using EStore.Utilities;
 using EStore.Utilities.DataRepository;
+using PagedList;
 
 namespace EStore.Controllers
 {
@@ -52,7 +50,13 @@ namespace EStore.Controllers
                 Cost = product.Cost
             };
             List<Cart> cartItems = Session[Cart.CartSessionString] as List<Cart>;
-            cart.Id = cartItems.Count;
+            if(cartItems.Count == 0)
+                cart.Id = cartItems.Count;
+            else
+            {
+                int temp = cartItems[cartItems.Count - 1].Id;
+                cart.Id = temp + 1;
+            }
             cartItems.Add(cart);
             Session[Cart.CartCountSessionString] = cartItems.Count;
             Session[Cart.CartSessionString] = cartItems;
@@ -78,7 +82,8 @@ namespace EStore.Controllers
         {
             List<Cart> cartItems = Session[Cart.CartSessionString] as List<Cart>;
             ProductDataRepository productDataRepository = new ProductDataRepository();
-            productDataRepository.orderProduct(cartItems, user.UserName);
+            if (!productDataRepository.orderProduct(cartItems, user.UserName))
+                return RedirectToAction("Checkout");
             //Reset Session strings
             Session[Cart.CartCountSessionString] = 0;
             Session[Cart.CartSessionString] = new List<Cart>();
@@ -89,6 +94,7 @@ namespace EStore.Controllers
         [HttpPost]
         public ActionResult DeleteCartItems(int id) 
         {
+            System.Diagnostics.Debug.WriteLine("here:" +id );
             List<Cart> sessionList = Session[Cart.CartSessionString] as List<Cart>;
             if (sessionList != null)
             {
@@ -124,10 +130,11 @@ namespace EStore.Controllers
         [HttpPost]
         public ActionResult UpdateUser(User user)
         {
+            System.Diagnostics.Debug.WriteLine("came here");
             if (ModelState.IsValid)
             {
                 UserDataRepository userDataRepository = new UserDataRepository();
-                user = userDataRepository.updateUser(user.UserName);
+                user = userDataRepository.updateUser(user);
                 if (!user.UserName.IsEmpty())
                 {
                     Session[Models.User.UserSessionString] = user;
