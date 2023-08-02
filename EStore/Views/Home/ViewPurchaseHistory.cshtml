@@ -6,7 +6,7 @@
 <main>
     <div class="row">
         <div class="col-lg-8 mx-auto">
-
+            <h2 class="my-5 text-center">Purchase History</h2>
             <!-- List group-->
             <ul class="list-group">
                 @{
@@ -22,7 +22,10 @@
                                         Quantity: @item.Quantity
                                     </p>
                                     <div class="d-flex align-items-center justify-content-between mt-1">
-                                        <h6 class="font-weight-bold my-2">$@item.Cost</h6>
+                                        @{
+                                            var totalCost = item.Cost * item.Quantity;
+                                        }
+                                        <h6 class="font-weight-bold my-2">$@totalCost</h6>
                                         <ul class="list-inline small">
                                             <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
                                             <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
@@ -40,8 +43,8 @@
                 }
 
             </ul>
-                <!-- End -->
-            </div>
+            <!-- End -->
+        </div>
         </div>
 </main>
 
