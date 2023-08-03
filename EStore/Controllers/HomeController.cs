@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,12 +17,14 @@ namespace EStore.Controllers
         private readonly IProductDataRepository _productDataRepository;
         private readonly IUserDataRepository _userDataRepository;
         private readonly ICartDataRepository _cartDataRepository;
-
-        public HomeController(IProductDataRepository product, IUserDataRepository user, ICartDataRepository cart) 
+        private readonly IProductDataRepositoryV2 _productDataRepositoryV2;
+        public HomeController(IProductDataRepository product, IUserDataRepository user, ICartDataRepository cart, 
+            IProductDataRepositoryV2 productV2) 
         {
             _productDataRepository = product;
             _userDataRepository = user;
             _cartDataRepository = cart;
+            _productDataRepositoryV2 = productV2;
         }
         public ActionResult Index(string sortBy = "All", int page = 1)
         {
@@ -88,8 +90,12 @@ namespace EStore.Controllers
         public ActionResult PlaceOrder(User user)
         {
             List<Cart> cartItems = Session[Cart.CartSessionString] as List<Cart>;
-            if (!_productDataRepository.OrderProduct(cartItems, user.UserName))
-                return RedirectToAction("Checkout");
+            foreach(var items in cartItems)
+            {
+                if (!_productDataRepositoryV2.OrderProduct(items, user.UserName))
+                    return RedirectToAction("Checkout");
+            }
+            
             //Reset Session strings
             Session[Cart.CartCountSessionString] = 0;
             Session[Cart.CartSessionString] = new List<Cart>();
