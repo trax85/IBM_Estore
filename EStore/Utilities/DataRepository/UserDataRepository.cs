@@ -6,195 +6,103 @@ using EStore.Models;
 using System.Web.WebPages;
 using System.Collections.Generic;
 using EStore.Utilities.DataRepository;
+using System.Linq;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 
 namespace EStore.Utilities
 {
-    public class UserDataRepository : Connection, IUserDataRepository
+    public class UserDataRepository : SqlDbConnection, IUserDataRepository
     {
         public User VerifyUser(UserLoginCredentials userCred)
         {
-            User user = new User();
-            using (_connection = new SqlConnection(_sqlConnectionString))
-            using (SqlCommand cmd = new SqlCommand("verifyUser", _connection))
-            {
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.UserName), SqlDbType.VarChar)
-                    .Value = userCred.UserName;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Password), SqlDbType.VarChar)
-                    .Value = userCred.Password;
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
-                {                    
-                    _connection.Open();
-                    ModelReader userModelReader = new ModelReader();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        user = userModelReader.getUser(reader);
-                    }
-                    _connection.Close();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.ToString());
-                    _connection.Close();
-                }
-            }
-
-            return user;
+            User user = _dbContext.UserModel.FirstOrDefault(u => u.UserName == userCred.UserName && u.Password == userCred.Password);
+            if (user != null)
+                return user;
+            return new User();
         }
 
         public bool CreateUser(User user)
         {
-            using (_connection = new SqlConnection(_sqlConnectionString))
-            using (SqlCommand cmd = new SqlCommand("createUser", _connection))
+            User findUser = _dbContext.UserModel.FirstOrDefault(u => u.UserName == user.UserName);
+            if(findUser == null)
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.FirstName), SqlDbType.VarChar).Value = user.FirstName;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.LastName), SqlDbType.VarChar).Value = user.LastName;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.UserName), SqlDbType.VarChar).Value = user.UserName;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Password), SqlDbType.VarChar).Value = user.Password;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.EmailAddress), SqlDbType.VarChar).Value = user.EmailAddress;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Address), SqlDbType.VarChar).Value = user.Address;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Country), SqlDbType.VarChar).Value = user.Country;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.State), SqlDbType.VarChar).Value = user.State;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.ZipCode), SqlDbType.Int).Value = user.ZipCode;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Type), SqlDbType.VarChar).Value = user.Type;
-
                 try
                 {
-                    _connection.Open();
-                    ModelReader userModelReader = new ModelReader();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        user = userModelReader.getUser(reader);
-                        if (!user.UserName.IsEmpty()) return true;
-                    }
-                    _connection.Close();
-                } 
-                catch(Exception ex) 
+                    user.timestamp = DateTime.Now.Date;
+                    _dbContext.UserModel.Add(user);
+                    if (_dbContext.SaveChanges() > 0)
+                        return true;
+                } catch(DbUpdateException ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
-                    _connection.Close();
                 }
             }
-
+            
             return false;
         }
 
         public User GetUser(string userName)
         {
-            User user = new User();
-            using (_connection = new SqlConnection(_sqlConnectionString))
-            using (SqlCommand cmd = new SqlCommand("getUser", _connection))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.UserName), SqlDbType.VarChar)
-                    .Value = userName;
-                try
-                {
-                    _connection.Open();
-                    ModelReader modelReader = new ModelReader();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        user = modelReader.getUser(reader);
-                    }
-                    _connection.Close();
-                } catch(Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                    _connection.Close();
-                }
-            }
-
+            User user = _dbContext.UserModel.FirstOrDefault(u => u.UserName == userName);
             return user;
         }
 
         public User UpdateUser(User user)
         {
-            using (_connection = new SqlConnection(_sqlConnectionString))
-            using (SqlCommand cmd = new SqlCommand("updateUser", _connection))
+            var userToUpdate = _dbContext.UserModel.FirstOrDefault(u => u.UserName == user.UserName);
+            if(userToUpdate != null)
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.FirstName), SqlDbType.VarChar)
-                    .Value = user.FirstName;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.LastName), SqlDbType.VarChar)
-                    .Value = user.LastName;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.UserName), SqlDbType.VarChar)
-                    .Value = user.UserName;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Password), SqlDbType.VarChar)
-                    .Value = user.Password;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.EmailAddress), SqlDbType.VarChar)
-                    .Value = user.EmailAddress;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Address), SqlDbType.VarChar)
-                    .Value = user.Address;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.Country), SqlDbType.VarChar)
-                    .Value = user.Country;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.State), SqlDbType.VarChar)
-                    .Value = user.State;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.ZipCode), SqlDbType.Int)
-                    .Value = user.ZipCode;
                 try
                 {
-                    _connection.Open();
-                    ModelReader modelReader = new ModelReader();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        user = modelReader.getUser(reader);
-                    }
-                    _connection.Close();
-                } 
-                catch(Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                    _connection.Close();
+                    userToUpdate.FirstName = user.FirstName;
+                    userToUpdate.LastName = user.LastName;
+                    userToUpdate.UserName = user.UserName;
+                    userToUpdate.Password = user.Password;
+                    userToUpdate.ComfirmPassword = user.ComfirmPassword;
+                    userToUpdate.EmailAddress = user.EmailAddress;
+                    userToUpdate.Address = user.Address;
+                    userToUpdate.Country = user.Country;
+                    userToUpdate.State = user.State;
+                    userToUpdate.ZipCode = user.ZipCode;
+                    _dbContext.SaveChanges();
                 }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            // Log or handle the validation error details
+                            System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                        }
+                    }
+                }
+                
+                return userToUpdate;
             }
-
-            return user;
+            
+            return new User();
         }
 
         public List<User> GetAllUsers()
-        { 
-            List<User> users = new List<User>();
-            using (_connection = new SqlConnection(_sqlConnectionString))
-            using (SqlCommand cmd = new SqlCommand("getAllUsers", _connection))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
-                {
-                    _connection.Open();
-                    ModelReader modelReader = new ModelReader();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        users = modelReader.getUserList(reader);
-                    }
-                    _connection.Close();
-                } catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                    _connection.Close();
-                }
-            }
-            return users;
+        {
+            return _dbContext.UserModel.ToList();
         }
 
         public void DeleteUser(string userName)
         {
-            User user = new User();
-            using (_connection = new SqlConnection(_sqlConnectionString))
-            using (SqlCommand cmd = new SqlCommand("deleteUser", _connection))
+            var userToDelete = _dbContext.UserModel.FirstOrDefault(u => u.UserName.Equals(userName));
+            if(userToDelete != null)
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => user.UserName), SqlDbType.VarChar).Value = userName;
                 try
                 {
-                    _connection.Open();
-                    cmd.ExecuteNonQuery();
-                    _connection.Close();
+                    _dbContext.UserModel.Remove(userToDelete);
+                    _dbContext.SaveChanges();
                 }
-                catch(Exception ex)
+                catch(DbUpdateException ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
-                    _connection.Close();
                 }
             }
         }     
