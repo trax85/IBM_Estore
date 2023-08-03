@@ -102,10 +102,11 @@
                         @Html.DropDownListFor(
                                m => m.Category,
                                selectList,
-                               "Select Item",
-                             new { @class = "form-control" }
+                               "Select Category",
+                             new { @class = "card custom-dropdown p-2", @style="width:50%"}
                         )
                         @Html.HiddenFor(m => m.ProductCategories)
+
                         @Html.ValidationMessageFor(m => m.Category, "", new { @style = "color:red" })
                     </div>
                     
