@@ -27,6 +27,7 @@ namespace EStoreTest
             container.RegisterType<IProductDataRepository, DummyProductDataRepository>();
             container.RegisterType<IDashboardDataRepository, DummyDashboardDataRepository>();
             container.RegisterType<ICartDataRepository, DummyCartDataRepository>();
+            container.RegisterType<IProductDataRepositoryV2, DummyProductDataRepositoryV2>();
             mockControllerContext = new Mock<ControllerContext>();
             var mockSession = new Mock<HttpSessionStateBase>();
             mockSession.SetupGet(s => s[User.UserSessionString]).Returns(DummyData.UserModelData);
@@ -92,7 +93,8 @@ namespace EStoreTest
             var controller = new HomeController(
                 container.Resolve<IProductDataRepository>(), 
                 container.Resolve<IUserDataRepository>(),
-                container.Resolve<ICartDataRepository>());
+                container.Resolve<ICartDataRepository>(),
+                container.Resolve<IProductDataRepositoryV2>());
             controller.ControllerContext = mockControllerContext.Object;
 
             var result = controller.Product(DummyData.ProductModelData.Name);
@@ -111,7 +113,8 @@ namespace EStoreTest
             var controller = new HomeController(
                 container.Resolve<IProductDataRepository>(),
                 container.Resolve<IUserDataRepository>(),
-                container.Resolve<ICartDataRepository>());
+                container.Resolve<ICartDataRepository>(),
+                container.Resolve<IProductDataRepositoryV2>());
             controller.ControllerContext = mockControllerContext.Object;
 
             var result = controller.UpdateUser(DummyData.UserModelData);
