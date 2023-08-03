@@ -95,6 +95,14 @@ namespace EStore.Utilities.DataRepository
         }
     }
 
+    public class DummyProductDataRepositoryV2 : IProductDataRepositoryV2
+    {
+        public bool OrderProduct(Cart cartItems, string userName)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class DummyDashboardDataRepository : IDashboardDataRepository
     {
         public AdminDashboard GetAdminDashboardTable()
