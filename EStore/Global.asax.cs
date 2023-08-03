@@ -29,6 +29,7 @@ namespace EStore
             // Register dependencies
             container.RegisterType<IUserDataRepository, UserDataRepository>();
             container.RegisterType<IProductDataRepository, ProductDataRepository>();
+            container.RegisterType<IProductDataRepositoryV2, ProductDataRepositoryV2>();
             container.RegisterType<IDashboardDataRepository, DashboardDataRepository>();
             container.RegisterType<ICartDataRepository, CartDataRepository>();
 
