@@ -12,7 +12,7 @@ namespace EStore.Controllers
 {
     public class HomeController : Controller
     {
-        private static int pageSize = 8;
+        private const int pageSize = 8;
 
         private readonly IProductDataRepository _productDataRepository;
         private readonly IUserDataRepository _userDataRepository;
@@ -135,7 +135,6 @@ namespace EStore.Controllers
         [HttpPost]
         public ActionResult UpdateUser(User user)
         {
-            System.Diagnostics.Debug.WriteLine("came here");
             if (ModelState.IsValid)
             {
                 user = _userDataRepository.UpdateUser(user);
