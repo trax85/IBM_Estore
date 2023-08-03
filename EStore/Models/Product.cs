@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace EStore.Models
 {
+    [Table("products")]
     public class Product
     {
+        [Key]
         [Required(ErrorMessage ="Please enter Product Name")]
         public string Name { get; set; }
 
@@ -22,6 +25,7 @@ namespace EStore.Models
         [RegularExpression(@"^[0-9]*$")]
         public int Cost { get; set; }
 
+        public DateTime timestamp { get; set; }
         public List<string> ProductCategories { get; set; }
     }
 }
