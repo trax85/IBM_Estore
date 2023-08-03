@@ -19,9 +19,13 @@ namespace EStore.Utilities.DataRepository
         bool EditProduct(Product product);
         Product GetProduct(string productName);
         List<Product> GetAllProducts();
-        bool OrderProduct(List<Cart> cartItems, string userName);
         List<string> GetProductCategories();
         void DeleteProduct(string productId);
+    }
+
+    public interface IProductDataRepositoryV2
+    {
+        bool OrderProduct(Cart cartItems, string userName);
     }
 
     public interface IDashboardDataRepository
