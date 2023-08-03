@@ -178,6 +178,7 @@
                                     placeholder = "",
                                     value = Model.ZipCode
                                 })
+                                @Html.ValidationMessageFor(m => m.ZipCode, "", new { @style = "color:red", @class = "mb-2" })
                             </div>
                         </div>
                         <div>
