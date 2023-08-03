@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -161,7 +161,6 @@ namespace EStore.Controllers
                 List<Cart> userCartList = _cartDataRepository.GetPurchaseHistory(user.UserName);
                 return View(userCartList);
             }
-            else System.Diagnostics.Debug.Write("User not present");
 
             return RedirectToAction("SignIn", "Login");
         }
