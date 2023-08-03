@@ -81,3 +81,10 @@ E:\IBM Training\asp.net\EStore\EStore\bin\PagedList.dll
 E:\IBM Training\asp.net\EStore\EStore\bin\PagedList.Mvc.dll
 E:\IBM Training\asp.net\EStore\EStore\bin\PagedList.xml
 E:\IBM Training\asp.net\EStore\EStore\bin\PagedList.Mvc.xml
+E:\IBM Training\asp.net\EStore\EStore\bin\System.Runtime.CompilerServices.Unsafe.dll
+E:\IBM Training\asp.net\EStore\EStore\bin\Unity.Abstractions.dll
+E:\IBM Training\asp.net\EStore\EStore\bin\Unity.Container.dll
+E:\IBM Training\asp.net\EStore\EStore\bin\Unity.Mvc5.dll
+E:\IBM Training\asp.net\EStore\EStore\bin\System.Runtime.CompilerServices.Unsafe.xml
+E:\IBM Training\asp.net\EStore\EStore\bin\Unity.Abstractions.pdb
+E:\IBM Training\asp.net\EStore\EStore\bin\Unity.Container.pdb

@@ -154,8 +154,11 @@
     <Compile Include="Utilities\Connection.cs" />
     <Compile Include="Utilities\DataRepository\CartDataRepository.cs" />
     <Compile Include="Utilities\DataRepository\DashboardDataRepository.cs" />
+    <Compile Include="Utilities\DataRepository\DummyDataRepository.cs" />
+    <Compile Include="Utilities\DataRepository\IDataRepository.cs" />
     <Compile Include="Utilities\DataRepository\ProductDataRepository.cs" />
     <Compile Include="Utilities\DataRepository\UserDataRepository.cs" />
+    <Compile Include="Utilities\DummyData.cs" />
     <Compile Include="Utilities\VariableNameHelper.cs" />
     <Compile Include="Utilities\ModelReader.cs" />
   </ItemGroup>
