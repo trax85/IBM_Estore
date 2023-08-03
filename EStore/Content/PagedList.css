@@ -1,4 +1,4 @@
-.pagination-container {
+﻿.pagination-container {
     display: flex;
     justify-content: center;
     margin-top: 20px;
@@ -52,4 +52,18 @@
 .custom-previous:hover,
 .custom-next:hover {
     background-color: #0056b3;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+/* Add arrow to the dropdown */
+.custom-dropdown::after {
+    content: '\25BC'; /* Unicode character for downward-pointing triangle (▼) */
+    position: absolute;
+    right: 8px; /* Adjust the right position of the arrow as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevent the arrow from interfering with dropdown clicks */
 }
