@@ -17,7 +17,7 @@
                 </button>
                 <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                        <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
                     </li>
                     <hr style="margin-top:-1%; margin-bottom:-1%" />
                     @{
@@ -25,7 +25,7 @@
                         foreach (var item in categories)
                         {
                             <li>
-                                <a class="dropdown-item" href="@Url.Action("Product", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                                <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
                             </li>
                         }
                     }
