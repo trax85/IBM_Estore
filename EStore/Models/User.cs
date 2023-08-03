@@ -9,6 +9,7 @@ namespace EStore.Models
 {
     public class UserLoginCredentials
     {
+        [Key]
         [Required(ErrorMessage = "Please enter valid username")]
         public string UserName { get; set; }
 
@@ -18,6 +19,8 @@ namespace EStore.Models
             "uppercase letter, one lowercase letter, one digit and one special character.")]
         public string Password { get; set; }
     }
+
+    [Table("users")]
     public class User : UserLoginCredentials
     {
         public static string UserSessionString = "User";
@@ -26,8 +29,8 @@ namespace EStore.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
         [NotMapped]
-        [Required(ErrorMessage = "Please comfirm password")]
         [Compare("Password", ErrorMessage ="Passwords doesn't match")]
         public string ComfirmPassword { get; set; }
 
@@ -45,6 +48,8 @@ namespace EStore.Models
 
         [RegularExpression(@"^\d{6}$", ErrorMessage = "Enter valid zip code")]
         public int ZipCode { get; set; }
+
+        public DateTime timestamp { get; set; }
         public enum UserTypes { 
             Customer,
             Admin
