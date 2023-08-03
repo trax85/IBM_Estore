@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="estoreModelStoreContainer" CdmEntityContainer="estoreEntities">
+    <EntitySetMapping Name="product_types">
+      <EntityTypeMapping TypeName="estoreModel.product_types">
+        <MappingFragment StoreEntitySet="product_types">
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="products">
+      <EntityTypeMapping TypeName="estoreModel.product">
+        <MappingFragment StoreEntitySet="products">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="AdditionalDescription" ColumnName="AdditionalDescription" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="estoreModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="total_sales">
+      <EntityTypeMapping TypeName="estoreModel.total_sales">
+        <MappingFragment StoreEntitySet="total_sales">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="createProduct" FunctionName="estoreModel.Store.createProduct" />
+    <FunctionImportMapping FunctionImportName="createUser" FunctionName="estoreModel.Store.createUser" />
+    <FunctionImportMapping FunctionImportName="deleteProduct" FunctionName="estoreModel.Store.deleteProduct" />
+    <FunctionImportMapping FunctionImportName="deleteUser" FunctionName="estoreModel.Store.deleteUser" />
+    <FunctionImportMapping FunctionImportName="getAllProducts" FunctionName="estoreModel.Store.getAllProducts">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.getAllProducts_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="AdditionalDescription" ColumnName="AdditionalDescription" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getAllUsers" FunctionName="estoreModel.Store.getAllUsers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.getAllUsers_Result">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getDashboardCardData" FunctionName="estoreModel.Store.getDashboardCardData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.getDashboardCardData_Result">
+          <ScalarProperty Name="GrossSalesAmount" ColumnName="GrossSalesAmount" />
+          <ScalarProperty Name="TotalProductsSold" ColumnName="TotalProductsSold" />
+          <ScalarProperty Name="TotalUsers" ColumnName="TotalUsers" />
+          <ScalarProperty Name="TotalProductsSoldThisWeek" ColumnName="TotalProductsSoldThisWeek" />
+          <ScalarProperty Name="TotalProductsSoldPreviousWeek" ColumnName="TotalProductsSoldPreviousWeek" />
+          <ScalarProperty Name="TotalProductsAddedThisWeek" ColumnName="TotalProductsAddedThisWeek" />
+          <ScalarProperty Name="TotalProductsAddedPreviousWeek" ColumnName="TotalProductsAddedPreviousWeek" />
+          <ScalarProperty Name="TotalUsersThisWeek" ColumnName="TotalUsersThisWeek" />
+          <ScalarProperty Name="TotalUsersPreviousWeek" ColumnName="TotalUsersPreviousWeek" />
+          <ScalarProperty Name="TotalSalesAmountThisWeek" ColumnName="TotalSalesAmountThisWeek" />
+          <ScalarProperty Name="TotalSalesAmountPreviousWeek" ColumnName="TotalSalesAmountPreviousWeek" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getDashboardTable" FunctionName="estoreModel.Store.getDashboardTable">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.getDashboardTable_Result">
+          <ScalarProperty Name="ProductCategories" ColumnName="ProductCategories" />
+          <ScalarProperty Name="CategoryCount" ColumnName="CategoryCount" />
+          <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getProductByName" FunctionName="estoreModel.Store.getProductByName">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.getProductByName_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="AdditionalDescription" ColumnName="AdditionalDescription" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getProductCategories" FunctionName="estoreModel.Store.getProductCategories" />
+    <FunctionImportMapping FunctionImportName="getPurchaseHistoryByUsername" FunctionName="estoreModel.Store.getPurchaseHistoryByUsername">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.getPurchaseHistoryByUsername_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getUser" FunctionName="estoreModel.Store.getUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.getUser_Result">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="orderProduct" FunctionName="estoreModel.Store.orderProduct" />
+    <FunctionImportMapping FunctionImportName="updateProduct" FunctionName="estoreModel.Store.updateProduct" />
+    <FunctionImportMapping FunctionImportName="updateUser" FunctionName="estoreModel.Store.updateUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.updateUser_Result">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="verifyUser" FunctionName="estoreModel.Store.verifyUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="estoreModel.verifyUser_Result">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

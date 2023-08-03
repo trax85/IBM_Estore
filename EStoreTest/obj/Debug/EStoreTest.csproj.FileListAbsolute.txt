@@ -52,3 +52,5 @@ E:\IBM Training\asp.net\EStore\EStoreTest\bin\Debug\System.Threading.Tasks.Exten
 E:\IBM Training\asp.net\EStore\EStoreTest\bin\Debug\Castle.Core.xml
 E:\IBM Training\asp.net\EStore\EStoreTest\bin\Debug\Moq.xml
 E:\IBM Training\asp.net\EStore\EStoreTest\bin\Debug\System.Threading.Tasks.Extensions.xml
+E:\IBM Training\asp.net\EStore\EStoreTest\bin\Debug\EntityFramework.dll
+E:\IBM Training\asp.net\EStore\EStoreTest\bin\Debug\EntityFramework.xml

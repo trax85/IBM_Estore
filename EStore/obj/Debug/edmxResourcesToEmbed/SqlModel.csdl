@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="estoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="product_types">
+    <Key>
+      <PropertyRef Name="type" />
+    </Key>
+    <Property Name="type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="products" Relationship="Self.FK__products__catego__398D8EEE" FromRole="product_types" ToRole="products" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Category" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Cost" Type="Int32" Nullable="false" />
+    <Property Name="AdditionalDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="timestamp" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="product_types" Relationship="Self.FK__products__catego__398D8EEE" FromRole="products" ToRole="product_types" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Zipcode" Type="Int32" />
+    <Property Name="timestamp" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="total_sales">
+    <Key>
+      <PropertyRef Name="UserName" />
+      <PropertyRef Name="ProductName" />
+      <PropertyRef Name="Quantity" />
+      <PropertyRef Name="Cost" />
+    </Key>
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Cost" Type="Int32" Nullable="false" />
+    <Property Name="timestamp" Type="DateTime" Precision="0" />
+  </EntityType>
+  <Association Name="FK__products__catego__398D8EEE">
+    <End Role="product_types" Type="Self.product_types" Multiplicity="1" />
+    <End Role="products" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product_types">
+        <PropertyRef Name="type" />
+      </Principal>
+      <Dependent Role="products">
+        <PropertyRef Name="Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="estoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="product_types" EntityType="Self.product_types" />
+    <EntitySet Name="products" EntityType="Self.product" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <EntitySet Name="total_sales" EntityType="Self.total_sales" />
+    <AssociationSet Name="FK__products__catego__398D8EEE" Association="Self.FK__products__catego__398D8EEE">
+      <End Role="product_types" EntitySet="product_types" />
+      <End Role="products" EntitySet="products" />
+    </AssociationSet>
+    <FunctionImport Name="createProduct">
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Category" Mode="In" Type="String" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+      <Parameter Name="AdditionalDescription" Mode="In" Type="String" />
+      <Parameter Name="Cost" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="createUser" ReturnType="Collection(String)">
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="PassWord" Mode="In" Type="String" />
+      <Parameter Name="EmailAddress" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Country" Mode="In" Type="String" />
+      <Parameter Name="State" Mode="In" Type="String" />
+      <Parameter Name="Zipcode" Mode="In" Type="Int32" />
+      <Parameter Name="Type" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="deleteProduct">
+      <Parameter Name="Name" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="deleteUser">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="getAllProducts" ReturnType="Collection(estoreModel.getAllProducts_Result)" />
+    <FunctionImport Name="getAllUsers" ReturnType="Collection(estoreModel.getAllUsers_Result)" />
+    <FunctionImport Name="getDashboardCardData" ReturnType="Collection(estoreModel.getDashboardCardData_Result)" />
+    <FunctionImport Name="getDashboardTable" ReturnType="Collection(estoreModel.getDashboardTable_Result)" />
+    <FunctionImport Name="getProductByName" ReturnType="Collection(estoreModel.getProductByName_Result)">
+      <Parameter Name="name" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="getProductCategories" ReturnType="Collection(String)" />
+    <FunctionImport Name="getPurchaseHistoryByUsername" ReturnType="Collection(estoreModel.getPurchaseHistoryByUsername_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="getUser" ReturnType="Collection(estoreModel.getUser_Result)">
+      <Parameter Name="UserName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="orderProduct">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="quantity" Mode="In" Type="Int32" />
+      <Parameter Name="cost" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="updateProduct">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="category" Mode="In" Type="String" />
+      <Parameter Name="description" Mode="In" Type="String" />
+      <Parameter Name="AdditonalDescription" Mode="In" Type="String" />
+      <Parameter Name="cost" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="updateUser" ReturnType="Collection(estoreModel.updateUser_Result)">
+      <Parameter Name="firstname" Mode="In" Type="String" />
+      <Parameter Name="lastname" Mode="In" Type="String" />
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+      <Parameter Name="EmailAddress" Mode="In" Type="String" />
+      <Parameter Name="address" Mode="In" Type="String" />
+      <Parameter Name="country" Mode="In" Type="String" />
+      <Parameter Name="state" Mode="In" Type="String" />
+      <Parameter Name="zipcode" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="verifyUser" ReturnType="Collection(estoreModel.verifyUser_Result)">
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="getAllProducts_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Category" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="Int32" Name="Cost" Nullable="false" />
+    <Property Type="String" Name="AdditionalDescription" Nullable="true" />
+    <Property Type="DateTime" Name="timestamp" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="getAllUsers_Result">
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Address" Nullable="true" />
+    <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Type" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="Zipcode" Nullable="true" />
+    <Property Type="DateTime" Name="timestamp" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="getDashboardCardData_Result">
+    <Property Type="Int32" Name="GrossSalesAmount" Nullable="true" />
+    <Property Type="Int32" Name="TotalProductsSold" Nullable="true" />
+    <Property Type="Int32" Name="TotalUsers" Nullable="true" />
+    <Property Type="Int32" Name="TotalProductsSoldThisWeek" Nullable="true" />
+    <Property Type="Int32" Name="TotalProductsSoldPreviousWeek" Nullable="true" />
+    <Property Type="Int32" Name="TotalProductsAddedThisWeek" Nullable="true" />
+    <Property Type="Int32" Name="TotalProductsAddedPreviousWeek" Nullable="true" />
+    <Property Type="Int32" Name="TotalUsersThisWeek" Nullable="true" />
+    <Property Type="Int32" Name="TotalUsersPreviousWeek" Nullable="true" />
+    <Property Type="Int32" Name="TotalSalesAmountThisWeek" Nullable="true" />
+    <Property Type="Int32" Name="TotalSalesAmountPreviousWeek" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="getDashboardTable_Result">
+    <Property Type="String" Name="ProductCategories" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="CategoryCount" Nullable="true" />
+    <Property Type="Int32" Name="TotalCost" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="getProductByName_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Category" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="Int32" Name="Cost" Nullable="false" />
+    <Property Type="String" Name="AdditionalDescription" Nullable="true" />
+    <Property Type="DateTime" Name="timestamp" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="getPurchaseHistoryByUsername_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Cost" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="String" Name="Category" Nullable="false" MaxLength="30" />
+  </ComplexType>
+  <ComplexType Name="getUser_Result">
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Address" Nullable="true" />
+    <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Type" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="Zipcode" Nullable="true" />
+    <Property Type="DateTime" Name="timestamp" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="updateUser_Result">
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Address" Nullable="true" />
+    <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Type" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="Zipcode" Nullable="true" />
+    <Property Type="DateTime" Name="timestamp" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="verifyUser_Result">
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Username" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Type" Nullable="false" MaxLength="30" />
+  </ComplexType>
+</Schema>
