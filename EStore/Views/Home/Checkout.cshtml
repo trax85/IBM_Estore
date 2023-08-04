@@ -5,8 +5,32 @@
 }
 
 <main class="">
+    <div class="cd-popup" role="alert">
+        <div class="cd-popup-container">
+            <p>
+                The ordered Items are:
+                @{
+                    var items = Session[EStore.Models.Cart.CartSessionString] as List<EStore.Models.Cart>;
+                    if (items != null)
+                    {
+                        foreach (var item in items)
+                        {
+                            <br><strong id="strong-@item.Id">@item.Name - @item.Quantity</strong>
+                        }
+
+                    }
+                }<br>Procced to order items?
+            </p>
+            <ul class="cd-buttons">
+                <li class="btn"><a href="#0" onclick="document.getElementById('submitButton').click(); return false;">Place Order</a></li>
+                <li class="btn"><a href="#0" class="cd-popup-close-btn">Cancle</a></li>
+            </ul>
+            <a href="#0" class="cd-popup-close img-replace">Close</a>
+        </div> <!-- cd-popup-container -->
+    </div> <!-- cd-popup -->
     @using (Html.BeginForm("PlaceOrder", "Home", FormMethod.Post))
     {
+        <button type="submit" id="submitButton" style="display:none;"></button>
         <div class="container">
             <!-- Heading -->
             <h2 class="my-5 text-center">Checkout form</h2>
@@ -52,10 +76,12 @@
                         </div>
                         <!--Grid row-->
                         <!--Username-->
+                        <p class="mb-0">
+                            Username
+                        </p>
                         <div class="input-group mb-4">
-                            <span class="input-group-text" id="basic-addon1"></span>
                             <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.UserName" />
-                            @Html.HiddenFor(m => m.UserName);
+                            @Html.HiddenFor(m => m.UserName)
                         </div>
 
                         <!--email-->
@@ -218,7 +244,7 @@
                             }
                             else
                             {
-                                <button class="btn btn-primary" type="submit">Continue to checkout</button>
+                                <button class="btn btn-outline-dark cd-popup-trigger" type="button">Continue to checkout</button>
                             }
                         }
 
@@ -267,26 +293,12 @@
                         }
                     </ul>
                     <!-- Cart -->
-                    <!-- Promo code -->
-                    <form class="card p-2">
-                        <div class="input-group mb-3">
-                            <input type="text"
-                                   class="form-control"
-                                   placeholder="Promo code"
-                                   aria-label="Promo code"
-                                   aria-describedby="button-addon2" />
-                            <button class="btn btn-primary" type="button" id="button-addon2" data-mdb-ripple-color="dark">
-                                redeem
-                            </button>
-                        </div>
-                    </form>
-                    <!-- Promo code -->
                 </div>
                 <!--Grid column-->
             </div>
             <!--Grid row-->
         </div>
-     }
+    }
 </main>
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -294,7 +306,7 @@
         $(document).ready(function () {
             $('.delete-button').on('click', function () {
                 var itemId = $(this).data('id');
-
+                const strongElement = document.getElementById("strong-" + itemId);
                 // Find the parent div element containing the item and remove it from the UI
                 var listItem = $(this).closest('li');
 
@@ -316,12 +328,14 @@
                     listItem.remove();
                     $("#total-cost").text("$" + data.total);
                     $("#cart-count").text(data.totalCount);
-                    $("#checkout-cart-count").text(data.totalCount)
+                    $("#checkout-cart-count").text(data.totalCount);
+                    
+                    strongElement.style.display = 'none';
                 })
                 .catch(error => {
                     console.error(error);
                 });
-                
+
             });
         });
     </script>
