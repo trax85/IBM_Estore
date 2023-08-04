@@ -153,13 +153,22 @@ namespace EStore.Controllers
             return View(user);
         }
 
-        public ActionResult ViewPurchaseHistory() 
+        public ActionResult ViewPurchaseHistory(string sortBy = "All", int page = 1) 
         {
             User user = Session[Models.User.UserSessionString] as User;
             if (user != null)
             {
                 List<Cart> userCartList = _productDataRepository.GetImagesForCart(_cartDataRepository.GetPurchaseHistory(user.UserName));
-                return View(userCartList);
+                ViewBag.Categories = _productDataRepository.GetProductCategories();
+                ViewBag.SortBy = sortBy;
+
+                System.Diagnostics.Debug.WriteLine("Count" + _productDataRepository.GetProductCategories().Count);
+
+                if (!sortBy.Equals("All"))
+                {
+                    userCartList = userCartList.Where(p => p.Category == sortBy).ToList();
+                }
+                return View(userCartList.OrderBy(p => p.Name).ToPagedList(page, pageSize - 4));
             }
 
             return RedirectToAction("SignIn", "Login");
