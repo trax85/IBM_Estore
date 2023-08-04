@@ -5,6 +5,19 @@
     Layout = "~/Views/_LayoutPageAdmin.cshtml";
 }
 
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <p>
+            Are you sure you want to delete user?
+        </p>
+        <ul class="cd-buttons">
+            <li class="btn"><a href="#0" class="cd-popup-confirm">Yes</a></li>
+            <li class="btn"><a href="#0" class="cd-popup-cancel">No</a></li>
+        </ul>
+        <a href="#0" class="cd-popup-close img-replace">Close</a>
+    </div> <!-- cd-popup-container -->
+</div> <!-- cd-popup -->
+
 <div class="container py-5">
     <div class="row">
         <div class="col-md-12">
@@ -66,7 +79,7 @@
                                         </td>
                                         <td>
                                             <a class="text-info mr-4" href="@Url.Action("EditUser", "Admin", new { userid = user.UserName })">Edit</a>
-                                            <a class="text-danger" href="@Url.Action("DeleteUser", "Admin", new { userid = user.UserName })">Delete</a>
+                                            <a class="text-danger cd-popup-trigger-list" data-item-id="@user.UserName" data-item-url="/Admin/DeleteUser?userid=">Delete</a>
                                         </td>
                                     </tr>
                                 }
@@ -101,4 +114,5 @@
             dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
         }
     </script>
+    <script src="~/Scripts/confirmbox_main.js"></script> <!-- Resource jQuery -->
 }
