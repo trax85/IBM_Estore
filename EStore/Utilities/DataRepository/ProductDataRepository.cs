@@ -1,9 +1,11 @@
-﻿using EStore.Models;
+using EStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Web.WebPages;
 
 namespace EStore.Utilities.DataRepository
 {
@@ -14,6 +16,14 @@ namespace EStore.Utilities.DataRepository
             Product findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(product.Name));
             if (findProduct == null)
             {
+                // Image Conversion to binary data
+                if(product.ImageFile != null && product.ImageFile.ContentLength > 0)
+                {
+                    using(var binaryReader = new BinaryReader(product.ImageFile.InputStream))
+                    {
+                        product.ImageData = binaryReader.ReadBytes(product.ImageFile.ContentLength);
+                    }
+                }
                 product.timestamp = DateTime.Now.Date;
                 _dbContext.ProductModel.Add(product);
                 if (_dbContext.SaveChanges() > 0)
@@ -28,6 +38,15 @@ namespace EStore.Utilities.DataRepository
             var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(product.Name));
             if(findProduct != null)
             {
+                // Image Conversion to binary data
+                if (product.ImageFile != null && product.ImageFile.ContentLength > 0)
+                {
+                    using (var binaryReader = new BinaryReader(product.ImageFile.InputStream))
+                    {
+                        product.ImageData = binaryReader.ReadBytes(product.ImageFile.ContentLength);
+                    }
+                }
+                findProduct.ImageData = product.ImageData;
                 findProduct.Description = product.Description;
                 findProduct.Category = product.Category;
                 findProduct.Cost = product.Cost;
@@ -43,6 +62,7 @@ namespace EStore.Utilities.DataRepository
             var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(productName));
             if(findProduct != null )
             {
+                findProduct.ImageSrc = GetBase64ImageSrc(findProduct.ImageData);
                 return findProduct;
             }
             return new Product();
@@ -52,10 +72,27 @@ namespace EStore.Utilities.DataRepository
             var products = _dbContext.ProductModel.ToList();
             if(products != null)
             {
+                foreach(var product in products)
+                {
+                    product.ImageSrc = GetBase64ImageSrc(product.ImageData);
+                }
+
                 return products;
             }
 
             return new List<Product>();
+        }
+
+        private string GetBase64ImageSrc(byte[] imageData)
+        {
+            if (imageData != null && imageData.Length > 0)
+            {
+                string base64Image = Convert.ToBase64String(imageData);
+                return $"data:image/png;base64,{base64Image}";
+            }
+
+            // Return a placeholder image URL or any default image
+            return "https://dummyimage.com/450x300/dee2e6/6c757d.jpg";
         }
 
         public List<string> GetProductCategories()
