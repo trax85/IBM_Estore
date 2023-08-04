@@ -158,7 +158,7 @@ namespace EStore.Controllers
             User user = Session[Models.User.UserSessionString] as User;
             if (user != null)
             {
-                List<Cart> userCartList = _cartDataRepository.GetPurchaseHistory(user.UserName);
+                List<Cart> userCartList = _productDataRepository.GetImagesForCart(_cartDataRepository.GetPurchaseHistory(user.UserName));
                 return View(userCartList);
             }
 
