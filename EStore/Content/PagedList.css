@@ -67,3 +67,23 @@
     transform: translateY(-50%);
     pointer-events: none; /* Prevent the arrow from interfering with dropdown clicks */
 }
+
+.custom-image-edit-view {
+    max-width: 300px;
+    max-height: 300px;
+    width: 300px;
+    height: 300px
+}
+
+.custom-image-home-view {
+    max-height: 200px;
+    max-width: 300px;
+    height: 180px;
+    width: 210px
+}
+
+.custom-image-product-view {
+    width: 500px;
+    height: 350px;
+    margin: 5%;
+}
