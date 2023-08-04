@@ -1,4 +1,6 @@
-﻿@model List<EStore.Models.Cart>
+﻿@model PagedList.IPagedList<EStore.Models.Cart>
+@using PagedList.Mvc
+
 @{
     ViewBag.Title = "ViewPurchaseHistory";
 }
@@ -8,7 +10,28 @@
         <div class="col-lg-8 mx-auto">
             <h2 class="my-5 text-center">Purchase History</h2>
             <!-- List group-->
-            <ul class="list-group">
+            <!--Filter button-->
+            <div class="nav-item dropdown" id="dropdown">
+                <button class="btn btn-outline-dark" onclick="toggleDropdown()">
+                    <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.sortBy</div>
+                </button>
+                <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                    </li>
+                    <hr style="margin-top:-1%; margin-bottom:-1%" />
+                    @{
+                        var categories = ViewBag.Categories as IEnumerable<string>;
+                        foreach (var item in categories)
+                        {
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <ul class="list-group mt-2">
                 @{
                     foreach (var item in Model)
                     {
@@ -46,6 +69,24 @@
             </ul>
             <!-- End -->
         </div>
-        </div>
+    </div>
+    <div>
+        @{
+            var pagingOptions = new PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "page-item" },
+                UlElementClasses = new[] { "pagination", "custom-pagination" },
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                LinkToPreviousPageFormat = "<",
+                LinkToNextPageFormat = ">",
+            };
+        }
+        @Html.PagedListPager(Model, page => Url.Action("ViewPurchaseHistory", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+    </div>
 </main>
+
+@section Scripts{
+    <script src="~/Scripts/scripts.js"></script>    
+}
 
