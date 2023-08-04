@@ -11,6 +11,8 @@ namespace EStore.Models
         public static string CartCountSessionString = "CartCount";
         public static string CartSessionString = "Cart";
         public int Id { get; set; }
+
+        public string ImageSrc { get; set; }
         public string Name { get; set; }
         public string Category { get; set; }
         public int Cost { get; set; }
