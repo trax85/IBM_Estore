@@ -67,6 +67,23 @@ namespace EStore.Utilities.DataRepository
             }
             return new Product();
         }
+
+        public List<Cart> GetImagesForCart(List<Cart> cartItems)
+        {
+            for(int i = 0; i < cartItems.Count; i++)
+            {
+                string itemName = cartItems[i].Name;
+                Product product = _dbContext.ProductModel.FirstOrDefault( p => p.Name.Equals(itemName));
+                
+                if (product != null)
+                {
+                    cartItems[i].ImageSrc = GetBase64ImageSrc(product.ImageData);
+                }
+            }
+
+            return cartItems;
+        }
+
         public List<Product> GetAllProducts()
         {
             var products = _dbContext.ProductModel.ToList();

@@ -18,6 +18,7 @@ namespace EStore.Utilities.DataRepository
         bool CreateProduct(Product product);
         bool EditProduct(Product product);
         Product GetProduct(string productName);
+        List<Cart> GetImagesForCart(List<Cart> cartItems);
         List<Product> GetAllProducts();
         List<string> GetProductCategories();
         void DeleteProduct(string productId);

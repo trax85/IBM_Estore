@@ -75,6 +75,11 @@ namespace EStore.Utilities.DataRepository
             return DummyData.ProductModelDataList;
         }
 
+        public List<Cart> GetImagesForCart(List<Cart> cartItems)
+        {
+            throw new NotImplementedException();
+        }
+
         public Product GetProduct(string productName)
         {
             if (productName.Equals(DummyData.ProductModelData.Name))
