@@ -14,6 +14,14 @@ namespace EStore.Models
         [Required(ErrorMessage ="Please enter Product Name")]
         public string Name { get; set; }
 
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set; }
+
+        public byte[] ImageData { get; set; }
+
+        [NotMapped]
+        public string ImageSrc { get; set; }
+
         [Required(ErrorMessage = "Please choose product category")]
         public string Category { get; set; }
 
