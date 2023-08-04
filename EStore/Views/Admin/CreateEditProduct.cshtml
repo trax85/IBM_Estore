@@ -3,7 +3,7 @@
     Layout = "~/Views/_LayoutPageAdmin.cshtml";
 }
 
-@using (Html.BeginForm("SaveProduct", "Admin", FormMethod.Post))
+@using (Html.BeginForm("SaveProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="">
         <!-- Heading -->
@@ -27,41 +27,50 @@
                     <div class="row mb-3">
                         <!--Grid column-->
                         <div class="col-md-6 mb-2">
-                            <!--Product Name-->
-                            <div class="form-outline">
-                                <label class="form-label" for="typeText">Product name</label>
-                                @if (Model.Name.IsEmpty())
-                                {
-                                    @Html.TextBoxFor(m => m.Name, new
-                               {
-                                   @class = "form-control",
-                                   placeholder = "Product Name",
-                                   required = "required",
-                                   value = Model.Name
-                               })
-                                    @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:red" })
-                                }
-                                else
-                                {
-                                    <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.Name" />
-                                    @Html.HiddenFor(m => m.Name);
-                                }
-
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="typeText">Product Image</label>
+                                <input type="file" name="ImageFile" id="ImageFile" class="form-control" />
                             </div>
+
                         </div>
                         <!--Grid column-->
+                        <div class="col-md-6" style="max-width:400px;max-height:400px;">
+                            <!-- Display the image if available -->
+                            <img id="previewImage" src="@Model.ImageSrc" class="custom-image-edit-view" style=""/>
+                        </div>
                     </div>
                     <!--Grid row-->
+                    <!--Product Name-->
+                    <div class="form-outline">
+                        <label class="form-label" for="typeText">Product name</label>
+                        @if (Model.Name.IsEmpty())
+                        {
+                            @Html.TextBoxFor(m => m.Name, new
+                       {
+                           @class = "form-control",
+                           placeholder = "Product Name",
+                           required = "required",
+                           value = Model.Name
+                       })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:red" })
+                        }
+                        else
+                        {
+                            <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.Name" />
+                            @Html.HiddenFor(m => m.Name);
+                        }
+
+                    </div>
                     <!--Product Description-->
                     <label class="form-label" for="typeText">Description</label>
-                    <div class="input-group mb-1" >
-                    @Html.TextAreaFor(m => m.Description, new
-               {
-                   @class = "form-control col-8",
-                   placeholder = "Username",
-                   required = "required"
+                    <div class="input-group mb-1">
+                        @Html.TextAreaFor(m => m.Description, new
+                   {
+                       @class = "form-control col-8",
+                       placeholder = "Username",
+                       required = "required"
 
-               })
+                   })
                     </div>
                     @Html.ValidationMessageFor(m => m.Description, "", new { @style = "color:red" })
 
@@ -95,7 +104,7 @@
                     <p class="mb-1">
                         Category
                     </p>
-                    @{ 
+                    @{
                         var selectList = new SelectList(Model.ProductCategories);
                     }
                     <div class="form-outline mb-4">
@@ -103,13 +112,13 @@
                                m => m.Category,
                                selectList,
                                "Select Category",
-                             new { @class = "card custom-dropdown p-2", @style="width:50%"}
+                             new { @class = "card custom-dropdown p-2", @style = "width:50%" }
                         )
                         @Html.HiddenFor(m => m.ProductCategories)
 
                         @Html.ValidationMessageFor(m => m.Category, "", new { @style = "color:red" })
                     </div>
-                    
+
                     <div class="card-body">
                         <hr />
                     </div>
@@ -118,13 +127,42 @@
                         Submit
                     </button>
                     <button type="button" value="Cancle" class="btn btn-secondary btn-dark"
-                            onclick="@("window.location.href='" + @Url.Action("Products", "Admin") + "'");" >
-                        Cancle 
+                            onclick="@("window.location.href='" + @Url.Action("Products", "Admin") + "'");">
+                        Cancle
                     </button>
                     <!--Grid column-->
                 </div>
             </div>
         </div>
     </div>
+}
+
+@section Scripts{
+    <script>
+        // JavaScript function to display the selected image
+        function previewImage() {
+            var fileInput = document.getElementById('ImageFile');
+            var preview = document.getElementById('previewImage');
+
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        // Call the previewImage function when the user selects an image
+        $(document).ready(function () {
+            $('#ImageFile').change(function () {
+                console.log("here");
+                previewImage();
+            });
+        });
+    </script>
 }
 
