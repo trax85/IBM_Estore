@@ -5,17 +5,18 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
-function toggleDropdown() {
-    var dropdown = document.getElementById("dropdown-menu");
+function toggleDropdown(id) {
+    var dropdown = document.getElementById("dropdown-menu" + id);
     dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    console.log("dropdown-menu" + id);
+    document.addEventListener("click", function (event) {
+        var dropdown = document.getElementById("dropdown" + id);
+        if (!dropdown.contains(event.target)) {
+            var dropdownMenu = document.getElementById(dropdown);
+            dropdownMenu.style.display = "none";
+        }
+    });
 }
-document.addEventListener("click", function (event) {
-    var dropdown = document.getElementById("dropdown");
-    if (!dropdown.contains(event.target)) {
-        var dropdownMenu = document.getElementById("dropdown-menu");
-        dropdownMenu.style.display = "none";
-    }
-});
 
 function onProductClick(argument) {
     window.location.href = '@Url.Action("Product", "Home")?productType=' + encodeURIComponent(argument);
