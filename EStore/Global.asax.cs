@@ -31,7 +31,7 @@ namespace EStore
             container.RegisterType<IProductDataRepository, ProductDataRepository>();
             container.RegisterType<IProductDataRepositoryV2, ProductDataRepositoryV2>();
             container.RegisterType<IDashboardDataRepository, DashboardDataRepository>();
-            container.RegisterType<ICartDataRepository, CartDataRepository>();
+            container.RegisterType<ITotalSalesDataRepository, TotalSalesDataRepository>();
 
             // Set the Unity dependency resolver
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

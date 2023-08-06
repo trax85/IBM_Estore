@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -16,14 +16,14 @@ namespace EStore.Controllers
 
         private readonly IProductDataRepository _productDataRepository;
         private readonly IUserDataRepository _userDataRepository;
-        private readonly ICartDataRepository _cartDataRepository;
+        private readonly ITotalSalesDataRepository _totalSalesDataRepository;
         private readonly IProductDataRepositoryV2 _productDataRepositoryV2;
-        public HomeController(IProductDataRepository product, IUserDataRepository user, ICartDataRepository cart, 
+        public HomeController(IProductDataRepository product, IUserDataRepository user, ITotalSalesDataRepository cart, 
             IProductDataRepositoryV2 productV2) 
         {
             _productDataRepository = product;
             _userDataRepository = user;
-            _cartDataRepository = cart;
+            _totalSalesDataRepository = cart;
             _productDataRepositoryV2 = productV2;
         }
         public ActionResult Index(string sortBy = "All", int page = 1)

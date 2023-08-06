@@ -75,7 +75,7 @@ namespace EStore.Utilities.DataRepository
             return DummyData.ProductModelDataList;
         }
 
-        public List<Cart> GetImagesForCart(List<Cart> cartItems)
+        public List<TotalSales> GetImagesForTotalSales(List<TotalSales> salesItems)
         {
             throw new NotImplementedException();
         }
@@ -90,6 +90,11 @@ namespace EStore.Utilities.DataRepository
         public List<string> GetProductCategories()
         {
             return DummyData.CategoriesList;
+        }
+
+        public List<TotalSales> MapProductToCategory(List<TotalSales> saleItems)
+        {
+            throw new NotImplementedException();
         }
 
         public bool OrderProduct(List<Cart> cartItems, string userName)
@@ -121,11 +126,26 @@ namespace EStore.Utilities.DataRepository
         }
     }
 
-    public class DummyCartDataRepository : ICartDataRepository
+    public class DummyCartDataRepository : ITotalSalesDataRepository
     {
+        public List<TotalSales> GetAllPurchaseHistory()
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Cart> GetPurchaseHistory(string userName)
         {
             return DummyData.CartList;
+        }
+
+        public List<DateTime> GetWeekIntervals()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TotalSales> ITotalSalesDataRepository.GetPurchaseHistory(string userName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using EStore.Models;
+using EStore.Models;
 using System.Collections.Generic;
 
 namespace EStore.Utilities.DataRepository
@@ -35,9 +35,12 @@ namespace EStore.Utilities.DataRepository
         AdminDashboard GetAdminDashboardTable();
     }
 
-    public interface ICartDataRepository
+    public interface ITotalSalesDataRepository
     {
-        List<Cart> GetPurchaseHistory(string userName);
+        List<TotalSales> GetPurchaseHistory(string userName);
 
+        List<TotalSales> GetAllPurchaseHistory();
+
+        List<DateTime> GetWeekIntervals();
     }
 }
