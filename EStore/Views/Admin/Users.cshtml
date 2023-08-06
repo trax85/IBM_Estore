@@ -18,95 +18,103 @@
     </div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
 
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
-                        </div>
-                        <div class="col-auto">
-                            <div class="nav-item dropdown" id="dropdown">
-                                <button class="btn btn-outline-dark" onclick="toggleDropdown()">
-                                    <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by: @ViewBag.sortBy</div>
-                                </button>
-                                <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
-                                    </li>
-                                    <hr style="margin-top:-1%; margin-bottom:-1%" />
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Admin", page = Model.PageNumber})">Admin</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Customer", page = Model.PageNumber})">Customer</a>
-                                    </li>
-                                </ul>
+<div class="custom-card bg-light container">
+    <h2 class="text-center mt-4">Users Info</h2>
+    <div class="custom-card-inner p-3 mt-2 mb-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
+                            </div>
+                            <div class="col-auto">
+                                <!--Sortby Dropdown-->
+                                <div class="nav-item dropdown" id="dropdown">
+                                    <button class="btn btn-outline-dark" onclick="toggleDropdown()">
+                                        <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by: @ViewBag.sortBy</div>
+                                    </button>
+                                    <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                                        </li>
+                                        <hr style="margin-top:-1%; margin-bottom:-1%" />
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Admin", page = Model.PageNumber})">Admin</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Customer", page = Model.PageNumber})">Customer</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--Sortby End-->
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table no-wrap user-table mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Email</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">User Type</th>
-                                <th scope="col" class="border-0 text-uppercase font-medium">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                int i = 0;
-                                foreach (var user in Model)
-                                {
-                                    i++;
-                                    <tr>
-                                        <td class="pl-4">@i</td>
-                                        <td>
-                                            <h5 class="font-medium mb-0">@user.FirstName @user.LastName</h5>
-                                            <span class="text-muted">@user.State, @user.Country</span>
-                                        </td>
-                                        <td>
-                                            <span class="text-muted">@user.EmailAddress</span><br>
-                                        </td>
-                                        <td>
-                                            <span class="text-muted">@user.Type</span><br>
-                                        </td>
-                                        <td>
-                                            <a class="text-info mr-4" href="@Url.Action("EditUser", "Admin", new { userid = user.UserName })">Edit</a>
-                                            <a class="text-danger cd-popup-trigger-list" data-item-id="@user.UserName" data-item-url="/Admin/DeleteUser?userid=">Delete</a>
-                                        </td>
-                                    </tr>
+                    <!--Table Begin-->
+                    <div class="table-responsive">
+                        <table class="table no-wrap user-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Email</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">User Type</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 0;
+                                    foreach (var user in Model)
+                                    {
+                                        i++;
+                                        <tr>
+                                            <td class="pl-4">@i</td>
+                                            <td>
+                                                <h5 class="font-medium mb-0">@user.FirstName @user.LastName</h5>
+                                                <span class="text-muted">@user.State, @user.Country</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">@user.EmailAddress</span><br>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">@user.Type</span><br>
+                                            </td>
+                                            <td>
+                                                <a class="text-info mr-4" href="@Url.Action("EditUser", "Admin", new { userid = user.UserName })">Edit</a>
+                                                <a class="text-danger cd-popup-trigger-list" data-item-id="@user.UserName" data-item-url="/Admin/DeleteUser?userid=">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Table End-->
                 </div>
             </div>
         </div>
+        <a class="btn btn-dark mt-2 col-md-12 col-xl-12" href="@Url.Action("CreateUser", "Admin")">Create User</a>
     </div>
-    <a class="btn btn-dark mt-2 col-md-12 col-xl-12" href="@Url.Action("CreateUser", "Admin")">Create User</a>
+
+    <div>
+        @{
+            var pagingOptions = new PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "page-item" },
+                UlElementClasses = new[] { "pagination", "custom-pagination" },
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                LinkToPreviousPageFormat = "<",
+                LinkToNextPageFormat = ">",
+            };
+        }
+        @Html.PagedListPager(Model, page => Url.Action("Users", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+    </div>
 </div>
 
-<div>
-    @{
-        var pagingOptions = new PagedListRenderOptions
-        {
-            LiElementClasses = new[] { "page-item" },
-            UlElementClasses = new[] { "pagination", "custom-pagination" },
-            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-            DisplayLinkToLastPage = PagedListDisplayMode.Never,
-            LinkToPreviousPageFormat = "<",
-            LinkToNextPageFormat = ">",
-        };
-    }
-    @Html.PagedListPager(Model, page => Url.Action("Users", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
-</div>
 @section Scripts{
     <script>
         function toggleDropdown() {
