@@ -1,0 +1,185 @@
+﻿@model PagedList.IPagedList<EStore.Models.TotalSales>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "SalesHistory";
+    Layout = "~/Views/_LayoutPageAdmin.cshtml";
+}
+
+<div class="custom-card bg-light mb-3 p-3">
+    <h2 class="text-center mt-2">Sales History</h2>
+    <div class="custom-card-inner p-3 mt-2 mb-2">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase mb-0">Sales List</h5>
+                            </div>
+                            <div class="col-auto">
+                                <div class="row">
+                                    @{
+                                        var dateFrom = "Start";
+                                        var dateTo = "End";
+                                        var weekintervals = ViewBag.WeekIntervals as IEnumerable<DateTime>;
+                                        if (ViewBag.DateFrom != "Start")
+                                        {
+                                            var temp = DateTime.Parse(ViewBag.DateFrom);
+                                            dateFrom = temp.ToString("dd-MM-yyyy");
+                                        }
+                                        if (ViewBag.DateTo != "End")
+                                        {
+                                            var temp = DateTime.Parse(ViewBag.DateTo);
+                                            dateTo = temp.ToString("dd-MM-yyyy");
+                                        }
+                                    }
+                                    <div class="col d-flex justify-content-start">
+                                        <div class="nav-item dropdown3" id="dropdown">
+                                            <button class="btn btn-outline-dark" onclick="toggleDropdown('3')">
+                                                <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.sortBy</div>
+                                            </button>
+                                            <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu3">
+                                                <li>
+                                                    <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = "All", dateFrom = ViewBag.DateFrom , dateTo = ViewBag.DateTo ,page = Model.PageNumber})">All</a>
+                                                </li>
+                                                <hr style="margin-top:-1%; margin-bottom:-1%" />
+                                                @{
+                                                    var categories = ViewBag.Categories as IEnumerable<string>;
+                                                    foreach (var item in categories)
+                                                    {
+                                                        <li>
+                                                            <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = item, dateFrom = ViewBag.DateFrom , dateTo = ViewBag.DateTo, page = Model.PageNumber})">@item</a>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                        <!--Date filter Dropdown-->
+                                        <div class="dropdown ml-2" id="dropdown">
+                                            <button class="btn btn-outline-dark" onclick="toggleDropdown('')">
+                                                <div class="nav-link dropdown-toggle" id="navbarDropdown">Date From:@dateFrom </div>
+                                            </button>
+                                            <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = "Start", dateTo = "End", page = Model.PageNumber})">Start</a>
+                                                </li>
+                                                <hr style="margin-top:-1%; margin-bottom:-1%" />
+                                                @{
+                                                    foreach (var item in weekintervals)
+                                                    {
+                                                        <li>
+                                                            <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = item, dateTo = ViewBag.DateTo ,page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                        <div class="dropdown ml-2" id="dropdown2">
+                                            <button class="btn btn-outline-dark" onclick="toggleDropdown('2')">
+                                                <div class="nav-link dropdown-toggle" id="navbarDropdown">Date To: @dateTo</div>
+                                            </button>
+                                            <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu2">
+                                                <li>
+                                                    <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom ="Start", dateTo = "End", page = Model.PageNumber})">End</a>
+                                                </li>
+                                                <hr style="margin-top:-1%; margin-bottom:-1%" />
+                                                @{
+                                                    foreach (var item in weekintervals)
+                                                    {
+                                                        <li>
+                                                            <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = ViewBag.DateFrom, dateTo = item, page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                        <!--Datefilter End-->
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!--Table Begin-->
+                    <div class="table-responsive">
+                        <table class="table no-wrap user-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Product Name</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Buyer</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Quantity</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Cost</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Total Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 0;
+                                    foreach (var items in Model)
+                                    {
+                                        i++;
+                                        var totalCost = items.Cost * items.Quantity;
+                                        <tr>
+                                            <td class="pl-4">@i</td>
+                                            <td>
+                                                <h5 class="font-medium mb-0">@items.ProductName </h5>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">@items.UserName</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">@items.Quantity</span><br>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">@items.Cost</span><br>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">@totalCost</span><br>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Table End-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @{
+            var pagingOptions = new PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "page-item" },
+                UlElementClasses = new[] { "pagination", "custom-pagination" },
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                LinkToPreviousPageFormat = "<",
+                LinkToNextPageFormat = ">",
+            };
+        }
+        @Html.PagedListPager(Model, page => Url.Action("SalesHistory", new { page, sortBy = ViewBag.sortBy, dateFrom = ViewBag.DateFrom, dateTo = ViewBag.dateTo }), pagingOptions)
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function toggleDropdown(id) {
+            var dropdown = document.getElementById("dropdown-menu" + id);
+            dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+            console.log("dropdown-menu" + id);
+            document.addEventListener("click", function (event) {
+                var dropdown = document.getElementById("dropdown" + id);
+                if (!dropdown.contains(event.target)) {
+                    var dropdownMenu = document.getElementById(dropdown);
+                    dropdownMenu.style.display = "none";
+                }
+            });
+        }
+    </script>
+}
+

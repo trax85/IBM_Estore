@@ -235,6 +235,33 @@ namespace EStore.Controllers
             return View("CreateEditProduct",product);
         }
 
+        public ActionResult SalesHistory(string sortBy = "All", string dateFrom = "Start", string dateTo = "End", int page = 1)
+        {
+            if (isAuthorized())
+            {
+                List<TotalSales> salesList = _productDataRepository.MapProductToCategory(_totalSalesDataRepository.GetAllPurchaseHistory());
+    
+                ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals().Select(d => d.Date).ToList();
+                ViewBag.Categories = _productDataRepository.GetProductCategories();
+                ViewBag.DateTo = dateTo;
+                ViewBag.DateFrom = dateFrom;
+                ViewBag.sortBy = sortBy;
+
+                if ((!dateTo.IsEmpty() && !dateTo.Equals("End")) && (!dateFrom.IsEmpty() && !dateFrom.Equals("Start")))
+                {
+                    salesList = salesList.Where(p => p.Timestamp >= DateTime.Parse(dateFrom) &&
+                        p.Timestamp <= DateTime.Parse(dateTo)).ToList();
+                }
+                if (!sortBy.Equals("All"))
+                {
+                    salesList = salesList.Where(p => p.Category == sortBy).ToList();
+                }
+
+                return View(salesList.OrderBy(p => p.ProductName).ToPagedList(page, pageSize));
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
 
         public bool isAuthorized() 
         {
