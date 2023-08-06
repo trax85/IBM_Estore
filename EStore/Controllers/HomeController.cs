@@ -30,6 +30,7 @@ namespace EStore.Controllers
         }
         public ActionResult Index(string sortBy = "All", int page = 1)
         {
+            isUserLogged();
             List<Product> productList = _productDataRepository.GetAllProducts();
             ViewBag.Categories = _productDataRepository.GetProductCategories();
             ViewBag.SortBy = sortBy;
@@ -38,12 +39,13 @@ namespace EStore.Controllers
             {
                 productList = productList.Where(p => p.Category == sortBy).ToList();
             }
-                
+            
             return View(productList.OrderBy(p => p.Name).ToPagedList(page, pageSize));
         }
 
         public ActionResult Product(string productName)
         {
+            isUserLogged();
             Product product = _productDataRepository.GetProduct(productName);
             if(product.Name.IsEmpty())
                 return RedirectToAction("Index");
@@ -78,9 +80,9 @@ namespace EStore.Controllers
 
         public ActionResult Checkout()
         {
-            User user = Session[Models.User.UserSessionString] as User;
-            if (user != null)
+            if (isUserLogged())
             {
+                User user = Session[Models.User.UserSessionString] as User;
                 user = _userDataRepository.GetUser(user.UserName);
                 return View(user);
             } 
@@ -130,9 +132,9 @@ namespace EStore.Controllers
 
         public ActionResult UpdateUser()
         {
-            User user = Session[Models.User.UserSessionString] as User;
-            if (user != null)
+            if (isUserLogged())
             {
+                User user = Session[Models.User.UserSessionString] as User;
                 user = _userDataRepository.GetUser(user.UserName);
                 return View(user);
             }
@@ -156,9 +158,9 @@ namespace EStore.Controllers
 
         public ActionResult ViewPurchaseHistory(string dateFrom = "Start", string dateTo = "End", int page = 1) 
         {
-            User user = Session[Models.User.UserSessionString] as User;
-            if (user != null)
+            if (isUserLogged())
             {
+                User user = Session[Models.User.UserSessionString] as User;
                 List<TotalSales> userHistory = _productDataRepository.GetImagesForTotalSales(_totalSalesDataRepository.GetPurchaseHistory(user.UserName));
                 ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals().Select(d => d.Date).ToList();
                 ViewBag.Categories = _productDataRepository.GetProductCategories();
@@ -190,6 +192,16 @@ namespace EStore.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public bool isUserLogged()
+        {
+            User user = Session[Models.User.UserSessionString] as User;
+            if(user != null)
+            {
+                if (_userDataRepository.UpdateUserStatus(user.UserName)) return true;
+            }
+            return false;
         }
 
     }
