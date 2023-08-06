@@ -50,6 +50,8 @@ namespace EStore.Models
         public int ZipCode { get; set; }
 
         public DateTime timestamp { get; set; }
+
+        public DateTime Lastseen { get; set; }
         public enum UserTypes { 
             Customer,
             Admin
