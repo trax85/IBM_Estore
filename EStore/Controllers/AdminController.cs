@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities.DataRepository;
@@ -15,9 +15,12 @@ namespace EStore.Controllers
         static int pageSize = 2;
         private readonly IUserDataRepository _userDataRepository;
         private readonly IProductDataRepository _productDataRepository;
-        public AdminController() 
+        private readonly ITotalSalesDataRepository _totalSalesDataRepository;
+        public AdminController(IUserDataRepository user, IProductDataRepository product, ITotalSalesDataRepository sales) 
         {
-        
+            _userDataRepository = user;
+            _productDataRepository = product;
+            _totalSalesDataRepository = sales;
         }
         // GET: Admin
         public ActionResult DashBoard()
