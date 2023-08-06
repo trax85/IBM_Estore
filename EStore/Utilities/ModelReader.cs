@@ -8,22 +8,6 @@ namespace EStore.Utilities
 {
     public class ModelReader
     {
-        public List<Cart> getCartList(SqlDataReader reader)
-        {
-            List<Cart> cartList = new List<Cart>();
-            while (reader.Read())
-            {
-                Cart cart = new Cart();
-                cart.Name = ReadStringColumn(reader, VariableNameHelper.GetPropertyName(() => cart.Name));
-                cart.Category = ReadStringColumn(reader, VariableNameHelper.GetPropertyName(() => cart.Category));
-                cart.Quantity = ReadInt32Column(reader, VariableNameHelper.GetPropertyName(() => cart.Quantity));
-                cart.Cost = ReadInt32Column(reader, VariableNameHelper.GetPropertyName(() => cart.Cost));
-                cartList.Add(cart);
-            }
-
-            return cartList;
-        }
-
         public AdminDashboard getDashboardCard(SqlDataReader reader)
         {
             AdminDashboard dashboard = new AdminDashboard();
