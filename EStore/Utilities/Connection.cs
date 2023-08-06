@@ -29,8 +29,9 @@ namespace EStore.Utilities
     {
         public DbSet<Models.User> UserModel { get; set; }
         public DbSet<Models.Product> ProductModel { get; set; }
-
         public DbSet<Models.ProductCategories> ProductCategoriesModel { get; set; }
+        public DbSet<Models.TotalSales> TotalSalesModel { get; set; }
+
         public SqlDbContext() : base(ConfigurationManager.ConnectionStrings["MSSQLServer"].ConnectionString) 
         { }
     }
