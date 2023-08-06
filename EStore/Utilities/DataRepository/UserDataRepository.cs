@@ -30,6 +30,7 @@ namespace EStore.Utilities
                 try
                 {
                     user.timestamp = DateTime.Now.Date;
+                    user.Lastseen = DateTime.Now;
                     _dbContext.UserModel.Add(user);
                     if (_dbContext.SaveChanges() > 0)
                         return true;
@@ -65,6 +66,7 @@ namespace EStore.Utilities
                     userToUpdate.Country = user.Country;
                     userToUpdate.State = user.State;
                     userToUpdate.ZipCode = user.ZipCode;
+                    userToUpdate.Lastseen = DateTime.Now;
                     _dbContext.SaveChanges();
                 }
                 catch (DbEntityValidationException ex)
@@ -105,6 +107,40 @@ namespace EStore.Utilities
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
             }
-        }     
+        }   
+        
+        public bool UpdateUserStatus(string userName)
+        {
+            var userToUpdate = _dbContext.UserModel.FirstOrDefault(u => u.UserName.Equals(userName));
+            if (userToUpdate != null)
+            {
+                try
+                {
+                    userToUpdate.ComfirmPassword = userToUpdate.Password;
+                    userToUpdate.Lastseen = DateTime.Now;
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            // Log or handle the validation error details
+                            System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public int GetActiveUserCount()
+        {
+            DateTime fifteenMinutesAgo = DateTime.Now.AddMinutes(-15);
+
+            return _dbContext.UserModel.Where(u => u.Lastseen >= fifteenMinutesAgo).ToList().Count;
+        }
     }
 }

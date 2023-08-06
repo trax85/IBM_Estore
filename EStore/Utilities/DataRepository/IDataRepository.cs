@@ -12,6 +12,8 @@ namespace EStore.Utilities.DataRepository
         User UpdateUser(User user);
         List<User> GetAllUsers();
         void DeleteUser(string userName);
+        bool UpdateUserStatus(string userName);
+        int GetActiveUserCount();
     }
 
     public interface IProductDataRepository

@@ -18,6 +18,11 @@ namespace EStore.Utilities.DataRepository
             throw new NotImplementedException();
         }
 
+        public int GetActiveUserCount()
+        {
+            throw new NotImplementedException();
+        }
+
         public List<User> GetAllUsers()
         {
             return DummyData.UserModelDataList;
@@ -39,6 +44,11 @@ namespace EStore.Utilities.DataRepository
                 return user;
             }
             return new User();
+        }
+
+        public bool UpdateUserStatus(string userName)
+        {
+            throw new NotImplementedException();
         }
 
         public User VerifyUser(UserLoginCredentials userCred)
