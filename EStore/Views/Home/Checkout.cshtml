@@ -4,7 +4,7 @@
     ViewBag.Title = "Checkout";
 }
 
-<main class="">
+<main class="custom-card bg-light mb-3">
     <div class="cd-popup" role="alert">
         <div class="cd-popup-container">
             <p>
@@ -28,13 +28,12 @@
             <a href="#0" class="cd-popup-close img-replace">Close</a>
         </div> <!-- cd-popup-container -->
     </div> <!-- cd-popup -->
+    <!-- Heading -->
+    <h2 class="mt-5 mb-3 text-center">Checkout form</h2>
     @using (Html.BeginForm("PlaceOrder", "Home", FormMethod.Post))
     {
         <button type="submit" id="submitButton" style="display:none;"></button>
-        <div class="container">
-            <!-- Heading -->
-            <h2 class="my-5 text-center">Checkout form</h2>
-
+        <div class="container custom-card-inner p-3 mb-3">
             <!--Grid row-->
             <div class="row">
                 <!--Grid column-->
