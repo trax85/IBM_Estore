@@ -28,17 +28,10 @@ namespace EStore.Controllers
             if (isAuthorized())
             {
                 AdminDashboard dashboard = new AdminDashboard();
-                if (HttpContext.Application["UserCount"] != null)
-                {
-                    dashboard.TotalLoggedUsers = (int)HttpContext.Application["UserCount"];
-                }
-                else
-                {
-                    dashboard.TotalLoggedUsers = 0;
-                }
 
                 DashboardDataRepository dataRepository = new DashboardDataRepository();
                 dashboard = dataRepository.GetDashBoardCardData();
+                dashboard.TotalLoggedUsers = _userDataRepository.GetActiveUserCount();
                 dataRepository = new DashboardDataRepository();
                 AdminDashboard tempDashboard = dataRepository.GetAdminDashboardTable();
                 dashboard.ProductCategories = tempDashboard.ProductCategories;
