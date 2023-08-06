@@ -1,4 +1,5 @@
-using EStore.Models;
+﻿using EStore.Models;
+using System;
 using System.Collections.Generic;
 
 namespace EStore.Utilities.DataRepository
@@ -18,10 +19,11 @@ namespace EStore.Utilities.DataRepository
         bool CreateProduct(Product product);
         bool EditProduct(Product product);
         Product GetProduct(string productName);
-        List<Cart> GetImagesForCart(List<Cart> cartItems);
+        List<TotalSales> GetImagesForTotalSales(List<TotalSales> salesItems);
         List<Product> GetAllProducts();
         List<string> GetProductCategories();
         void DeleteProduct(string productId);
+        List<TotalSales> MapProductToCategory(List<TotalSales> saleItems);
     }
 
     public interface IProductDataRepositoryV2

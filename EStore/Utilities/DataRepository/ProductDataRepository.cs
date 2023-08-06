@@ -68,20 +68,20 @@ namespace EStore.Utilities.DataRepository
             return new Product();
         }
 
-        public List<Cart> GetImagesForCart(List<Cart> cartItems)
+        public List<TotalSales> GetImagesForTotalSales(List<TotalSales> salesItems)
         {
-            for(int i = 0; i < cartItems.Count; i++)
+            for(int i = 0; i < salesItems.Count; i++)
             {
-                string itemName = cartItems[i].Name;
+                string itemName = salesItems[i].ProductName;
                 Product product = _dbContext.ProductModel.FirstOrDefault( p => p.Name.Equals(itemName));
                 
                 if (product != null)
                 {
-                    cartItems[i].ImageSrc = GetBase64ImageSrc(product.ImageData);
+                    salesItems[i].ImageSrc = GetBase64ImageSrc(product.ImageData);
                 }
             }
 
-            return cartItems;
+            return salesItems;
         }
 
         public List<Product> GetAllProducts()
@@ -137,6 +137,20 @@ namespace EStore.Utilities.DataRepository
                 _dbContext.ProductModel.Remove(findProduct);
                 _dbContext.SaveChanges();
             }
+        }
+
+        public List<TotalSales> MapProductToCategory(List<TotalSales> saleItems)
+        {
+            var products = GetAllProducts();
+            foreach (var saleItem in saleItems)
+            {
+                var product = products.FirstOrDefault(p => p.Name == saleItem.ProductName);
+                if(product != null)
+                {
+                    saleItem.Category = product.Category;
+                }
+            }
+            return saleItems;
         }
     }
 
