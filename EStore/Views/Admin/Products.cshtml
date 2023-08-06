@@ -20,87 +20,91 @@
     </div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
 
-<div class="container">
-    <h2 class="text-center mt-2 mb-4">Products Details</h2>
+<div class="custom-card bg-light container">
+    <h2 class="text-center mt-4">Products Details</h2>
 
-    <div class="row justify-content-center mb-3 mt-2">
-        <div class="col-md-12 col-xl-10">
-            <div class="nav-item dropdown" id="dropdown">
-                <button class="btn btn-outline-dark" onclick="toggleDropdown()">
-                    <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by: @ViewBag.sortBy</div>
-                </button>
-                <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
-                    </li>
-                    <hr style="margin-top:-1%; margin-bottom:-1%" />
-                    @{
-                        var categories = ViewBag.Categories as IEnumerable<string>;
-                        foreach (var item in categories)
-                        {
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
-                            </li>
+    <div class="custom-card-inner mt-2 mb-3 p-3">
+        <div class=" row justify-content-center">
+            <div class="col-md-12 col-xl-11">
+                <!--Sort Dropdown-->
+                <div class="nav-item dropdown" id="dropdown">
+                    <button class="btn btn-outline-dark" onclick="toggleDropdown()">
+                        <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.sortBy</div>
+                    </button>
+                    <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                        </li>
+                        <hr style="margin-top:-1%; margin-bottom:-1%" />
+                        @{
+                            var categories = ViewBag.Categories as IEnumerable<string>;
+                            foreach (var item in categories)
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                                </li>
+                            }
                         }
-                    }
-                </ul>
-            </div>
-            <div class="card shadow-0 border rounded-3 mt-3">
-                @foreach (var item in Model)
-                {
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                                <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                    <img src="@item.ImageSrc"
-                                         class="w-100" />
-                                    <a href="#!">
-                                        <div class="hover-overlay">
-                                            <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                                        </div>
-                                    </a>
+                    </ul>
+                </div>
+                <!--Products cart content-->
+                <div class="card shadow-0 border rounded-3 mt-2 p-2">
+                    @foreach (var item in Model)
+                    {
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                                    <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                                        <img src="@item.ImageSrc"
+                                             class="w-100" />
+                                        <a href="#!">
+                                            <div class="hover-overlay">
+                                                <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-xl-6">
-                                <h5>@item.Name</h5>
-                                <div class="d-flex flex-row">
-                                    <span class="badge bg-dark me-1">@item.Category</span>
+                                <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <h5>@item.Name</h5>
+                                    <div class="d-flex flex-row">
+                                        <span class="badge bg-dark me-1">@item.Category</span>
+                                    </div>
+                                    <div class="mt-1 mb-0 ml-8 text-muted small">
+                                        <p class="text-truncate">@item.Description</p>
+                                    </div>
                                 </div>
-                                <div class="mt-1 mb-0 ml-8 text-muted small">
-                                    <p class="text-truncate">@item.Description</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                                <div class="d-flex flex-row align-items-center mb-1">
-                                    <h4 class="mb-1 me-1">$@item.Cost</h4>
-                                </div>
-                                <div class="d-flex flex-column mt-4">
-                                    <a class="text-info mr-4" href="@Url.Action("EditProduct", "Admin", new { productId = item.Name })">Edit</a>
-                                    <a class="text-danger cd-popup-trigger-list" data-item-id="@item.Name" data-item-url="/Admin/DeleteProduct?productId=">Delete</a>
+                                <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <h4 class="mb-1 me-1">$@item.Cost</h4>
+                                    </div>
+                                    <div class="d-flex flex-column mt-4">
+                                        <a class="text-info mr-4" href="@Url.Action("EditProduct", "Admin", new { productId = item.Name })">Edit</a>
+                                        <a class="text-danger cd-popup-trigger-list" data-item-id="@item.Name" data-item-url="/Admin/DeleteProduct?productId=">Delete</a>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
+                <a class="btn btn-dark mt-2 col-md-12 col-xl-12" href="@Url.Action("CreateProduct", "Admin")">Create</a>
             </div>
-            <a class="btn btn-dark mt-2 col-md-12 col-xl-12" href="@Url.Action("CreateProduct", "Admin")">Create</a>
         </div>
     </div>
-</div>
-<div>
-    @{
-        var pagingOptions = new PagedListRenderOptions
-        {
-            LiElementClasses = new[] { "page-item" },
-            UlElementClasses = new[] { "pagination", "custom-pagination" },
-            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-            DisplayLinkToLastPage = PagedListDisplayMode.Never,
-            LinkToPreviousPageFormat = "<",
-            LinkToNextPageFormat = ">",
-        };
-    }
-    @Html.PagedListPager(Model, page => Url.Action("Products", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+    <div>
+        @{
+            var pagingOptions = new PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "page-item" },
+                UlElementClasses = new[] { "pagination", "custom-pagination" },
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                LinkToPreviousPageFormat = "<",
+                LinkToNextPageFormat = ">",
+            };
+        }
+        @Html.PagedListPager(Model, page => Url.Action("Products", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+    </div>
 </div>
 @section Scripts{
     <script>
