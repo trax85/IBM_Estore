@@ -6,17 +6,17 @@
 
 @using (Html.BeginForm("Save", "Admin", FormMethod.Post))
 {
-<div class="">
+<div class="custom-card bg-light">
         <!-- Heading -->
         @if (TempData["isEdit"] as string == "true") {
             @Html.Hidden("isEdit", true)
-            <h2 class="mb-5 text-center">Edit User</h2>
+            <h2 class="mt-3 text-center">Edit User</h2>
         } else { 
             @Html.Hidden("isEdit", false)
-            <h2 class="mb-5 text-center">Create User</h2>
+            <h2 class="mt-3 text-center">Create User</h2>
         }
         
-        <div class="row">
+        <div class="row mt-2 p-3">
             <!--Grid column-->
             <div class="">
                 <!--Card-->
