@@ -37,14 +37,42 @@
                                     </button>
                                     <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                                            @{
+                                                if (ViewBag.sortBy == "All")
+                                                {
+                                                    <a class="dropdown-item bg-info" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "All", page = Model.PageNumber})">All</a>
+                                                }
+                                            }
                                         </li>
                                         <hr style="margin-top:-1%; margin-bottom:-1%" />
                                         <li>
-                                            <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Admin", page = Model.PageNumber})">Admin</a>
+                                            @{
+                                                if (ViewBag.sortBy == "Admin")
+                                                {
+                                                    <a class="dropdown-item bg-info" href="@Url.Action("Users", "Admin", new {sortBy = "Admin", page = Model.PageNumber})">Admin</a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Admin", page = Model.PageNumber})">Admin</a>
+                                                }
+                                            }
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Customer", page = Model.PageNumber})">Customer</a>
+                                            @{
+                                                if (ViewBag.sortBy == "Customer")
+                                                {
+                                                    <a class="dropdown-item bg-info" href="@Url.Action("Users", "Admin", new {sortBy = "Customer", page = Model.PageNumber})">Customer</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="dropdown-item" href="@Url.Action("Users", "Admin", new {sortBy = "Customer", page = Model.PageNumber})">Customer</a>
+                                                }
+                                            }
                                         </li>
                                     </ul>
                                 </div>

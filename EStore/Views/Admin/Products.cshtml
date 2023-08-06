@@ -41,7 +41,15 @@
                             foreach (var item in categories)
                             {
                                 <li>
-                                    <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                                    @{ 
+                                        if(ViewBag.sortBy == item) 
+                                        {
+                                            <a class="dropdown-item bg-info" href="@Url.Action("Products", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                                           
+                                        } else { 
+                                            <a class="dropdown-item" href="@Url.Action("Products", "Admin", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                                        }
+                                    }
                                 </li>
                             }
                         }

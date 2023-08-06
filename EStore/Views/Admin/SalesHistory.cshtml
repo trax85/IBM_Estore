@@ -49,7 +49,14 @@
                                                     foreach (var item in categories)
                                                     {
                                                         <li>
-                                                            <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = item, dateFrom = ViewBag.DateFrom , dateTo = ViewBag.DateTo, page = Model.PageNumber})">@item</a>
+                                                            @{ 
+                                                                if(ViewBag.sortBy == item) 
+                                                                {
+                                                                    <a class="dropdown-item bg-info" href="@Url.Action("SalesHistory", "Admin", new {sortBy = item, dateFrom = ViewBag.DateFrom , dateTo = ViewBag.DateTo, page = Model.PageNumber})">@item</a>
+                                                                } else { 
+                                                                    <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = item, dateFrom = ViewBag.DateFrom , dateTo = ViewBag.DateTo, page = Model.PageNumber})">@item</a>
+                                                                }
+                                                            }
                                                         </li>
                                                     }
                                                 }
@@ -61,15 +68,18 @@
                                                 <div class="nav-link dropdown-toggle" id="navbarDropdown">Date From:@dateFrom </div>
                                             </button>
                                             <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = "Start", dateTo = "End", page = Model.PageNumber})">Start</a>
-                                                </li>
-                                                <hr style="margin-top:-1%; margin-bottom:-1%" />
                                                 @{
                                                     foreach (var item in weekintervals)
                                                     {
                                                         <li>
-                                                            <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = item, dateTo = ViewBag.DateTo ,page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                            @{ 
+                                                                if(dateFrom == @item.ToString("dd-MM-yyyy")) 
+                                                                { 
+                                                                   <a class="dropdown-item bg-info" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = item, dateTo = ViewBag.DateTo ,page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                                } else {
+                                                                   <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = item, dateTo = ViewBag.DateTo ,page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                                }
+                                                            }
                                                         </li>
                                                     }
                                                 }
@@ -80,15 +90,18 @@
                                                 <div class="nav-link dropdown-toggle" id="navbarDropdown">Date To: @dateTo</div>
                                             </button>
                                             <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu2">
-                                                <li>
-                                                    <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom ="Start", dateTo = "End", page = Model.PageNumber})">End</a>
-                                                </li>
-                                                <hr style="margin-top:-1%; margin-bottom:-1%" />
                                                 @{
                                                     foreach (var item in weekintervals)
                                                     {
                                                         <li>
-                                                            <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = ViewBag.DateFrom, dateTo = item, page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                            @{ 
+                                                                if(dateTo == @item.ToString("dd-MM-yyyy")) 
+                                                                { 
+                                                                    <a class="dropdown-item bg-info" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = ViewBag.DateFrom, dateTo = item, page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                                } else { 
+                                                                    <a class="dropdown-item" href="@Url.Action("SalesHistory", "Admin", new {sortBy = ViewBag.sortBy, dateFrom = ViewBag.DateFrom, dateTo = item, page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                                                }
+                                                            }
                                                         </li>
                                                     }
                                                 }
