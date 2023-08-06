@@ -6,21 +6,21 @@
 }
 
 <main>
-    <header class="bg-dark py-5">
-        <div class="container px-4 px-lg-5 my-5">
+    <header class="custom-card bg-dark py-2 custom-shop-card">
+        <div class="container px-4 px-lg-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Shop in style</h1>
-                <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                <h1 class="fw-bolder mt-5" style="font-size:4em;">Shop in style</h1>
+                <p class="lead fw-normal text-black" style="margin-top:-5%">Get 50% off on all products</p>
             </div>
         </div>
     </header>
     <!-- Section-->
-    <section class="py-5">
-        <div class="nav-item dropdown" id="dropdown">
+    <section class="custom-card bg-light mt-3 p-2 px-3">
+        <div class="nav-item dropdown mt-3" id="dropdown">
             <button class="btn btn-outline-dark" onclick="toggleDropdown()">
-                <div class="nav-link dropdown-toggle" id="navbarDropdown">Sort by: @ViewBag.SortBy</div>
+                <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.SortBy</div>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-menu">
+            <ul class="dropdown-menu mt-2" aria-labelledby="navbarDropdown" id="dropdown-menu">
                 <li>
                     <a class="dropdown-item" href="@Url.Action("Index", "Home", new {type = "All"})">All</a>
                 </li>
@@ -36,34 +36,39 @@
                 }
             </ul>
         </div>
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                @foreach (var item in Model)
-                {
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-body custom-image-home-view" src="@item.ImageSrc" alt="..."/>
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">@item.Name</h5>
-                                    <!-- Product price-->
-                                    $@item.Cost
+
+        <div class="custom-card-inner mt-2">
+            <div class="container px-4 px-lg-5 mt-5 justify-content-center">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col mb-5">
+                            <div class="card h-100">
+                                <!-- Product image-->
+                                <img class="card-body custom-image-home-view" src="@item.ImageSrc" alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder">@item.Name</h5>
+                                        <!-- Product price-->
+                                        $@item.Cost
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="@Url.Action("Product", "Home", new { productName = item.Name})">
-                                        View options
-                                    </a>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="@Url.Action("Product", "Home", new { productName = item.Name})">
+                                            View options
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
+            </div>
+        </div>
     </section>
     
     <div class="pagination-container">
