@@ -1,5 +1,7 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.WebPages;
@@ -129,7 +131,6 @@ namespace EStore.Controllers
         public ActionResult UpdateUser()
         {
             User user = Session[Models.User.UserSessionString] as User;
-            System.Diagnostics.Debug.WriteLine("user:" + user.UserName);
             if (user != null)
             {
                 user = _userDataRepository.GetUser(user.UserName);

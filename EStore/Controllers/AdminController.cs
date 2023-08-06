@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities.DataRepository;
@@ -12,7 +12,7 @@ namespace EStore.Controllers
 {
     public class AdminController : Controller
     {
-        static int pageSize = 2;
+        static int pageSize = 4;
         private readonly IUserDataRepository _userDataRepository;
         private readonly IProductDataRepository _productDataRepository;
         private readonly ITotalSalesDataRepository _totalSalesDataRepository;
