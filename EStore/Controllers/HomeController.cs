@@ -153,22 +153,25 @@ namespace EStore.Controllers
             return View(user);
         }
 
-        public ActionResult ViewPurchaseHistory(string sortBy = "All", int page = 1) 
+        public ActionResult ViewPurchaseHistory(string dateFrom = "Start", string dateTo = "End", int page = 1) 
         {
             User user = Session[Models.User.UserSessionString] as User;
             if (user != null)
             {
-                List<Cart> userCartList = _productDataRepository.GetImagesForCart(_cartDataRepository.GetPurchaseHistory(user.UserName));
+                List<TotalSales> userHistory = _productDataRepository.GetImagesForTotalSales(_totalSalesDataRepository.GetPurchaseHistory(user.UserName));
+                ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals().Select(d => d.Date).ToList();
                 ViewBag.Categories = _productDataRepository.GetProductCategories();
-                ViewBag.SortBy = sortBy;
+                ViewBag.DateTo = dateTo;
+                ViewBag.DateFrom = dateFrom;
 
-                System.Diagnostics.Debug.WriteLine("Count" + _productDataRepository.GetProductCategories().Count);
-
-                if (!sortBy.Equals("All"))
+                if ((!dateTo.IsEmpty() && !dateTo.Equals("End")) && (!dateFrom.IsEmpty() && !dateFrom.Equals("Start")))
                 {
-                    userCartList = userCartList.Where(p => p.Category == sortBy).ToList();
+                    userHistory = userHistory.Where(p => p.Timestamp >= DateTime.Parse(dateFrom) && 
+                        p.Timestamp <= DateTime.Parse(dateTo)).ToList();
                 }
-                return View(userCartList.OrderBy(p => p.Name).ToPagedList(page, pageSize - 4));
+
+                
+                return View(userHistory.OrderBy(p => p.ProductName).ToPagedList(page, pageSize - 4));
             }
 
             return RedirectToAction("SignIn", "Login");

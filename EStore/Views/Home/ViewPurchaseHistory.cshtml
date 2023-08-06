@@ -1,73 +1,104 @@
-﻿@model PagedList.IPagedList<EStore.Models.Cart>
+﻿@model PagedList.IPagedList<EStore.Models.TotalSales>
 @using PagedList.Mvc
 
 @{
     ViewBag.Title = "ViewPurchaseHistory";
 }
 
-<main>
+<div class="custom-card bg-light mb-3">
     <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <h2 class="my-5 text-center">Purchase History</h2>
-            <!-- List group-->
-            <!--Filter button-->
-            <div class="nav-item dropdown" id="dropdown">
-                <button class="btn btn-outline-dark" onclick="toggleDropdown()">
-                    <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.sortBy</div>
-                </button>
-                <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {sortBy = "All", page = Model.PageNumber})">All</a>
-                    </li>
-                    <hr style="margin-top:-1%; margin-bottom:-1%" />
+        <div class="col-lg-9 mx-auto">
+            <h2 class="mt-5 text-center">Purchase History</h2>
+            <div class="custom-card-inner p-5 mt-2">
+                <div class="row">
+                    <!--Filter button-->
                     @{
-                        var categories = ViewBag.Categories as IEnumerable<string>;
-                        foreach (var item in categories)
+                        var dateFrom = "Start";
+                        var dateTo = "End";
+                        var weekintervals = ViewBag.WeekIntervals as IEnumerable<DateTime>;
+                        if(ViewBag.DateFrom != "Start")
                         {
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {sortBy = item, page = Model.PageNumber})">@item</a>
+                            var temp = DateTime.Parse(ViewBag.DateFrom);
+                            dateFrom = temp.ToString("dd-MM-yyyy");
+                        }
+                        if(ViewBag.DateTo != "End")
+                        {
+                            var temp = DateTime.Parse(ViewBag.DateTo);
+                            dateTo = temp.ToString("dd-MM-yyyy");
+                        }
+                    }
+                    <div class="col d-flex justify-content-start">
+                        <div class="dropdown" id="dropdown">
+                            <button class="btn btn-outline-dark" onclick="toggleDropdown('')">
+                                <div class="nav-link dropdown-toggle" id="navbarDropdown">Date From:@dateFrom </div>
+                            </button>
+                            <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {dateFrom = "Start", dateTo = "End", page = Model.PageNumber})">Start</a>
+                                </li>
+                                <hr style="margin-top:-1%; margin-bottom:-1%" />
+                                @{
+                                    foreach (var item in weekintervals)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {dateFrom = item, dateTo = ViewBag.DateTo ,page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="dropdown ml-2" id="dropdown2">
+                            <button class="btn btn-outline-dark" onclick="toggleDropdown('2')">
+                                <div class="nav-link dropdown-toggle" id="navbarDropdown">Date To: @dateTo</div>
+                            </button>
+                            <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu2">
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {dateFrom ="Start", dateTo = "End", page = Model.PageNumber})">End</a>
+                                </li>
+                                <hr style="margin-top:-1%; margin-bottom:-1%" />
+                                @{
+                                    foreach (var item in weekintervals)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home", new {dateFrom = ViewBag.DateFrom, dateTo = item, page = Model.PageNumber})">@item.ToString("dd-MM-yyyy")</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- List group-->
+                <ul class="list-group mt-2">
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <!-- list group item-->
+                            <li class="list-group-item">
+                                <!-- Custom content-->
+                                <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                                    <div class="media-body order-2 order-lg-1">
+                                        <h5 class="mt-0 font-weight-bold mb-2">@item.ProductName</h5>
+                                        <p class=" text-muted mb-0 small fw-bold">
+                                            Quantity: @item.Quantity
+                                        </p>
+                                        <div class="d-flex align-items-center justify-content-between mt-1">
+                                            @{
+                                                var totalCost = item.Cost * item.Quantity;
+                                            }
+                                            <h6 class="font-weight-bold my-2">$@totalCost</h6>
+                                        </div>
+                                        <p class=" text-muted mb-0 small fw-bold">Purchased On: @item.Timestamp.ToString("dd-MM-yyyy")</p>
+                                    </div>
+                                    <img src="@item.ImageSrc" class="ml-lg-5 order-1 order-lg-2" />
+                                </div>
+                                <!-- End -->
                             </li>
                         }
                     }
                 </ul>
+                <!-- End -->
             </div>
-            <ul class="list-group mt-2">
-                @{
-                    foreach (var item in Model)
-                    {
-                        <!-- list group item-->
-                        <li class="list-group-item">
-                            <!-- Custom content-->
-                            <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                                <div class="media-body order-2 order-lg-1">
-                                    <h5 class="mt-0 font-weight-bold mb-2">@item.Name</h5>
-                                    <p class=" text-muted mb-0 small fw-bold">
-                                        Quantity: @item.Quantity
-                                    </p>
-                                    <div class="d-flex align-items-center justify-content-between mt-1">
-                                        @{
-                                            var totalCost = item.Cost * item.Quantity;
-                                        }
-                                        <h6 class="font-weight-bold my-2">$@totalCost</h6>
-                                        <ul class="list-inline small">
-                                            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                            <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <img src="@item.ImageSrc" class="ml-lg-5 order-1 order-lg-2" />
-                            </div>
-                            <!-- End -->
-                        </li>
-
-                    }
-                }
-
-            </ul>
-            <!-- End -->
         </div>
     </div>
     <div>
@@ -82,11 +113,24 @@
                 LinkToNextPageFormat = ">",
             };
         }
-        @Html.PagedListPager(Model, page => Url.Action("ViewPurchaseHistory", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+        @Html.PagedListPager(Model, page => Url.Action("ViewPurchaseHistory", new { page, dateFrom = ViewBag.DateFrom ,dateTo = ViewBag.dateTo }), pagingOptions)
     </div>
-</main>
+</div>
 
 @section Scripts{
-    <script src="~/Scripts/scripts.js"></script>    
+    <script>
+        function toggleDropdown(id) {
+            var dropdown = document.getElementById("dropdown-menu" + id);
+            dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+            console.log("dropdown-menu" + id);
+            document.addEventListener("click", function (event) {
+                var dropdown = document.getElementById("dropdown" + id);
+                if (!dropdown.contains(event.target)) {
+                    var dropdownMenu = document.getElementById(dropdown);
+                    dropdownMenu.style.display = "none";
+                }
+            });
+        }
+    </script>
 }
 
