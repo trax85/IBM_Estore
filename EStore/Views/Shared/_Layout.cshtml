@@ -24,7 +24,6 @@
         }
 
         .main-content {
-            padding: 20px;
             /* Set a minimum height to fill at least the viewport */
             min-height: calc(100vh - 143px); /* 100px for header and footer height */
         }
@@ -34,7 +33,7 @@
     <div class="wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                @Html.ActionLink("EStore", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("eStore.com", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -73,12 +72,12 @@
                 </div>
             </div>
         </nav>
-        <div class="container body-content main-content">
+        <div class="custom-container body-content main-content">
             @RenderBody()
         </div>
         <!-- Footer-->
         <footer class="py-4 bg-dark" style="left: 0; bottom: 0; width: 100%;">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; eStore.com 2023</p></div>
         </footer>
     </div>
     <!-- Bootstrap core JS-->
