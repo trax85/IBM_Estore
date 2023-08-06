@@ -18,19 +18,42 @@
     <section class="custom-card bg-light mt-3 p-2 px-3 mb-3">
         <div class="nav-item dropdown mt-3" id="dropdown">
             <button class="btn btn-outline-dark" onclick="toggleDropdown('')">
-                <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.SortBy</div>
+                <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by</div>
             </button>
             <ul class="dropdown-menu mt-2" aria-labelledby="navbarDropdown" id="dropdown-menu">
                 <li>
                     <a class="dropdown-item" href="@Url.Action("Index", "Home", new {type = "All"})">All</a>
                 </li>
-                <hr style="margin-top:-1%; margin-bottom:-1%" />
                 @{
                     var productTypes = ViewBag.Categories as IEnumerable<string>;
                     foreach (var item in productTypes)
                     {
                         <li>
-                            <a class="dropdown-item" href="@Url.Action("Index", "Home", new { sortBy = item})">@item</a>
+                            @if (item == ViewBag.SortBy)
+                            {
+                                <a class="dropdown-item bg-info" href="@Url.Action("Index", "Home", new { sortBy = item, orderBy = ViewBag.OrderBy})">@item</a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" href="@Url.Action("Index", "Home", new { sortBy = item,  orderBy = ViewBag.OrderBy})">@item</a>
+                            }
+                        </li>
+                    }
+                }
+                <hr style="margin-top:-1%; margin-bottom:-1%" />
+                @{
+                    var orderTypes = ViewBag.OrderList as IEnumerable<string>;
+                    foreach (var item in orderTypes)
+                    {
+                        <li>
+                            @if (item == ViewBag.OrderBy)
+                            {
+                                <a class="dropdown-item bg-info" href="@Url.Action("Index", "Home", new { sortBy = ViewBag.SortBy, orderBy = item})">@item</a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" href="@Url.Action("Index", "Home", new { sortBy = ViewBag.SortBy, orderBy = item})">@item</a>
+                            }
                         </li>
                     }
                 }
@@ -92,7 +115,7 @@
                     LinkToNextPageFormat = ">",
                 };
             }
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.sortBy, orderBy = ViewBag.OrderBy }), pagingOptions)
         </div>
     </section>
     

@@ -28,19 +28,41 @@ namespace EStore.Controllers
             _totalSalesDataRepository = cart;
             _productDataRepositoryV2 = productV2;
         }
-        public ActionResult Index(string sortBy = "All", int page = 1)
+        public ActionResult Index(string sortBy = "All",string orderBy = "A-Z", int page = 1)
         {
             isUserLogged();
             List<Product> productList = _productDataRepository.GetAllProducts();
             ViewBag.Categories = _productDataRepository.GetProductCategories();
+            List<string> orderList = new List<string>() {
+                "A-Z",
+                "Z-A",
+                "$ Low-High",
+                "$ High-Low"
+            };
             ViewBag.SortBy = sortBy;
+            ViewBag.OrderList = orderList;
+            ViewBag.OrderBy = orderBy;
 
             if (!sortBy.Equals("All"))
             {
                 productList = productList.Where(p => p.Category == sortBy).ToList();
             }
+
+            if(orderBy == orderList[2])
+            {
+                productList = productList.OrderBy(p => p.Cost).ToList();
+            } else if(orderBy == orderList[3])
+            {
+                productList = productList.OrderByDescending(p => p.Cost).ToList();
+            } else if(orderBy == orderList[1])
+            {
+                productList = productList.OrderByDescending(p => p.Name).ToList();
+            } else
+            {
+                productList = productList.OrderBy(p => p.Name).ToList();
+            }
             
-            return View(productList.OrderBy(p => p.Name).ToPagedList(page, pageSize));
+            return View(productList.ToPagedList(page, pageSize));
         }
 
         public ActionResult Product(string productName)
