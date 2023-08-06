@@ -15,9 +15,9 @@
         </div>
     </header>
     <!-- Section-->
-    <section class="custom-card bg-light mt-3 p-2 px-3">
+    <section class="custom-card bg-light mt-3 p-2 px-3 mb-3">
         <div class="nav-item dropdown mt-3" id="dropdown">
-            <button class="btn btn-outline-dark" onclick="toggleDropdown()">
+            <button class="btn btn-outline-dark" onclick="toggleDropdown('')">
                 <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.SortBy</div>
             </button>
             <ul class="dropdown-menu mt-2" aria-labelledby="navbarDropdown" id="dropdown-menu">
@@ -40,51 +40,62 @@
         <div class="custom-card-inner mt-2">
             <div class="container px-4 px-lg-5 mt-5 justify-content-center">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    @foreach (var item in Model)
-                    {
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <!-- Product image-->
-                                <img class="card-body custom-image-home-view" src="@item.ImageSrc" alt="..." />
-                                <!-- Product details-->
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                        <h5 class="fw-bolder">@item.Name</h5>
-                                        <!-- Product price-->
-                                        $@item.Cost
+                    @{
+                        if (Model.Count == 0)
+                        {
+                            <p class="text-md-center text-muted fw-bold mt-5">No Data To display :(</p>
+                        }
+                        else
+                        {
+                            <!--Product Listing begins-->
+                            foreach (var item in Model)
+                            {
+                                <div class="col mb-5">
+                                    <div class="card h-100">
+                                        <!-- Product image-->
+                                        <img class="card-body custom-image-home-view" src="@item.ImageSrc" alt="..." />
+                                        <!-- Product details-->
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <!-- Product name-->
+                                                <h5 class="fw-bolder">@item.Name</h5>
+                                                <!-- Product price-->
+                                                $@item.Cost
+                                            </div>
+                                        </div>
+                                        <!-- Product actions-->
+                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                            <div class="text-center">
+                                                <a class="btn btn-outline-dark mt-auto" href="@Url.Action("Product", "Home", new { productName = item.Name})">
+                                                    View options
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Product actions-->
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="@Url.Action("Product", "Home", new { productName = item.Name})">
-                                            View options
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                <!--Product listing Ends-->
+                            }
+                        }
                     }
                 </div>
             </div>
         </div>
+        <div class="pagination-container">
+            @{
+                var pagingOptions = new PagedListRenderOptions
+                {
+                    LiElementClasses = new[] { "page-item" },
+                    UlElementClasses = new[] { "pagination", "custom-pagination" },
+                    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                    DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                    LinkToPreviousPageFormat = "<",
+                    LinkToNextPageFormat = ">",
+                };
+            }
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
+        </div>
     </section>
     
-    <div class="pagination-container">
-        @{
-            var pagingOptions = new PagedListRenderOptions
-            {
-                LiElementClasses = new[] { "page-item" },
-                UlElementClasses = new[] { "pagination", "custom-pagination" },
-                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-                DisplayLinkToLastPage = PagedListDisplayMode.Never,
-                LinkToPreviousPageFormat = "<",
-                LinkToNextPageFormat = ">",
-            };
-        }
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.sortBy }), pagingOptions)
-    </div>
     <script src="~/Scripts/scripts.js">
 
     </script>

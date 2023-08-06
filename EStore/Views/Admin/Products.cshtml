@@ -29,7 +29,7 @@
                 <!--Sort Dropdown-->
                 <div class="nav-item dropdown" id="dropdown">
                     <button class="btn btn-outline-dark" onclick="toggleDropdown()">
-                        <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter by: @ViewBag.sortBy</div>
+                        <div class="nav-link dropdown-toggle" id="navbarDropdown">Filter Categories: @ViewBag.sortBy</div>
                     </button>
                     <ul class="dropdown-menu mt-1" aria-labelledby="navbarDropdown" id="dropdown-menu">
                         <li>
@@ -73,14 +73,13 @@
                                         <p class="text-truncate">@item.Description</p>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                                    <div class="d-flex flex-row align-items-center mb-1">
+                                <div class="col-md-6 col-xl-3 border-sm-start-none border-start">
+                                    <div class="d-flex flex-row align-items-center mb-5">
                                         <h4 class="mb-1 me-1">$@item.Cost</h4>
                                     </div>
-                                    <div class="d-flex flex-column mt-4">
-                                        <a class="text-info mr-4" href="@Url.Action("EditProduct", "Admin", new { productId = item.Name })">Edit</a>
-                                        <a class="text-danger cd-popup-trigger-list" data-item-id="@item.Name" data-item-url="/Admin/DeleteProduct?productId=">Delete</a>
-
+                                    <div class="d-flex flex-column mt-5">
+                                        <a class="btn btn-outline-info" href="@Url.Action("EditProduct", "Admin", new { productId = item.Name })">Edit</a>
+                                        <a class="btn btn-outline-danger cd-popup-trigger-list mt-2" data-item-id="@item.Name" data-item-url="/Admin/DeleteProduct?productId=">Delete</a>
                                     </div>
                                 </div>
                             </div>
