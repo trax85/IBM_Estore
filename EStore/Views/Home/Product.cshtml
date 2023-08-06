@@ -4,14 +4,14 @@
 }
 
 <!--Main layout-->
-<main class="mt-5 pt-4">
-        <div class="container mt-5">
+<main class=" pt-4">
+        <div class="container mt-5 custom-card bg-light mb-3">
             <!--Grid row-->
             <div class="row">
                 <!--Grid column-->
                 <div class="col-md-6 mb-4">
                     <!--Product Image-->
-                    <img src="@Model.ImageSrc" class="custom-image-product-view"/>
+                    <img src="@Model.ImageSrc" class="custom-image-product-view rounded-2"/>
                 </div>
                 <!--Grid column-->
                 <div class="col-md-6 mb-4">
@@ -35,15 +35,13 @@
                         {
                             <form class="d-flex justify-content-left">
                                 <!-- Default input -->
-                                <div class="form-outline me-1" style="width: 15%;">
+                                <div class="form-outline me-1" style="width: 26%;">
                                     <input type="number" value="1" class="form-control" id="addToCartInputBox" name="quantity" />
-                                    @Html.HiddenFor(m => m.Name)
-                                    @Html.HiddenFor(m => m.Cost)
-                                    @Html.HiddenFor(m => m.Category)
                                 </div>
-
-                                <br />
-                                <button class="btn btn-outline-dark" type="submit"
+                                @Html.HiddenFor(m => m.Name)
+                                @Html.HiddenFor(m => m.Cost)
+                                @Html.HiddenFor(m => m.Category)
+                                <button class="btn btn-outline-dark mt-2" type="submit"
                                         id="cartAddButton">
                                     Add to cart
                                     <i class="bi-cart-fill me-1"></i>
@@ -58,16 +56,15 @@
             <!--Grid row-->
             <hr />
             <!--Grid row-->
-            <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center mb-3">
                 <!--Grid column-->
-                <div class="col-md-6 text-center">
+                <div class="col-md-7 text-center custom-card-inner px-4">
                     <h4 class="my-4 h4">Additional information</h4>
 
                     <p>@Model.AdditionalDescription</p>
                 </div>
                 <!--Grid column-->
             </div>
-            <br /><br/>
-        </div>
-        <script src="~/Scripts/scripts.js"/>
-    </main>
+          </div>
+        <script src="~/Scripts/scripts.js"></script>
+</main>
