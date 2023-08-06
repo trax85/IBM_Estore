@@ -5,20 +5,20 @@
 
 @using (Html.BeginForm("SaveProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div class="">
+    <div class="custom-card bg-light">
         <!-- Heading -->
         @if (TempData["isEdit"] as string == "false")
         {
             @Html.Hidden("isEdit", false)
-            <h2 class="mb-5 text-center">Create Product</h2>
+            <h2 class="mt-3 text-center">Create Product</h2>
         }
         else
         {
             @Html.Hidden("isEdit", true)
-            <h2 class="mb-5 text-center">Edit Product</h2>
+            <h2 class="mt-3 text-center">Edit Product</h2>
         }
 
-        <div class="row">
+        <div class="row mt-2 p-3">
             <!--Grid column-->
             <div class="">
                 <!--Card-->
@@ -34,9 +34,9 @@
 
                         </div>
                         <!--Grid column-->
-                        <div class="col-md-6" style="max-width:400px;max-height:400px;">
+                        <div class="" style="max-width:400px;max-height:400px;">
                             <!-- Display the image if available -->
-                            <img id="previewImage" src="@Model.ImageSrc" class="custom-image-edit-view" style=""/>
+                            <img id="previewImage" src="@Model.ImageSrc" class="custom-image-edit-view ml-4" />
                         </div>
                     </div>
                     <!--Grid row-->
@@ -46,12 +46,12 @@
                         @if (Model.Name.IsEmpty())
                         {
                             @Html.TextBoxFor(m => m.Name, new
-                       {
-                           @class = "form-control",
-                           placeholder = "Product Name",
-                           required = "required",
-                           value = Model.Name
-                       })
+                            {
+                                @class = "form-control",
+                                placeholder = "Product Name",
+                                required = "required",
+                                value = Model.Name
+                            })
                             @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:red" })
                         }
                         else
@@ -65,12 +65,12 @@
                     <label class="form-label" for="typeText">Description</label>
                     <div class="input-group mb-1">
                         @Html.TextAreaFor(m => m.Description, new
-                   {
-                       @class = "form-control col-8",
-                       placeholder = "Username",
-                       required = "required"
+                       {
+                           @class = "form-control col-8",
+                           placeholder = "Product Description",
+                           required = "required"
 
-                   })
+                       })
                     </div>
                     @Html.ValidationMessageFor(m => m.Description, "", new { @style = "color:red" })
 
@@ -78,12 +78,12 @@
                     <label class="form-label" for="typeText">Additional Description</label>
                     <div class="input-group mb-1">
                         @Html.TextAreaFor(m => m.AdditionalDescription, new
-                   {
-                       @class = "form-control col-8",
-                       placeholder = "Additonal Details",
-                       value = Model.AdditionalDescription,
-                       required = "required"
-                   })
+                       {
+                           @class = "form-control col-8",
+                           placeholder = "Additonal Details",
+                           value = Model.AdditionalDescription,
+                           required = "required"
+                       })
                     </div>
                     @Html.ValidationMessageFor(m => m.AdditionalDescription, "", new { @style = "color:red", @class = "mb-2" })
 
@@ -91,12 +91,12 @@
                     <label class="form-label" for="typeText">Cost</label>
                     <div class="input-group mb-1">
                         @Html.TextBoxFor(m => m.Cost, new
-                   {
-                       @class = "form-control",
-                       placeholder = "1200",
-                       value = Model.Cost,
-                       required = "required"
-                   })
+                       {
+                           @class = "form-control",
+                           placeholder = "1200",
+                           value = Model.Cost,
+                           required = "required"
+                       })
                     </div>
                     @Html.ValidationMessageFor(m => m.Cost, "", new { @style = "color:red", @class = "mb-2" })
 
