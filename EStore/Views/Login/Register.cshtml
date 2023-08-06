@@ -17,8 +17,10 @@
 <body>
     <div class="sidenav">
         <div class="login-main-text">
-            <h1>EStore</h1><h2> Registration Page</h2>
-            <p>Become a member of EStore.com</p>
+            <h1 style="color:aliceblue;display:inline">eStore</h1>
+            <p style="display:inline">.com</p>
+            <h2> Registration Page</h2>
+            <p>Become a member of eStore</p>
         </div>
     </div>
     <div class="main">
@@ -66,8 +68,10 @@
                             </div>
                             <!--Grid row-->
                             <!--Username-->
-                            <div class="input-group mb-2">
-                                <span class="input-group-text" id="basic-addon1"></span>
+                            <p class="mb-0">
+                                Username
+                            </p>
+                            <div class="input-group mb-4">
                                 @Html.TextBoxFor(m => m.UserName, new
                                 {
                                     @class = "form-control",
@@ -82,8 +86,10 @@
                             }
 
                             <!--Password-->
+                            <p class="mb-0">
+                                Password
+                            </p>
                             <div class="input-group mb-4">
-                                <span class="input-group-text" id="basic-addon1"></span>
                                 @Html.PasswordFor(m => m.Password, new
                                 {
                                     @class = "form-control",
@@ -94,8 +100,10 @@
                             </div>
 
                             <!--ConfirmPassword-->
+                            <p class="mb-0">
+                                Confirm Password
+                            </p>
                             <div class="input-group mb-4">
-                                <span class="input-group-text" id="basic-addon1"></span>
                                 @Html.PasswordFor(m => m.ComfirmPassword, new
                                 {
                                     @class = "form-control",
@@ -169,14 +177,18 @@
                                         @Html.TextBoxFor(m => m.ZipCode, new
                                         {
                                             @class = "form-control",
-                                            placeholder = "",
+                                            placeholder = "XXXXXX",
+                                            required = "required"
                                         })
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-black" style="margin-left:3%">Submit</button>
-                                <input type="button" value="Cancle" class="btn btn-secondary"
+                                <hr class="d-inline" />
+                                <button type="submit" class="btn btn-outline-dark" style="margin-left:3%; width:100%">
+                                    Submit
+                                </button>
+                                <input type="button" value="Cancle" class="btn btn-dark mt-2"
                                        onclick="@("window.location.href='" + @Url.Action("SignIn", "Login") + "'");"
-                                       style="margin-left:2%" />
+                                       style="margin-left:3%; width:100%" />
                                 <!--Grid column-->
                             </div>
                         </div>
