@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities.DataRepository;
@@ -13,6 +13,8 @@ namespace EStore.Controllers
     public class AdminController : Controller
     {
         static int pageSize = 4;
+        private readonly string RedirectAction = "Index";
+        private readonly string ReadirectController = "Home";
         private readonly IUserDataRepository _userDataRepository;
         private readonly IProductDataRepository _productDataRepository;
         private readonly ITotalSalesDataRepository _totalSalesDataRepository;
@@ -41,7 +43,7 @@ namespace EStore.Controllers
                 return View(dashboard);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         public ActionResult Users(string sortBy = "All", int page = 1)
@@ -51,7 +53,6 @@ namespace EStore.Controllers
                 List<User> userList = new List<User>();
                 UserDataRepository dataRepository = new UserDataRepository();
                 userList = dataRepository.GetAllUsers();
-                System.Diagnostics.Debug.WriteLine("sort:" + sortBy);
                 ViewBag.sortBy = sortBy;
 
                 if (!sortBy.Equals("All"))
@@ -61,7 +62,7 @@ namespace EStore.Controllers
                 }
                 return View(userList.OrderBy(p => p.FirstName).ToPagedList(page, pageSize));
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         public ActionResult CreateUser()
@@ -72,7 +73,7 @@ namespace EStore.Controllers
                 User user = new User();
                 return View("CreateEditUser", user);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         public ActionResult EditUser(string userid)
@@ -87,7 +88,7 @@ namespace EStore.Controllers
 
                 return RedirectToAction("Users");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         [HttpPost]
@@ -122,7 +123,7 @@ namespace EStore.Controllers
 
                 return RedirectToAction("Users");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         public ActionResult Products(string sortBy = "All", int page = 1)
@@ -142,7 +143,7 @@ namespace EStore.Controllers
                 }                 
                 return View(productList.OrderBy(p => p.Name).ToPagedList(page, pageSize));
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         public ActionResult CreateProduct()
@@ -159,7 +160,7 @@ namespace EStore.Controllers
 
                 return View("CreateEditProduct", product);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         public ActionResult EditProduct(string productId)
@@ -179,7 +180,7 @@ namespace EStore.Controllers
                 return RedirectToAction("Products");
             }
 
-            return RedirectToAction("Index", "Home"); 
+            return RedirectToAction(RedirectAction, ReadirectController); 
         }
 
         public ActionResult DeleteProduct(string productId)
@@ -191,7 +192,7 @@ namespace EStore.Controllers
 
                 return RedirectToAction("Products");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         [HttpPost]
@@ -252,7 +253,7 @@ namespace EStore.Controllers
 
                 return View(salesList.OrderBy(p => p.ProductName).ToPagedList(page, pageSize));
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         public ActionResult ContactInfo()
@@ -263,7 +264,7 @@ namespace EStore.Controllers
                 return View(contact);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(RedirectAction, ReadirectController);
         }
 
         [HttpPost]
