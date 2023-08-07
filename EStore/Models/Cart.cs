@@ -17,5 +17,6 @@ namespace EStore.Models
         public string Category { get; set; }
         public int Cost { get; set; }
         public int Quantity { get; set; }
+        public string PaymentType { get; set; }
     }
 }

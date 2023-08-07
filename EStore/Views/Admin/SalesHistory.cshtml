@@ -122,6 +122,7 @@
                                     <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Product Name</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Buyer</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Payment Type</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Quantity</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Cost</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Total Cost</th>
@@ -144,24 +145,27 @@
                                         {
                                             i++;
                                             var totalCost = items.Cost * items.Quantity;
-                                            <tr>
-                                                <td class="pl-4">@i</td>
-                                                <td>
-                                                    <h5 class="font-medium mb-0">@items.ProductName </h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted">@items.UserName</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted">@items.Quantity</span><br>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted">@items.Cost</span><br>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted">@totalCost</span><br>
-                                                </td>
-                                            </tr>
+                            <tr>
+                                <td class="pl-4">@i</td>
+                                <td>
+                                    <h5 class="font-medium mb-0">@items.ProductName </h5>
+                                </td>
+                                <td>
+                                    <span class="text-muted">@items.UserName</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">@items.PaymentType</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">@items.Quantity</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">@items.Cost</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">@totalCost</span><br>
+                                </td>
+                            </tr>
                                         }
                                     }
                                 }
