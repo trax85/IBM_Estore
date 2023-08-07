@@ -109,7 +109,6 @@ namespace EStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                System.Diagnostics.Debug.WriteLine("hete");
                 User temp = _userDataRepository.GetUser(user.UserName);
                 if (!temp.UserName.IsEmpty())
                 {
@@ -120,24 +119,12 @@ namespace EStore.Controllers
                     }
                     else
                     {
-                        ViewBag.Error = "Password same as before, please change password";
+                        ViewBag.Error = "Password same as before, please enter a diffrent password";
                         return View(user);
                     }
                 }
-                else ViewBag.Error = "server encountered an error, please try again clicking the link in the inbox.";
-                System.Diagnostics.Debug.WriteLine("dead");
             }
-            if (!ModelState.IsValid)
-            {
-                foreach (var modelStateValue in ModelState.Values)
-                {
-                    foreach (var error in modelStateValue.Errors)
-                    {
-                        System.Diagnostics.Debug.WriteLine(error);
-                    }
-                }
-            }
-                System.Diagnostics.Debug.WriteLine("fully dead" + user.UserName);
+            
             return View(user);
         }
 
