@@ -52,6 +52,9 @@ namespace EStore.Models
         public DateTime timestamp { get; set; }
 
         public DateTime Lastseen { get; set; }
+
+        public string SecurityToken { get; set; }
+        public DateTime TokenTimeStamp { get; set; }
         public enum UserTypes { 
             Customer,
             Admin
