@@ -221,6 +221,8 @@ namespace EStore.Utilities.DataRepository
                             .Value = cart.Quantity;
                         cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => cart.Cost), SqlDbType.VarChar)
                             .Value = cart.Cost;
+                        cmd.Parameters.Add("@" + VariableNameHelper.GetPropertyName(() => cart.PaymentType), SqlDbType.VarChar)
+                            .Value = cart.PaymentType;
                         _connection.Open();
                         cmd.ExecuteNonQuery();
                         _connection.Close();
