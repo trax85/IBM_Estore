@@ -39,7 +39,7 @@
                                 <div class="col-md-6 mb-2">
                                     <!--firstName-->
                                     <div class="form-outline">
-                                        <label class="form-label" for="typeText">First name</label>
+                                        <label class="form-label" for="typeText">First name<span class="text-danger"> *</span></label>
                                         @Html.TextBoxFor(m => m.FirstName, new
                                         {
                                             @class = "form-control",
@@ -54,7 +54,7 @@
                                 <div class="col-md-6 mb-2">
                                     <!--lastName-->
                                     <div class="form-outline">
-                                        <label class="form-label" for="typeText">Last name</label>
+                                        <label class="form-label" for="typeText">Last name<span class="text-danger"> *</span></label>
                                         @Html.TextBoxFor(m => m.LastName, new
                                         {
                                             @class = "form-control",
@@ -69,7 +69,7 @@
                             <!--Grid row-->
                             <!--Username-->
                             <p class="mb-0">
-                                Username
+                                Username<span class="text-danger"> *</span>
                             </p>
                             <div class="input-group mb-4">
                                 @Html.TextBoxFor(m => m.UserName, new
@@ -87,7 +87,7 @@
 
                             <!--Password-->
                             <p class="mb-0">
-                                Password
+                                Password<span class="text-danger"> *</span>
                             </p>
                             <div class="input-group mb-4">
                                 @Html.PasswordFor(m => m.Password, new
@@ -101,7 +101,7 @@
 
                             <!--ConfirmPassword-->
                             <p class="mb-0">
-                                Confirm Password
+                                Confirm Password<span class="text-danger"> *</span>
                             </p>
                             <div class="input-group mb-4">
                                 @Html.PasswordFor(m => m.ComfirmPassword, new
@@ -171,7 +171,7 @@
                                 <!--Grid column-->
                                 <div class="col-lg-4 col-md-12 mb-4">
                                     <p class="mb-0">
-                                        Zip
+                                        Zip<span class="text-danger"> *</span>
                                     </p>
                                     <div class="form-outline">
                                         @Html.TextBoxFor(m => m.ZipCode, new
