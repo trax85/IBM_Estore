@@ -45,6 +45,6 @@ namespace EStore.Utilities.DataRepository
 
         List<TotalSales> GetAllPurchaseHistory();
 
-        List<DateTime> GetWeekIntervals();
+        List<DateTime> GetWeekIntervals(List<TotalSales> sales);
     }
 }

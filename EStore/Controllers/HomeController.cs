@@ -184,7 +184,7 @@ namespace EStore.Controllers
             {
                 User user = Session[Models.User.UserSessionString] as User;
                 List<TotalSales> userHistory = _productDataRepository.GetImagesForTotalSales(_totalSalesDataRepository.GetPurchaseHistory(user.UserName));
-                ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals().Select(d => d.Date).ToList();
+                ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals(userHistory);
                 ViewBag.Categories = _productDataRepository.GetProductCategories();
                 ViewBag.DateTo = dateTo;
                 ViewBag.DateFrom = dateFrom;

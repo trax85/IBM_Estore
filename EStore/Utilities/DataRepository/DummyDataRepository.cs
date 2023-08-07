@@ -148,7 +148,7 @@ namespace EStore.Utilities.DataRepository
             return DummyData.CartList;
         }
 
-        public List<DateTime> GetWeekIntervals()
+        public List<DateTime> GetWeekIntervals(List<TotalSales> sales)
         {
             throw new NotImplementedException();
         }

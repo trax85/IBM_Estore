@@ -234,7 +234,7 @@ namespace EStore.Controllers
             {
                 List<TotalSales> salesList = _productDataRepository.MapProductToCategory(_totalSalesDataRepository.GetAllPurchaseHistory());
     
-                ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals().Select(d => d.Date).ToList();
+                ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals(salesList);
                 ViewBag.Categories = _productDataRepository.GetProductCategories();
                 ViewBag.DateTo = dateTo;
                 ViewBag.DateFrom = dateFrom;
