@@ -1,29 +1,45 @@
-﻿@{
+﻿@model EStore.Models.ContactUs
+@{
     ViewBag.Title = "Contact";
 }
 <main aria-labelledby="title">
     
 <div class="custom-card bg-light mb-3">
-    <h2 class="mt-5 text-center">Contact</h2>
+    <h2 class="mt-5 text-center">Contact Info</h2>
     <div class="row d-flex justify-content-center mb-3">
         <!--Grid column-->
-        <div class="col-md-7 text-center custom-card-inner px-4">
+        <div class="col-md-7 text-center custom-card-inner">
             <h4 class="my-4 h4">Catch us here</h4>
 
-            <address>
-                One Microsoft Way<br />
-                Redmond, WA 98052-6399<br />
-                <abbr title="Phone">P:</abbr>
-                425.555.0100
+            <div class="justify-content-center px-5">
+                <div class="justify-content-center">
+                    <div class="custom-card py-2" style="background-color:aliceblue">
+                        <div class="find-widget">
+                            Company:  <a href="https://@Model.CompanyUrl">@Model.CompanyName</a>
+                        </div>
+                        <div class="find-widget">
+                            Phone:  <a href="#">+ @Model.Phone</a>
+                        </div>
+                        <div class="find-widget">
+                            Website:  <a href="https://@Model.WebsiteUrl">@Model.WebsiteUrl</a>
+                        </div>
+                        <div class="find-widget">
+                            Program: <span>@Model.ProgramDetails</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <address class="mt-2">
+               @Model.Address
             </address>
 
             <address>
-                <strong>Support:</strong>   <a href="mailto:Support@example.com">eStore@gmail.com</a><br />
-                <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">eStoreSupport@gmail.com</a>
+                <strong>Support:</strong>   <a href="mailto:Support@example.com">@Model.SupportMail</a><br />
+                <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">@Model.MarketingMail</a>
             </address>
         </div>
         <!--Grid column-->
     </div>
-</div>
 </div>
 </main>

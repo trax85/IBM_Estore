@@ -16,11 +16,14 @@ namespace EStore.Controllers
         private readonly IUserDataRepository _userDataRepository;
         private readonly IProductDataRepository _productDataRepository;
         private readonly ITotalSalesDataRepository _totalSalesDataRepository;
-        public AdminController(IUserDataRepository user, IProductDataRepository product, ITotalSalesDataRepository sales) 
+        private readonly IContactUsDataRepository _contactUsDataRepository;
+        public AdminController(IUserDataRepository user, IProductDataRepository product, 
+            ITotalSalesDataRepository sales, IContactUsDataRepository contact) 
         {
             _userDataRepository = user;
             _productDataRepository = product;
             _totalSalesDataRepository = sales;
+            _contactUsDataRepository = contact;
         }
         // GET: Admin
         public ActionResult DashBoard()
@@ -255,6 +258,28 @@ namespace EStore.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult ContactInfo()
+        {
+            if (isAuthorized())
+            {
+                ContactUs contact = _contactUsDataRepository.GetContactDetails();
+                return View(contact);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult ContactInfo(ContactUs contact)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_contactUsDataRepository.UpdateContactDetails(contact)) 
+                    return RedirectToAction("Dashboard");
+            }
+
+            return View(contact);
+        }
 
         public bool isAuthorized() 
         {
