@@ -54,8 +54,9 @@
                                 <p style="color:red">@TempData["ErrorMessage"]</p>
                             }
                         </div>
-                        <button type="submit" class="btn btn-outline-dark">Sign-in</button>
-                        <input type="button" value="Register" class="btn btn-dark" onclick="@("window.location.href='" + @Url.Action("Register", "Login") + "'");" />
+                        <a class="text-info" onclick="@("window.location.href='" + @Url.Action("ForgotPassword", "Login") + "'");" >Forgot Password?</a><br />
+                        <button type="submit" class="btn btn-outline-dark mt-2">Sign-in</button>
+                        <input type="button" value="Register" class="btn btn-dark mt-2" onclick="@("window.location.href='" + @Url.Action("Register", "Login") + "'");" />
                     </form>
                 }
             </div>
