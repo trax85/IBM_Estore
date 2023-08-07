@@ -9,19 +9,35 @@ namespace EStore.Utilities.DataRepository
     {
         public List<TotalSales> GetAllPurchaseHistory()
         {
-            List<TotalSales> totalSales = _dbContext.TotalSalesModel.ToList();
-            return totalSales;
+            try
+            {
+                List<TotalSales> totalSales = _dbContext.TotalSalesModel.ToList();
+                return totalSales;
+            } 
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return new List<TotalSales>();
         }
 
         List<TotalSales> ITotalSalesDataRepository.GetPurchaseHistory(string userName)
         {
-            List<TotalSales> totalSales = _dbContext.TotalSalesModel.Where(p => p.UserName.Equals(userName)).ToList();
-            return totalSales;
+            try
+            {
+                List<TotalSales> totalSales = _dbContext.TotalSalesModel.Where(p => p.UserName.Equals(userName)).ToList();
+                return totalSales;
+            }
+            catch(Exception ex )
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return new List<TotalSales>();
         }
 
-        public List<DateTime> GetWeekIntervals()
+        public List<DateTime> GetWeekIntervals(List<TotalSales> sales)
         {
-            var timestamps = _dbContext.TotalSalesModel.Select(x => x.Timestamp).ToList();
+            var timestamps = sales.Select(x => x.Timestamp).ToList();
 
             if (timestamps.Any())
             {

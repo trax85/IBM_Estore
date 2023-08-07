@@ -13,21 +13,28 @@ namespace EStore.Utilities.DataRepository
     {
         public bool CreateProduct(Product product)
         {
-            Product findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(product.Name));
-            if (findProduct == null)
+            try
             {
-                // Image Conversion to binary data
-                if(product.ImageFile != null && product.ImageFile.ContentLength > 0)
+                Product findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(product.Name));
+                if (findProduct == null)
                 {
-                    using(var binaryReader = new BinaryReader(product.ImageFile.InputStream))
+                    // Image Conversion to binary data
+                    if (product.ImageFile != null && product.ImageFile.ContentLength > 0)
                     {
-                        product.ImageData = binaryReader.ReadBytes(product.ImageFile.ContentLength);
+                        using (var binaryReader = new BinaryReader(product.ImageFile.InputStream))
+                        {
+                            product.ImageData = binaryReader.ReadBytes(product.ImageFile.ContentLength);
+                        }
                     }
+                    product.timestamp = DateTime.Now.Date;
+                    _dbContext.ProductModel.Add(product);
+                    if (_dbContext.SaveChanges() > 0)
+                        return true;
                 }
-                product.timestamp = DateTime.Now.Date;
-                _dbContext.ProductModel.Add(product);
-                if (_dbContext.SaveChanges() > 0)
-                    return true;
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             return false;
@@ -35,23 +42,30 @@ namespace EStore.Utilities.DataRepository
 
         public bool EditProduct(Product product)
         {
-            var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(product.Name));
-            if(findProduct != null)
+            try
             {
-                // Image Conversion to binary data
-                if (product.ImageFile != null && product.ImageFile.ContentLength > 0)
+                var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(product.Name));
+                if (findProduct != null)
                 {
-                    using (var binaryReader = new BinaryReader(product.ImageFile.InputStream))
+                    // Image Conversion to binary data
+                    if (product.ImageFile != null && product.ImageFile.ContentLength > 0)
                     {
-                        product.ImageData = binaryReader.ReadBytes(product.ImageFile.ContentLength);
+                        using (var binaryReader = new BinaryReader(product.ImageFile.InputStream))
+                        {
+                            product.ImageData = binaryReader.ReadBytes(product.ImageFile.ContentLength);
+                            findProduct.ImageData = product.ImageData;
+                        }
                     }
+                    findProduct.Description = product.Description;
+                    findProduct.Category = product.Category;
+                    findProduct.Cost = product.Cost;
+                    _dbContext.SaveChanges();
+                    return true;
                 }
-                findProduct.ImageData = product.ImageData;
-                findProduct.Description = product.Description;
-                findProduct.Category = product.Category;
-                findProduct.Cost = product.Cost;
-                _dbContext.SaveChanges();
-                return true;
+            } 
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             return false;
@@ -59,11 +73,18 @@ namespace EStore.Utilities.DataRepository
 
         public Product GetProduct(string productName)
         {
-            var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(productName));
-            if(findProduct != null )
+            try
             {
-                findProduct.ImageSrc = GetBase64ImageSrc(findProduct.ImageData);
-                return findProduct;
+                var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(productName));
+                if (findProduct != null)
+                {
+                    findProduct.ImageSrc = GetBase64ImageSrc(findProduct.ImageData);
+                    return findProduct;
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             return new Product();
         }
@@ -73,11 +94,18 @@ namespace EStore.Utilities.DataRepository
             for(int i = 0; i < salesItems.Count; i++)
             {
                 string itemName = salesItems[i].ProductName;
-                Product product = _dbContext.ProductModel.FirstOrDefault( p => p.Name.Equals(itemName));
-                
-                if (product != null)
+                try
                 {
-                    salesItems[i].ImageSrc = GetBase64ImageSrc(product.ImageData);
+                    Product product = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(itemName));
+
+                    if (product != null)
+                    {
+                        salesItems[i].ImageSrc = GetBase64ImageSrc(product.ImageData);
+                    }
+                } 
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
             }
 
@@ -86,15 +114,22 @@ namespace EStore.Utilities.DataRepository
 
         public List<Product> GetAllProducts()
         {
-            var products = _dbContext.ProductModel.ToList();
-            if(products != null)
+            try
             {
-                foreach(var product in products)
+                var products = _dbContext.ProductModel.ToList();
+                if (products != null)
                 {
-                    product.ImageSrc = GetBase64ImageSrc(product.ImageData);
-                }
+                    foreach (var product in products)
+                    {
+                        product.ImageSrc = GetBase64ImageSrc(product.ImageData);
+                    }
 
-                return products;
+                    return products;
+                }
+            } 
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             return new List<Product>();
@@ -114,16 +149,23 @@ namespace EStore.Utilities.DataRepository
 
         public List<string> GetProductCategories()
         {
-            var productCategories = _dbContext.ProductCategoriesModel.ToList();
-            if(productCategories != null)
+            try
             {
-                List<string> categories = new List<string>();
-                foreach (var category in productCategories)
+                var productCategories = _dbContext.ProductCategoriesModel.ToList();
+                if (productCategories != null)
                 {
-                    categories.Add(category.Type);
-                }
+                    List<string> categories = new List<string>();
+                    foreach (var category in productCategories)
+                    {
+                        categories.Add(category.Type);
+                    }
 
-                return categories;
+                    return categories;
+                }
+            } 
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             return new List<string>();
@@ -131,11 +173,18 @@ namespace EStore.Utilities.DataRepository
 
         public void DeleteProduct(string productId)
         {
-            var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(productId));
-            if(findProduct != null)
+            try
             {
-                _dbContext.ProductModel.Remove(findProduct);
-                _dbContext.SaveChanges();
+                var findProduct = _dbContext.ProductModel.FirstOrDefault(p => p.Name.Equals(productId));
+                if (findProduct != null)
+                {
+                    _dbContext.ProductModel.Remove(findProduct);
+                    _dbContext.SaveChanges();
+                }
+            } 
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
 

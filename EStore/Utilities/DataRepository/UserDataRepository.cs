@@ -16,28 +16,45 @@ namespace EStore.Utilities
     {
         public User VerifyUser(UserLoginCredentials userCred)
         {
-            User user = _dbContext.UserModel.FirstOrDefault(u => u.UserName == userCred.UserName && u.Password == userCred.Password);
-            if (user != null)
-                return user;
+            try
+            {
+                User user = _dbContext.UserModel.FirstOrDefault(u => u.UserName == userCred.UserName && u.Password == userCred.Password);
+                if (user != null)
+                    return user;
+            } 
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            
             return new User();
         }
 
         public bool CreateUser(User user)
         {
-            User findUser = _dbContext.UserModel.FirstOrDefault(u => u.UserName == user.UserName);
-            if(findUser == null)
+
+            try
             {
-                try
+                User findUser = _dbContext.UserModel.FirstOrDefault(u => u.UserName == user.UserName);
+                if (findUser == null)
                 {
-                    user.timestamp = DateTime.Now.Date;
-                    user.Lastseen = DateTime.Now;
-                    _dbContext.UserModel.Add(user);
-                    if (_dbContext.SaveChanges() > 0)
-                        return true;
-                } catch(DbUpdateException ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    try
+                    {
+                        user.timestamp = DateTime.Now.Date;
+                        user.Lastseen = DateTime.Now;
+                        _dbContext.UserModel.Add(user);
+                        if (_dbContext.SaveChanges() > 0)
+                            return true;
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
                 }
+            } 
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             
             return false;
@@ -45,93 +62,130 @@ namespace EStore.Utilities
 
         public User GetUser(string userName)
         {
-            User user = _dbContext.UserModel.FirstOrDefault(u => u.UserName == userName);
-            return user;
+            try
+            {
+                User user = _dbContext.UserModel.FirstOrDefault(u => u.UserName == userName);
+                return user;
+            } 
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return new User();
         }
 
         public User UpdateUser(User user)
         {
-            var userToUpdate = _dbContext.UserModel.FirstOrDefault(u => u.UserName == user.UserName);
-            if(userToUpdate != null)
+            try
             {
-                try
+                var userToUpdate = _dbContext.UserModel.FirstOrDefault(u => u.UserName == user.UserName);
+                if (userToUpdate != null)
                 {
-                    userToUpdate.FirstName = user.FirstName;
-                    userToUpdate.LastName = user.LastName;
-                    userToUpdate.UserName = user.UserName;
-                    userToUpdate.Password = user.Password;
-                    userToUpdate.ComfirmPassword = user.ComfirmPassword;
-                    userToUpdate.EmailAddress = user.EmailAddress;
-                    userToUpdate.Address = user.Address;
-                    userToUpdate.Country = user.Country;
-                    userToUpdate.State = user.State;
-                    userToUpdate.ZipCode = user.ZipCode;
-                    userToUpdate.Lastseen = DateTime.Now;
-                    _dbContext.SaveChanges();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    try
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
+                        userToUpdate.FirstName = user.FirstName;
+                        userToUpdate.LastName = user.LastName;
+                        userToUpdate.UserName = user.UserName;
+                        userToUpdate.Password = user.Password;
+                        userToUpdate.ComfirmPassword = user.ComfirmPassword;
+                        userToUpdate.EmailAddress = user.EmailAddress;
+                        userToUpdate.Address = user.Address;
+                        userToUpdate.Country = user.Country;
+                        userToUpdate.State = user.State;
+                        userToUpdate.ZipCode = user.ZipCode;
+                        userToUpdate.Lastseen = DateTime.Now;
+                        _dbContext.SaveChanges();
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var validationErrors in ex.EntityValidationErrors)
                         {
-                            // Log or handle the validation error details
-                            System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                // Log or handle the validation error details
+                                System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                            }
                         }
                     }
+
+                    return userToUpdate;
                 }
-                
-                return userToUpdate;
+            } 
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             
-            return new User();
+            return user;
         }
 
         public List<User> GetAllUsers()
         {
-            return _dbContext.UserModel.ToList();
+            try
+            {
+                return _dbContext.UserModel.ToList();
+            } 
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return new List<User>();            
         }
 
         public void DeleteUser(string userName)
         {
-            var userToDelete = _dbContext.UserModel.FirstOrDefault(u => u.UserName.Equals(userName));
-            if(userToDelete != null)
+            try
             {
-                try
+                var userToDelete = _dbContext.UserModel.FirstOrDefault(u => u.UserName.Equals(userName));
+                if (userToDelete != null)
                 {
-                    _dbContext.UserModel.Remove(userToDelete);
-                    _dbContext.SaveChanges();
+                    try
+                    {
+                        _dbContext.UserModel.Remove(userToDelete);
+                        _dbContext.SaveChanges();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
                 }
-                catch(DbUpdateException ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                }
+            } 
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }   
         
         public bool UpdateUserStatus(string userName)
         {
-            var userToUpdate = _dbContext.UserModel.FirstOrDefault(u => u.UserName.Equals(userName));
-            if (userToUpdate != null)
+            try
             {
-                try
+                var userToUpdate = _dbContext.UserModel.FirstOrDefault(u => u.UserName.Equals(userName));
+                if (userToUpdate != null)
                 {
-                    userToUpdate.ComfirmPassword = userToUpdate.Password;
-                    userToUpdate.Lastseen = DateTime.Now;
-                    _dbContext.SaveChanges();
-                    return true;
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    try
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
+                        userToUpdate.ComfirmPassword = userToUpdate.Password;
+                        userToUpdate.Lastseen = DateTime.Now;
+                        _dbContext.SaveChanges();
+                        return true;
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var validationErrors in ex.EntityValidationErrors)
                         {
-                            // Log or handle the validation error details
-                            System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                // Log or handle the validation error details
+                                System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             return false;
         }
