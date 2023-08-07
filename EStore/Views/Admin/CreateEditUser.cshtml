@@ -27,7 +27,7 @@
                         <div class="col-md-6 mb-2">
                             <!--firstName-->
                             <div class="form-outline">
-                                <label class="form-label" for="typeText">First name</label>
+                                <label class="form-label" for="typeText">First name<span class="text-danger"> *</span></label>
                                 @Html.TextBoxFor(m => m.FirstName, new
                                 {
                                     @class = "form-control",
@@ -43,7 +43,7 @@
                         <div class="col-md-6 mb-2">
                             <!--lastName-->
                             <div class="form-outline">
-                                <label class="form-label" for="typeText">Last name</label>
+                                <label class="form-label" for="typeText">Last name<span class="text-danger"> *</span></label>
                                 @Html.TextBoxFor(m => m.LastName, new
                                 {
                                     @class = "form-control",
@@ -58,7 +58,7 @@
                     </div>
                     <!--Grid row-->
                     <!--Username-->
-                    <label class="form-label" for="typeText">Username</label>
+                    <label class="form-label" for="typeText">Username<span class="text-danger"> *</span></label>
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1"></span>
                         @if (TempData["isEdit"] as string == "true")
@@ -80,7 +80,7 @@
                     @Html.ValidationMessageFor(m => m.UserName, "", new { @style = "color:red" })
 
                     <!--Password-->
-                    <label class="form-label" for="typeText">Password</label>
+                    <label class="form-label" for="typeText">Password<span class="text-danger"> *</span></label>
                     <div class="input-group mb-1">
                         <span class="input-group-text" id="basic-addon1"></span>
                         @Html.PasswordFor(m => m.Password, new
@@ -94,7 +94,7 @@
                     @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red", @class = "mb-2" })
 
                     <!--ConfirmPassword-->
-                    <label class="form-label" for="typeText">Confirm Password</label>
+                    <label class="form-label" for="typeText">Confirm Password<span class="text-danger"> *</span></label>
                     <div class="input-group mb-1">
                         <span class="input-group-text" id="basic-addon1"></span>
                         @Html.PasswordFor(m => m.ComfirmPassword, new
@@ -169,7 +169,7 @@
                         <!--Grid column-->
                         <div class="col-lg-4 col-md-12">
                             <p class="mb-0">
-                                Zip
+                                Zip<span class="text-danger"> *</span>
                             </p>
                             <div class="form-outline">
                                 @Html.TextBoxFor(m => m.ZipCode, new
@@ -185,14 +185,14 @@
                             <p class="mb-0">
                                 User Type
                             </p>
-                            <div class="ml-3 mt-3">
+                            <div class="ml-4 mt-3">
                                 <label class="form-text">
-                                    @Html.RadioButtonFor(m => m.Type, "Admin", new { id = "Admin", @checked = "checked" })
+                                    @Html.RadioButtonFor(m => m.Type, "Admin", new { id = "Admin", @checked = "checked", @class= "form-check-input" })
                                     Admin
                                 </label>
 
                                 <label class="form-text">
-                                    @Html.RadioButtonFor(m => m.Type, "Customer", new { id = "Customer" })
+                                    @Html.RadioButtonFor(m => m.Type, "Customer", new { id = "Customer", @class= "form-check-input" })
                                     Customer
                                 </label>
                             </div>
