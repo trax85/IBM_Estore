@@ -24,25 +24,25 @@
                 <!--Card-->
                 <div class="card p-4">
                     <!--Grid row-->
-                    <div class="row mb-3">
+                    <!--Product Image start-->
+                    <div class="d-flex justify-content-between mb-3">
                         <!--Grid column-->
-                        <div class="col-md-6 mb-2">
-                            <div class="form-outline mb-2">
-                                <label class="form-label" for="typeText">Product Image</label>
-                                <input type="file" name="ImageFile" id="ImageFile" class="form-control" />
-                            </div>
-
+                        <div class="form-outline mb-2">
+                            <label class="form-label" for="typeText">Product Image<span class="text-danger"> *</span></label>
+                            <input type="file" name="ImageFile" id="ImageFile" class="form-control" />
                         </div>
+                        
                         <!--Grid column-->
-                        <div class="" style="max-width:400px;max-height:400px;">
+                        <div class="mr-2" style="max-width:400px;max-height:400px;">
                             <!-- Display the image if available -->
-                            <img id="previewImage" src="@Model.ImageSrc" class="custom-image-edit-view ml-4" />
+                            <img id="previewImage" src="@Model.ImageSrc" class="custom-image-edit-view" />
                         </div>
                     </div>
+                    <!--Product Image end-->
                     <!--Grid row-->
                     <!--Product Name-->
                     <div class="form-outline">
-                        <label class="form-label" for="typeText">Product name</label>
+                        <label class="form-label" for="typeText">Product name<span class="text-danger"> *</span></label>
                         @if (Model.Name.IsEmpty())
                         {
                             @Html.TextBoxFor(m => m.Name, new
@@ -62,7 +62,7 @@
 
                     </div>
                     <!--Product Description-->
-                    <label class="form-label" for="typeText">Description</label>
+                    <label class="form-label" for="typeText">Description<span class="text-danger"> *</span></label>
                     <div class="input-group mb-1">
                         @Html.TextAreaFor(m => m.Description, new
                        {
@@ -75,7 +75,7 @@
                     @Html.ValidationMessageFor(m => m.Description, "", new { @style = "color:red" })
 
                     <!--Product Additional Desciption-->
-                    <label class="form-label" for="typeText">Additional Description</label>
+                    <label class="form-label" for="typeText">Additional Description<span class="text-danger"> *</span></label>
                     <div class="input-group mb-1">
                         @Html.TextAreaFor(m => m.AdditionalDescription, new
                        {
@@ -88,7 +88,7 @@
                     @Html.ValidationMessageFor(m => m.AdditionalDescription, "", new { @style = "color:red", @class = "mb-2" })
 
                     <!--Product Cost-->
-                    <label class="form-label" for="typeText">Cost</label>
+                    <label class="form-label" for="typeText">Cost<span class="text-danger"> *</span></label>
                     <div class="input-group mb-1">
                         @Html.TextBoxFor(m => m.Cost, new
                        {
@@ -102,7 +102,7 @@
 
                     <!--Product Category-->
                     <p class="mb-1">
-                        Category
+                        Category<span class="text-danger"> *</span>
                     </p>
                     @{
                         var selectList = new SelectList(Model.ProductCategories);
