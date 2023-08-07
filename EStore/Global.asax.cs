@@ -20,7 +20,6 @@ namespace EStore
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Application["UserCount"] = 0;
             UnityConfig.RegisterComponents();
 
             // Create a Unity container
@@ -32,6 +31,7 @@ namespace EStore
             container.RegisterType<IProductDataRepositoryV2, ProductDataRepositoryV2>();
             container.RegisterType<IDashboardDataRepository, DashboardDataRepository>();
             container.RegisterType<ITotalSalesDataRepository, TotalSalesDataRepository>();
+            container.RegisterType<IContactUsDataRepository, ContactUsDataRepository>();
 
             // Set the Unity dependency resolver
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
@@ -41,18 +41,6 @@ namespace EStore
         {
             Session[Models.Cart.CartCountSessionString] = 0;
             Session[Models.Cart.CartSessionString] = new List<Models.Cart>();
-
-            Application.Lock();
-            Application["UserCount"] = ((int)Application["UserCount"]) + 1;
-            Application.UnLock();
-        }
-
-        protected void Session_end()
-        {
-            // Decrement the user count when a session (user) ends
-            Application.Lock();
-            Application["UserCount"] = ((int)Application["UserCount"]) - 1;
-            Application.UnLock();
         }
     }
 }
