@@ -53,7 +53,7 @@
                                         required = "Firstname",
                                         value = Model.FirstName
                                     })
-                                    <label class="form-label" for="typeText">First name</label>
+                                    <label class="form-label" for="typeText">First name<span class="text-danger"> *</span></label>
                                 </div>
                             </div>
                             <!--Grid column-->
@@ -68,7 +68,7 @@
                                         required = "required",
                                         value = Model.LastName
                                     })
-                                    <label class="form-label" for="typeText">Last name</label>
+                                    <label class="form-label" for="typeText">Last name<span class="text-danger"> *</span></label>
                                 </div>
                             </div>
                             <!--Grid column-->
@@ -76,7 +76,7 @@
                         <!--Grid row-->
                         <!--Username-->
                         <p class="mb-0">
-                            Username
+                            Username<span class="text-danger"> *</span>
                         </p>
                         <div class="input-group mb-4">
                             <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.UserName" />
@@ -110,21 +110,6 @@
                                 value = Model.Address
                             })
                         </div>
-
-                        <!--address-2-->
-                        <p class="mb-0">
-                            Address 2 (optional)
-                        </p>
-                        <div class="form-outline mb-4">
-                            @Html.TextBoxFor(m => m.Address, new
-                            {
-                                @class = "form-control",
-                                placeholder = "Apartment or suite",
-                                required = "required",
-                                value = Model.Address
-                            })
-                        </div>
-
                         <!--Grid row-->
                         <div class="row">
                             <!--Grid column-->
@@ -162,7 +147,7 @@
                             <!--Grid column-->
                             <div class="col-lg-4 col-md-12 mb-4">
                                 <p class="mb-0">
-                                    Zip
+                                    Zip<span class="text-danger"> *</span>
                                 </p>
                                 <div class="form-outline">
                                     @Html.TextBoxFor(m => m.ZipCode, new
@@ -193,45 +178,6 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
                                 <label class="form-check-label" for="flexRadioDefault3"> Paytm </label>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6 mb-3">
-                                <p class="mb-0">
-                                    Name on card
-                                </p>
-                                <div class="form-outline">
-                                    <input type="text" class="form-control" />
-                                    <div class="form-helper">Full name as displayed on card</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <p class="mb-0">
-                                    Credit card number
-                                </p>
-                                <div class="form-outline">
-                                    <input type="text" class="form-control" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <p class="mb-0">
-                                    Expiration
-                                </p>
-                                <div class="form-outline">
-                                    <input type="text" class="form-control" />
-
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <p class="mb-0">
-                                    CVV
-                                </p>
-                                <div class="form-outline">
-                                    <input type="text" class="form-control" />
-
-                                </div>
                             </div>
                         </div>
                         <hr class="mb-4" />
