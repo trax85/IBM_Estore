@@ -1,4 +1,4 @@
-﻿using EStore.Models;
+using EStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +55,11 @@ namespace EStore.Utilities.DataRepository
             return false;
         }
 
+        public bool UpdateUserToken(string token, string emailAddress)
+        {
+            throw new NotImplementedException();
+        }
+
         public User VerifyUser(UserLoginCredentials userCred)
         {
             User user = DummyData.UserModelData;
@@ -63,6 +68,16 @@ namespace EStore.Utilities.DataRepository
                 return user;
             
             else return failedUser;
+        }
+
+        public bool VerifyUser(string emailAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User VerifyUserToken(string token, string emailAddress)
+        {
+            throw new NotImplementedException();
         }
     }
 

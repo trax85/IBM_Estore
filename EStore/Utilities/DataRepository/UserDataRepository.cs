@@ -42,6 +42,8 @@ namespace EStore.Utilities
                     {
                         user.timestamp = DateTime.Now.Date;
                         user.Lastseen = DateTime.Now;
+                        // Prevent any chances of getting in
+                        user.TokenTimeStamp = DateTime.Now.AddMinutes(-10);
                         _dbContext.UserModel.Add(user);
                         if (_dbContext.SaveChanges() > 0)
                             return true;
@@ -195,6 +197,84 @@ namespace EStore.Utilities
             DateTime fifteenMinutesAgo = DateTime.Now.AddMinutes(-15);
 
             return _dbContext.UserModel.Where(u => u.Lastseen >= fifteenMinutesAgo).ToList().Count;
+        }
+
+        public bool VerifyUser(string emailAddress) 
+        {
+            try
+            {
+                User user = _dbContext.UserModel.FirstOrDefault(u => u.EmailAddress.Equals(emailAddress));
+                if(user != null)
+                {
+                    return true;
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool UpdateUserToken(string token, string emailAddress)
+        {
+            try
+            {
+                if(!token.IsEmpty())
+                {
+                    User user = _dbContext.UserModel.FirstOrDefault(u => u.EmailAddress.Equals(emailAddress));
+                    if(user != null)
+                    {
+                        user.SecurityToken = token;
+                        user.TokenTimeStamp = DateTime.Now;
+                        user.ComfirmPassword = user.Password;
+                        try
+                        {
+                            _dbContext.SaveChanges();
+                        }
+                        catch (DbEntityValidationException ex)
+                        {
+                            foreach (var validationErrors in ex.EntityValidationErrors)
+                            {
+                                foreach (var validationError in validationErrors.ValidationErrors)
+                                {
+                                    // Log or handle the validation error details
+                                    System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                                }
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+
+            return false;
+        }
+
+        public User VerifyUserToken(string token, string emailAddress)
+        {
+            try
+            {
+                User user = _dbContext.UserModel.FirstOrDefault(
+                    u => u.EmailAddress.Equals(emailAddress) && u.SecurityToken.Equals(token));
+                if (user != null)
+                {
+                    DateTime fiveMinuitsAgo = DateTime.Now.AddMinutes(-5);
+                    if (user.TokenTimeStamp > fiveMinuitsAgo)
+                    {
+                        return user;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return new User();
         }
     }
 }
