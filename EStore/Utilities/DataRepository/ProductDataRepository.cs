@@ -2,6 +2,7 @@ using EStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -62,10 +63,17 @@ namespace EStore.Utilities.DataRepository
                     _dbContext.SaveChanges();
                     return true;
                 }
-            } 
-            catch(Exception ex)
+            }
+            catch (DbEntityValidationException ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        // Log or handle the validation error details
+                        System.Diagnostics.Debug.WriteLine($"Entity: {validationErrors.Entry.Entity.GetType().Name}, Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+                    }
+                }
             }
 
             return false;
