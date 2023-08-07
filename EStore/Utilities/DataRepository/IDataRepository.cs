@@ -1,4 +1,4 @@
-using EStore.Models;
+﻿using EStore.Models;
 using System;
 using System.Collections.Generic;
 
@@ -39,7 +39,7 @@ namespace EStore.Utilities.DataRepository
     public interface IDashboardDataRepository
     {
         AdminDashboard GetDashBoardCardData();
-        AdminDashboard GetAdminDashboardTable();
+        AdminDashboard GetAdminDashboardTable(AdminDashboard adminDashboard);
     }
 
     public interface ITotalSalesDataRepository

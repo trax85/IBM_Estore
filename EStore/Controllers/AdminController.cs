@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities.DataRepository;
@@ -36,10 +36,7 @@ namespace EStore.Controllers
                 dashboard = dataRepository.GetDashBoardCardData();
                 dashboard.TotalLoggedUsers = _userDataRepository.GetActiveUserCount();
                 dataRepository = new DashboardDataRepository();
-                AdminDashboard tempDashboard = dataRepository.GetAdminDashboardTable();
-                dashboard.ProductCategories = tempDashboard.ProductCategories;
-                dashboard.CategoryCount = tempDashboard.CategoryCount;
-                dashboard.TotalCost = tempDashboard.TotalCost;
+                dashboard = dataRepository.GetAdminDashboardTable(dashboard);
 
                 return View(dashboard);
             }

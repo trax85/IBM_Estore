@@ -34,7 +34,7 @@ namespace EStore.Utilities.DataRepository
             return dashboard;
         }
 
-        public AdminDashboard GetAdminDashboardTable()
+        public AdminDashboard GetAdminDashboardTable(AdminDashboard adminDashboard)
         {
             AdminDashboard dashboard = new AdminDashboard();
             using (_connection = new SqlConnection(_sqlConnectionString))
@@ -49,6 +49,9 @@ namespace EStore.Utilities.DataRepository
                     {
                         dashboard = modelReader.GetDashboardTable(reader);
                     }
+                    adminDashboard.ProductCategories = dashboard.ProductCategories;
+                    adminDashboard.CategoryCount = dashboard.CategoryCount;
+                    adminDashboard.TotalCost = dashboard.TotalCost;
                     _connection.Close();
                 }
                 catch (Exception ex)
@@ -58,7 +61,7 @@ namespace EStore.Utilities.DataRepository
                 }
             }
 
-            return dashboard;
+            return adminDashboard;
         }
     }
 }

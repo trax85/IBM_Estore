@@ -1,8 +1,6 @@
-using EStore.Models;
+﻿using EStore.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EStore.Utilities.DataRepository
 {
@@ -144,7 +142,7 @@ namespace EStore.Utilities.DataRepository
 
     public class DummyDashboardDataRepository : IDashboardDataRepository
     {
-        public AdminDashboard GetAdminDashboardTable()
+        public AdminDashboard GetAdminDashboardTable(AdminDashboard adminDashboard)
         {
             return DummyData.AdminDashboard;
         }
