@@ -95,5 +95,23 @@ namespace EStore.Utilities
             CartData,
             CartData
         };
+
+        public static TotalSales TotalSalesData = new TotalSales()
+        {
+            Id = 1,
+            ProductName = "TestProduct",
+            Quantity = 2,
+            Cost = 200,
+            Category = CategoriesList[1],
+            Timestamp = DateTime.Now,
+        };
+
+        public static List<TotalSales> TotalSalesList = new List<TotalSales>()
+        {
+            TotalSalesData,
+            TotalSalesData,
+            TotalSalesData,
+            TotalSalesData
+        };
     }
 }
