@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -50,25 +50,26 @@
                             </span>
                         </button>
                     </form>
+                    <!--Dropdown Start-->
                     @if (Session[EStore.Models.User.UserSessionString] != null)
                     {
                         EStore.Models.User user = (EStore.Models.User)Session[EStore.Models.User.UserSessionString];
-                            <div class="dropdown" style="margin-left:2%">
-                                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Hi, @user.FirstName
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="customDropdown">
-                                    <a class="dropdown-item" href="@Url.Action("UpdateUser", "Home")">Profile Update</a>
-                                    <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home")">Purchase History</a>
-                                    <a class="dropdown-item" href="@Url.Action("Logout", "Login")">Logout</a>
-                                    <!-- Add more options as needed -->
-                                </div>
+                        <div class="dropdown" style="margin-left:2%">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="customDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Hi, @user.FirstName
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="customDropdown">
+                                <a class="dropdown-item" href="@Url.Action("UpdateUser", "Home")">Profile Update</a>
+                                <a class="dropdown-item" href="@Url.Action("ViewPurchaseHistory", "Home")">Purchase History</a>
+                                <a class="dropdown-item" href="@Url.Action("Logout", "Login")">Logout</a>
                             </div>
+                        </div>
                     }
                     else
                     {
                         <p class="nav-item" style="margin:0% 0% 0% 2%">@Html.ActionLink("Login", "SignIn", "Login", new { area = "" }, new { @class = "nav-link" })</p>
                     }
+                    <!--Dropdown End-->
                 </div>
             </div>
         </nav>
