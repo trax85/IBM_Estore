@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="estoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="product_types">
+    <Key>
+      <PropertyRef Name="type" />
+    </Key>
+    <Property Name="type" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Category" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Cost" Type="int" Nullable="false" />
+    <Property Name="AdditionalDescription" Type="nvarchar(max)" />
+    <Property Name="timestamp" Type="date" />
+    <Property Name="ImageFile" Type="varbinary(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'estore.dbo.total_sales' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="total_sales">
+    <Key>
+      <PropertyRef Name="UserName" />
+      <PropertyRef Name="ProductName" />
+      <PropertyRef Name="Quantity" />
+      <PropertyRef Name="Cost" />
+    </Key>
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProductName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="Cost" Type="int" Nullable="false" />
+    <Property Name="timestamp" Type="date" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmailAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Country" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="Type" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Zipcode" Type="int" Nullable="false" />
+    <Property Name="timestamp" Type="date" />
+  </EntityType>
+  <Association Name="FK__products__catego__398D8EEE">
+    <End Role="product_types" Type="Self.product_types" Multiplicity="1" />
+    <End Role="products" Type="Self.products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product_types">
+        <PropertyRef Name="type" />
+      </Principal>
+      <Dependent Role="products">
+        <PropertyRef Name="Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="estoreModelStoreContainer">
+    <EntitySet Name="product_types" EntityType="Self.product_types" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="total_sales" EntityType="Self.total_sales" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [total_sales].[UserName] AS [UserName], 
+    [total_sales].[ProductName] AS [ProductName], 
+    [total_sales].[Quantity] AS [Quantity], 
+    [total_sales].[Cost] AS [Cost], 
+    [total_sales].[timestamp] AS [timestamp]
+    FROM [dbo].[total_sales] AS [total_sales]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__products__catego__398D8EEE" Association="Self.FK__products__catego__398D8EEE">
+      <End Role="product_types" EntitySet="product_types" />
+      <End Role="products" EntitySet="products" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
