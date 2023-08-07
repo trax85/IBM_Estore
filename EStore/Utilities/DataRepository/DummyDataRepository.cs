@@ -48,7 +48,11 @@ namespace EStore.Utilities.DataRepository
 
         public bool UpdateUserStatus(string userName)
         {
-            throw new NotImplementedException();
+            if (userName.Equals(DummyData.UserModelData.UserName))
+            {
+                return true;
+            }
+            return false;
         }
 
         public User VerifyUser(UserLoginCredentials userCred)
@@ -154,6 +158,18 @@ namespace EStore.Utilities.DataRepository
         }
 
         List<TotalSales> ITotalSalesDataRepository.GetPurchaseHistory(string userName)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class DummyContactUsDataRepository : IContactUsDataRepository
+    {
+        public ContactUs GetContactDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateContactDetails(ContactUs constactUs)
         {
             throw new NotImplementedException();
         }

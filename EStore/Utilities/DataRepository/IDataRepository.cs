@@ -47,4 +47,10 @@ namespace EStore.Utilities.DataRepository
 
         List<DateTime> GetWeekIntervals(List<TotalSales> sales);
     }
+
+    public interface IContactUsDataRepository
+    {
+        bool UpdateContactDetails(ContactUs constactUs);
+        ContactUs GetContactDetails();
+    }
 }
