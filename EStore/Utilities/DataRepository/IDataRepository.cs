@@ -1,4 +1,4 @@
-﻿using EStore.Models;
+using EStore.Models;
 using System;
 using System.Collections.Generic;
 
@@ -14,6 +14,9 @@ namespace EStore.Utilities.DataRepository
         void DeleteUser(string userName);
         bool UpdateUserStatus(string userName);
         int GetActiveUserCount();
+        bool VerifyUser(string emailAddress);
+        bool UpdateUserToken(string token, string emailAddress);
+        User VerifyUserToken(string token, string emailAddress);
     }
 
     public interface IProductDataRepository
