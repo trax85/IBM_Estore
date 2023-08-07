@@ -34,6 +34,15 @@ namespace EStoreTest
             mockControllerContext.Setup(p => p.HttpContext.Session).Returns(mockSession.Object);
         }
 
+        private HomeController GetHomeController()
+        {
+            return new HomeController(
+                container.Resolve<IProductDataRepository>(),
+                container.Resolve<IUserDataRepository>(),
+                container.Resolve<ITotalSalesDataRepository>(),
+                container.Resolve<IProductDataRepositoryV2>());
+        }
+
         [TestMethod]
         [DataRow("testUsername", "test@123", "validUser")]
         [DataRow("testAdmin", "test@123", "validAdmin")]
@@ -88,13 +97,9 @@ namespace EStoreTest
         }
 
         [TestMethod]
-        public void ProductPageTest()
+        public void ProductPostTest()
         {
-            var controller = new HomeController(
-                container.Resolve<IProductDataRepository>(), 
-                container.Resolve<IUserDataRepository>(),
-                container.Resolve<ITotalSalesDataRepository>(),
-                container.Resolve<IProductDataRepositoryV2>());
+            var controller = GetHomeController();
             controller.ControllerContext = mockControllerContext.Object;
 
             var result = controller.Product(DummyData.ProductModelData.Name);
@@ -108,13 +113,25 @@ namespace EStoreTest
         }
 
         [TestMethod]
-        public void UpdatePageTest()
+        public void UpdateUserPageTest()
         {
-            var controller = new HomeController(
-                container.Resolve<IProductDataRepository>(),
-                container.Resolve<IUserDataRepository>(),
-                container.Resolve<ITotalSalesDataRepository>(),
-                container.Resolve<IProductDataRepositoryV2>());
+            var controller = GetHomeController();
+            controller.ControllerContext = mockControllerContext.Object;
+
+            var result = controller.UpdateUser();
+
+            Assert.IsNotNull(result);
+
+            if (result is RedirectResult redirectResult)
+            {
+                Assert.AreEqual("/Home/UpdateUser", redirectResult.Url);
+            }
+        }
+
+        [TestMethod]
+        public void UpdateUserPostTest()
+        {
+            var controller = GetHomeController();
             controller.ControllerContext = mockControllerContext.Object;
 
             var result = controller.UpdateUser(DummyData.UserModelData);
