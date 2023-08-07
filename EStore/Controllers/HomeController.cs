@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using EStore.Models;
-using EStore.Utilities;
 using EStore.Utilities.DataRepository;
 using PagedList;
 
@@ -15,18 +13,22 @@ namespace EStore.Controllers
     public class HomeController : Controller
     {
         private const int pageSize = 8;
+        private string redirectAction = "SignIn";
+        private string redirectController = "Login";
 
         private readonly IProductDataRepository _productDataRepository;
         private readonly IUserDataRepository _userDataRepository;
         private readonly ITotalSalesDataRepository _totalSalesDataRepository;
         private readonly IProductDataRepositoryV2 _productDataRepositoryV2;
+        private readonly IContactUsDataRepository _contactUsDataRepository;
         public HomeController(IProductDataRepository product, IUserDataRepository user, ITotalSalesDataRepository cart, 
-            IProductDataRepositoryV2 productV2) 
+            IProductDataRepositoryV2 productV2, IContactUsDataRepository contact) 
         {
             _productDataRepository = product;
             _userDataRepository = user;
             _totalSalesDataRepository = cart;
             _productDataRepositoryV2 = productV2;
+            _contactUsDataRepository = contact;
         }
         public ActionResult Index(string sortBy = "All",string orderBy = "A-Z", int page = 1)
         {
@@ -109,22 +111,27 @@ namespace EStore.Controllers
                 return View(user);
             } 
 
-            return RedirectToAction("SignIn", "Login");
+            return RedirectToAction(redirectAction, redirectController);
         }
 
         [HttpPost]
-        public ActionResult PlaceOrder(User user)
+        public ActionResult PlaceOrder(User user, string paymentType)
         {
             List<Cart> cartItems = Session[Cart.CartSessionString] as List<Cart>;
-            foreach(var items in cartItems)
+            if(cartItems != null)
             {
-                if (!_productDataRepositoryV2.OrderProduct(items, user.UserName))
-                    return RedirectToAction("Checkout");
+                System.Diagnostics.Debug.WriteLine("Payment type:" + paymentType);
+                foreach (var items in cartItems)
+                {
+                    items.PaymentType = paymentType;
+                    if (!_productDataRepositoryV2.OrderProduct(items, user.UserName))
+                        return RedirectToAction("Checkout");
+                }
+
+                //Reset Session strings
+                Session[Cart.CartCountSessionString] = 0;
+                Session[Cart.CartSessionString] = new List<Cart>();
             }
-            
-            //Reset Session strings
-            Session[Cart.CartCountSessionString] = 0;
-            Session[Cart.CartSessionString] = new List<Cart>();
 
             return RedirectToAction("Index"); 
         }
@@ -160,7 +167,7 @@ namespace EStore.Controllers
                 user = _userDataRepository.GetUser(user.UserName);
                 return View(user);
             }
-            return RedirectToAction("SignIn", "Login"); 
+            return RedirectToAction(redirectAction, redirectController); 
         }
 
         [HttpPost]
@@ -199,21 +206,17 @@ namespace EStore.Controllers
                 return View(userHistory.OrderBy(p => p.ProductName).ToPagedList(page, pageSize - 4));
             }
 
-            return RedirectToAction("SignIn", "Login");
+            return RedirectToAction(redirectAction, redirectController);
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(_contactUsDataRepository.GetContactDetails());
         }
 
         public bool isUserLogged()

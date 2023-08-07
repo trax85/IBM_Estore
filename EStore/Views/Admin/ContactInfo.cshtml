@@ -1,0 +1,135 @@
+﻿@model EStore.Models.ContactUs
+@{
+    ViewBag.Title = "ContactInfo";
+    Layout = "~/Views/_LayoutPageAdmin.cshtml";
+}
+
+@using (Html.BeginForm("ContactInfo", "Admin", FormMethod.Post))
+{
+    <div class="custom-card bg-light">
+        <!-- Heading -->
+       <h2 class="mt-3 text-center">Edit Contact Details</h2>
+
+        <div class="row mt-2 p-3">
+            <!--Grid column-->
+            <div class="">
+                <!--Card-->
+                <div class="card p-4">
+                    <!--Grid row-->
+                    <!--company Name-->
+                    <label class="form-label" for="typeText">Company Name<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.CompanyName, new
+                        {
+                            @class = "form-control",
+                            placeholder = "Company Name",
+                            value = Model.CompanyName,
+                            required = "required"
+                        })
+                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @style = "color:red", @class = "mb-2" })
+                    </div>
+                    <!--company URL-->
+                    <label class="form-label" for="typeText">Company URL<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.CompanyUrl, new
+                        {
+                            @class = "form-control",
+                            placeholder = "Company URL",
+                            value = Model.CompanyUrl,
+                            required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.CompanyUrl, "", new { @style = "color:red", @class = "mb-2" })
+                    <!--phone-->
+                    <label class="form-label" for="typeText">Phone<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.Phone, new
+                        {
+                            @class = "form-control",
+                            placeholder = "+ XXXXXXXXXX",
+                            value = Model.Phone,
+                            required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Phone, "", new { @style = "color:red", @class = "mb-2" })
+                    <!--Website URL-->
+                    <label class="form-label" for="typeText">Website URL<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.WebsiteUrl, new
+                        {
+                            @class = "form-control",
+                            placeholder = "Website URL",
+                            value = Model.WebsiteUrl,
+                            required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.WebsiteUrl, "", new { @style = "color:red", @class = "mb-2" })
+
+                    <!--Program detais URL-->
+                    <label class="form-label" for="typeText">Program Details<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.ProgramDetails, new
+                        {
+                            @class = "form-control",
+                            placeholder = "Mon-Sat: 4am - 8pm",
+                            value = Model.ProgramDetails,
+                            required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.ProgramDetails, "", new { @style = "color:red", @class = "mb-2" })
+
+                    <!--Address detais-->
+                    <label class="form-label" for="typeText">Address<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.Address, new
+                        {
+                            @class = "form-control",
+                            placeholder = "12st saint street",
+                            value = Model.Address,
+                            required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Address, "", new { @style = "color:red", @class = "mb-2" })
+
+
+                    <!--Support Mail URL-->
+                    <label class="form-label" for="typeText">Support Mail<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.SupportMail, new
+                        {
+                            @class = "form-control",
+                            placeholder = "support@support.com",
+                            value = Model.SupportMail,
+                            required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.SupportMail, "", new { @style = "color:red", @class = "mb-2" })
+
+                    <!--Marketing mail-->
+                    <label class="form-label" for="typeText">Marketing Mail<span class="text-danger"> *</span></label>
+                    <div class="input-group mb-1">
+                        @Html.TextBoxFor(m => m.MarketingMail, new
+                        {
+                            @class = "form-control",
+                            placeholder = "pr@pr.com",
+                            value = Model.MarketingMail,
+                            required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.MarketingMail, "", new { @style = "color:red", @class = "mb-2" })
+
+                    <!--Grid row-->
+                    <div class="row">
+                        <div class="card-body">
+                            <hr />
+                        </div>
+                        <button type="submit" class="btn btn-outline-dark mb-2">
+                            Submit
+                        </button>
+                        <!--Grid column-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
