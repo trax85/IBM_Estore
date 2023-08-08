@@ -1,4 +1,4 @@
-using EStore.Models;
+﻿using EStore.Models;
 using System;
 using System.Collections.Generic;
 
@@ -179,12 +179,13 @@ namespace EStore.Utilities.DataRepository
     {
         public ContactUs GetContactDetails()
         {
-            throw new NotImplementedException();
+            return DummyData.ContactUsModel;
         }
 
         public bool UpdateContactDetails(ContactUs constactUs)
         {
-            throw new NotImplementedException();
+            if (constactUs == DummyData.ContactUsModel) return true;
+            return false;
         }
     }
 }
