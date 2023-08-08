@@ -23,27 +23,38 @@ namespace EStore.Utilities
 
                 dashboard.WSalesAmount = ReadInt32Column(reader, "TotalSalesAmountThisWeek");
                 int pwSalesAmount = ReadInt32Column(reader, "TotalSalesAmountPreviousWeek");
-                dashboard.WVSalesAmount =
-                    (float)Math.Round(((float)(dashboard.WSalesAmount - pwSalesAmount) / (float)pwSalesAmount) * 100, 2);
+                dashboard.WVSalesAmount = GetVariance(dashboard.WSalesAmount, pwSalesAmount);
 
                 dashboard.WProductsSold = ReadInt32Column(reader, "TotalProductsSoldThisWeek");
                 int pwProductsSold = ReadInt32Column(reader, "TotalProductsSoldPreviousWeek");
                 System.Diagnostics.Debug.WriteLine("Sold:" + pwProductsSold);
-                dashboard.WVProductsSold =
-                    (float)Math.Round(((float)(dashboard.WProductsSold - pwProductsSold) / (float)pwProductsSold) * 100, 2);
+                dashboard.WVProductsSold = GetVariance(dashboard.WProductsSold, pwProductsSold);
 
                 dashboard.WProductsAddition = ReadInt32Column(reader, "TotalProductsAddedThisWeek");
                 int pwTotalProducts = ReadInt32Column(reader, "TotalProductsAddedPreviousWeek");
-                
-                dashboard.WVProductsAddition =
-                    (float)Math.Round(((float)(dashboard.WProductsAddition - pwTotalProducts) / (float)pwTotalProducts) * 100, 2);
+                dashboard.WVProductsAddition = GetVariance(dashboard.WProductsAddition, pwTotalProducts);
 
                 dashboard.WUsersAddition = ReadInt32Column(reader, "TotalUsersThisWeek");
                 int pwTotalUsers = ReadInt32Column(reader, "TotalUsersPreviousWeek");
-                dashboard.WVUsersAddition =
-                    (float)Math.Round(((float)(dashboard.WUsersAddition - pwTotalUsers) / (float)pwTotalUsers) * 100, 2);
+                dashboard.WVUsersAddition = GetVariance(dashboard.WUsersAddition, pwTotalUsers);
             }
             return dashboard;
+        }
+
+        private float GetVariance(float currentWeek, float previousWeek) 
+        {
+            if(currentWeek == 0 && previousWeek == 0)
+            {
+                return 0;
+            }
+            else if(currentWeek <= 0)
+            {
+                return (float)Math.Round(((1) / previousWeek) * 100, 2);
+            } else if (previousWeek <= 0)
+            {
+                return (float)Math.Round(((currentWeek - previousWeek) / 1) * 100, 2);
+            }
+            return (float)Math.Round(((currentWeek - previousWeek) / previousWeek) * 100, 2);
         }
 
         public AdminDashboard GetDashboardTable(SqlDataReader reader)
