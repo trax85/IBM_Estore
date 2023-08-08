@@ -113,5 +113,17 @@ namespace EStore.Utilities
             TotalSalesData,
             TotalSalesData
         };
+
+        public static ContactUs ContactUsModel = new ContactUs()
+        {
+            CompanyName = "TestComp",
+            CompanyUrl = "www.testcomp.com",
+            Phone = "123456789",
+            WebsiteUrl = "www.test.com",
+            ProgramDetails = "Test-Test",
+            Address = "Address",
+            SupportMail = "Support@gmail.com",
+            MarketingMail = "Marketing@mail.com"
+        };
     }
 }
