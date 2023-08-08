@@ -46,7 +46,6 @@
                                             placeholder = "First Name",
                                             required = "required"
                                         })
-                                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @style = "color:red" })
                                     </div>
                                 </div>
                                 <!--Grid column-->
@@ -61,7 +60,6 @@
                                             placeholder = "Last Name",
                                             required = "required"
                                         })
-                                        @Html.ValidationMessageFor(m => m.LastName, "", new { @style = "color:red" })
                                     </div>
                                 </div>
                                 <!--Grid column-->
@@ -79,10 +77,9 @@
                                     required = "required"
                                 })
                             </div>
-                            @Html.ValidationMessageFor(m => m.UserName, "", new { @style = "color:red" })
-                            @if (TempData["ErrorMessage"] != null)
+                            @if (ViewBag.Error != null)
                             {
-                                <p class="text-danger">@TempData["ErrorMessage"]</p>
+                                <p class="text-danger">@ViewBag.Error</p>
                             }
 
                             <!--Password-->
@@ -96,7 +93,6 @@
                                     placeholder = "Password",
                                     required = "required"
                                 })
-                                @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red" })
                             </div>
 
                             <!--ConfirmPassword-->
@@ -110,20 +106,19 @@
                                     placeholder = "Confirm Password",
                                     required = "required"
                                 })
-                                @Html.ValidationMessageFor(m => m.ComfirmPassword, "", new { @style = "color:red" })
                             </div>
 
                             <!--email-->
                             <p class="mb-0">
-                                Email (optional)
+                                Email<span class="text-danger"> *</span>
                             </p>
                             <div class="form-outline mb-4">
                                 @Html.TextBoxFor(m => m.EmailAddress, new
                                 {
                                     @class = "form-control",
                                     placeholder = "youremail@example.com",
+                                    required = "required"
                                 })
-                                @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @style = "color:red" })
                             </div>
 
                             <!--address-->
@@ -182,6 +177,7 @@
                                         })
                                     </div>
                                 </div>
+                                @Html.ValidationSummary()
                                 <hr class="d-inline" />
                                 <button type="submit" class="btn btn-outline-dark" style="margin-left:3%; width:100%">
                                     Submit

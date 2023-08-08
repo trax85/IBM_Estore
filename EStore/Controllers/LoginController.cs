@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities;
 using System.Web.WebPages;
@@ -54,13 +54,17 @@ namespace EStore.Controllers
             if (ModelState.IsValid)
             {
                 user.Type = Models.User.UserTypes.Customer.ToString();
-                if (_userDataRepository.CreateUser(user))
+                //TO-DO: Validation -> model
+                if(user.UserName.Length < 6)
                 {
-                    TempData.Remove("ErrorMessage");
+                    ViewBag.Error = "Username must be greater than 5 letters";
+                    return View(user);
+                }
+                else if (_userDataRepository.CreateUser(user))
+                {
                     return RedirectToAction("SignIn", "Login");
                 }
-                System.Diagnostics.Debug.WriteLine("Could not register user");
-                TempData["ErrorMessage"] = "Username already exists choose a different username";
+                ViewBag.Error = "Username already exists choose a different username";
             }
 
             return View(user);
