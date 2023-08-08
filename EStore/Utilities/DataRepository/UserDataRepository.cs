@@ -96,6 +96,7 @@ namespace EStore.Utilities
                         userToUpdate.State = user.State;
                         userToUpdate.ZipCode = user.ZipCode;
                         userToUpdate.Lastseen = DateTime.Now;
+                        userToUpdate.Type = user.Type;
                         _dbContext.SaveChanges();
                     }
                     catch (DbEntityValidationException ex)
