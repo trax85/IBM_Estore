@@ -64,12 +64,12 @@
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="basic-addon1"></span>
                     @Html.PasswordFor(m => m.Password, new
-               {
-                   @class = "form-control",
-                   placeholder = "Password",
-                   required = "required",
-                   @Value = Model.Password
-               })
+                   {
+                       @class = "form-control",
+                       placeholder = "Password",
+                       required = "required",
+                       @Value = Model.Password
+                   })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red" })
                 </div>
 
@@ -80,27 +80,27 @@
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="basic-addon1"></span>
                     @Html.PasswordFor(m => m.ComfirmPassword, new
-               {
-                   @class = "form-control",
-                   placeholder = "Confirm Password",
-                   required = "required",
-                   @Value = Model.Password
-               })
+                   {
+                       @class = "form-control",
+                       placeholder = "Confirm Password",
+                       required = "required",
+                       @Value = Model.Password
+                   })
                     @Html.ValidationMessageFor(m => m.ComfirmPassword, "", new { @style = "color:red" })
                 </div>
 
                 <!--email-->
                 <p class="mb-0">
-                    Email (optional)
+                    Email<span class="text-danger"> *</span>
                 </p>
                 <div class="form-outline mb-4">
                     @Html.TextBoxFor(m => m.EmailAddress, new
-               {
-                   @class = "form-control",
-                   placeholder = "Email Address",
-                   required = "required",
-                   value = Model.EmailAddress
-               })
+                   {
+                       @class = "form-control",
+                       placeholder = "Email Address",
+                       required = "required",
+                       value = Model.EmailAddress
+                   })
                 </div>
 
                 <!--address-->
@@ -109,12 +109,12 @@
                 </p>
                 <div class="form-outline mb-4">
                     @Html.TextBoxFor(m => m.Address, new
-               {
-                   @class = "form-control",
-                   placeholder = "1234 Main St",
-                   required = "required",
-                   value = Model.Address
-               })
+                   {
+                       @class = "form-control",
+                       placeholder = "1234 Main St",
+                       required = "required",
+                       value = Model.Address
+                   })
                 </div>
 
                 <!--Grid row-->
@@ -126,12 +126,12 @@
                         </p>
                         <div class="form-outline mb-4">
                             @Html.TextBoxFor(m => m.Country, new
-                       {
-                           @class = "form-control",
-                           placeholder = "India",
-                           required = "required",
-                           value = Model.Country
-                       })
+                           {
+                               @class = "form-control",
+                               placeholder = "India",
+                               required = "required",
+                               value = Model.Country
+                           })
                         </div>
                     </div>
                     <!--Grid column-->
@@ -142,12 +142,12 @@
                         </p>
                         <div class="form-outline mb-4">
                             @Html.TextBoxFor(m => m.State, new
-                       {
-                           @class = "form-control",
-                           placeholder = "Kerla",
-                           required = "required",
-                           value = Model.State
-                       })
+                           {
+                               @class = "form-control",
+                               placeholder = "Kerla",
+                               required = "required",
+                               value = Model.State
+                           })
                         </div>
                     </div>
                     <!--Grid column-->
@@ -158,12 +158,12 @@
                         </p>
                         <div class="form-outline">
                             @Html.TextBoxFor(m => m.ZipCode, new
-                       {
-                           @class = "form-control",
-                           placeholder = "Zipcode",
-                           required = "required",
-                           value = Model.ZipCode
-                       })
+                           {
+                               @class = "form-control",
+                               placeholder = "Zipcode",
+                               required = "required",
+                               value = Model.ZipCode
+                           })
                             @Html.ValidationMessageFor(m => m.ZipCode, "", new { @style = "color:red" })
                         </div>
 
