@@ -1,4 +1,4 @@
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities;
 using System.Web.WebPages;
@@ -37,7 +37,6 @@ namespace EStore.Controllers
             else
             {
                 TempData["ErrorMessage"] = "Please enter correct username/password";
-                System.Diagnostics.Debug.WriteLine("Please enter correct username/password");
             }
 
             return View(userCred);  
@@ -84,10 +83,10 @@ namespace EStore.Controllers
                 var token = tokenGenerator.GenerateToken(emailAddress);
                 if (_userDataRepository.UpdateUserToken(token, emailAddress))
                 {
-                    ViewBag.Verfied = "Mail has been sent to you email Inbox please look into that for further instructions.";
                     var passwordLink = Url.Action("ResetPassword", "Login", 
                         new { email=emailAddress, token = token });
                     System.Diagnostics.Debug.WriteLine(passwordLink);
+                    ViewBag.Verfied = "Mail has been sent to you email Inbox please look into that for further instructions.";
                     return View();
                 }
                 else ViewBag.Error = "Server encountered error please try again.";

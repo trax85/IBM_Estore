@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities.DataRepository;
@@ -15,6 +15,7 @@ namespace EStore.Controllers
         static int pageSize = 4;
         private readonly string RedirectAction = "Index";
         private readonly string ReadirectController = "Home";
+        private readonly string CreateEditProduct = "CreateEditProduct";
         private readonly string CreateEditUser = "CreateEditUser";
         private readonly IUserDataRepository _userDataRepository;
         private readonly IProductDataRepository _productDataRepository;
@@ -241,7 +242,7 @@ namespace EStore.Controllers
                     salesList = salesList.Where(p => p.Category == sortBy).ToList();
                 }
 
-                return View(salesList.OrderBy(p => p.ProductName).ToPagedList(page, pageSize));
+                return View(salesList.OrderBy(p => p.ProductName).ToPagedList(page, pageSize + 2));
             }
             return RedirectToAction(RedirectAction, ReadirectController);
         }
