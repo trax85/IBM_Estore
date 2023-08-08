@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -71,7 +71,7 @@ namespace EStore.Controllers
         {
             isUserLogged();
             Product product = _productDataRepository.GetProduct(productName);
-            if(product.Name.IsEmpty())
+            if(product.IsEmpty())
                 return RedirectToAction("Index");
             return View(product);
         }
@@ -139,7 +139,6 @@ namespace EStore.Controllers
         [HttpPost]
         public ActionResult DeleteCartItems(int id) 
         {
-            System.Diagnostics.Debug.WriteLine("here:" +id );
             List<Cart> sessionList = Session[Cart.CartSessionString] as List<Cart>;
             if (sessionList != null)
             {
@@ -176,7 +175,7 @@ namespace EStore.Controllers
             if (ModelState.IsValid)
             {
                 user = _userDataRepository.UpdateUser(user);
-                if (!user.UserName.IsEmpty())
+                if (!user.IsEmpty())
                 {
                     Session[Models.User.UserSessionString] = user;
                     return RedirectToAction("Index");
