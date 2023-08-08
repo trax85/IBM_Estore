@@ -147,15 +147,13 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
-                // TO-DO: get products from db 
-                TempData["isEdit"] = "false";
-                ProductDataRepository dataRepository = new ProductDataRepository();
+                ViewBag.isEdit = false;
                 Product product = new Product()
                 {
-                    ProductCategories = dataRepository.GetProductCategories(),
+                    ProductCategories = _productDataRepository.GetProductCategories(),
                 };
 
-                return View("CreateEditProduct", product);
+                return View(CreateEditProduct, product);
             }
             return RedirectToAction(RedirectAction, ReadirectController);
         }
@@ -166,9 +164,10 @@ namespace EStore.Controllers
             {
                 Product product = _productDataRepository.GetProduct(productId);
                 product.ProductCategories = _productDataRepository.GetProductCategories();
+                if (!product.IsEmpty())
                 {
-                    TempData["isEdit"] = "true";
-                    return View("CreateEditProduct", product);
+                    ViewBag.isEdit = true;
+                    return View(CreateEditProduct, product);
                 }
 
                 return RedirectToAction("Products");
@@ -201,8 +200,7 @@ namespace EStore.Controllers
                     }
                     else
                     {
-                        TempData["isEdit"] = "true";
-                        TempData["ErrorMessage"] = "Could not update product try again";
+                        ViewBag.Error = "Could not update product try again";
                     }
                 }
                 else
@@ -213,12 +211,12 @@ namespace EStore.Controllers
                     }
                     else
                     {
-                        TempData["isEdit"] = "false";
-                        TempData["ErrorMessage"] = "Could not create product try again";
+                        ViewBag.Error = "Could not create product";
                     }
                 }
             }
-            return View("CreateEditProduct",product);
+            ViewBag.isEdit = isEdit;
+            return View(CreateEditProduct, product);
         }
 
         public ActionResult SalesHistory(string sortBy = "All", string dateFrom = "Start", string dateTo = "End", int page = 1)
