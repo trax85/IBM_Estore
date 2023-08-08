@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.WebPages;
 
 namespace EStore.Models
 {
@@ -58,6 +59,13 @@ namespace EStore.Models
         public enum UserTypes { 
             Customer,
             Admin
+        }
+
+        public bool IsEmpty()
+        {
+            if(UserName.IsEmpty() || Password.IsEmpty() || FirstName.IsEmpty() 
+                || LastName.IsEmpty() || EmailAddress.IsEmpty()) return true;
+            return false;
         }
     }
 }

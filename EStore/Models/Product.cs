@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.WebPages;
 
 namespace EStore.Models
 {
@@ -35,5 +36,12 @@ namespace EStore.Models
 
         public DateTime timestamp { get; set; }
         public List<string> ProductCategories { get; set; }
+
+        public bool IsEmpty()
+        {
+            if (Name.IsEmpty() || Description.IsEmpty() || AdditionalDescription.IsEmpty() || Category.IsEmpty())
+                return true;
+            return false;
+        }
     }
 }
