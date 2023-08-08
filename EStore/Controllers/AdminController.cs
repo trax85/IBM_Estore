@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using EStore.Models;
 using EStore.Utilities.DataRepository;
@@ -80,11 +80,7 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
-                TempData["isEdit"] = "true";
-                UserDataRepository dataRepository = new UserDataRepository();
-                User user = dataRepository.GetUser(userid);
-                if (!user.UserName.IsEmpty())
-                    return View("CreateEditUser", user);
+                User user = _userDataRepository.GetUser(userid);
 
                 return RedirectToAction("Users");
             }
@@ -99,8 +95,7 @@ namespace EStore.Controllers
                 UserDataRepository dataRepository = new UserDataRepository();
                 if (isEdit)
                 {
-                    user = dataRepository.UpdateUser(user);
-                    if (!user.UserName.IsEmpty()) return RedirectToAction("Users");
+                    user = _userDataRepository.UpdateUser(user);
                 }
                 else
                 {
@@ -118,8 +113,7 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
-                UserDataRepository dataRepository = new UserDataRepository();
-                dataRepository.DeleteUser(userId);
+                _userDataRepository.DeleteUser(userId);
 
                 return RedirectToAction("Users");
             }
@@ -130,10 +124,8 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
-                ProductDataRepository dataRepository = new ProductDataRepository();
-                List<Product> productList = dataRepository.GetAllProducts();
-                dataRepository = new ProductDataRepository();
-                List<string> categories = dataRepository.GetProductCategories();
+                List<Product> productList = _productDataRepository.GetAllProducts();
+                List<string> categories = _productDataRepository.GetProductCategories();
                 ViewBag.Categories = categories;
                 ViewBag.sortBy = sortBy;
 
@@ -167,11 +159,8 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
-                ProductDataRepository dataRepository = new ProductDataRepository();
-                Product product = dataRepository.GetProduct(productId);
-                dataRepository = new ProductDataRepository();
-                product.ProductCategories = dataRepository.GetProductCategories();
-                if (!product.Name.IsEmpty())
+                Product product = _productDataRepository.GetProduct(productId);
+                product.ProductCategories = _productDataRepository.GetProductCategories();
                 {
                     TempData["isEdit"] = "true";
                     return View("CreateEditProduct", product);
@@ -187,8 +176,7 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
-                ProductDataRepository dataRepository = new ProductDataRepository();
-                dataRepository.DeleteProduct(productId);
+                _productDataRepository.DeleteProduct(productId);
 
                 return RedirectToAction("Products");
             }
@@ -200,10 +188,9 @@ namespace EStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductDataRepository dataRepository = new ProductDataRepository();
                 if (isEdit)
                 {
-                    if (dataRepository.EditProduct(product))
+                    if (_productDataRepository.EditProduct(product))
                     {
                         return RedirectToAction("Products");
                     }
@@ -215,7 +202,7 @@ namespace EStore.Controllers
                 }
                 else
                 {
-                    if (dataRepository.CreateProduct(product))
+                    if (_productDataRepository.CreateProduct(product))
                     {
                         return RedirectToAction("Products");
                     }
