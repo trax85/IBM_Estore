@@ -12,7 +12,7 @@ using System.Web;
 namespace EStoreTest
 {
     [TestClass]
-    public class UnitTest1
+    public class GeneralTesting
     {
         private IUnityContainer container;
         private Mock<ControllerContext> mockControllerContext;
@@ -28,6 +28,7 @@ namespace EStoreTest
             container.RegisterType<IDashboardDataRepository, DummyDashboardDataRepository>();
             container.RegisterType<ITotalSalesDataRepository, DummyCartDataRepository>();
             container.RegisterType<IProductDataRepositoryV2, DummyProductDataRepositoryV2>();
+            container.RegisterType<IContactUsDataRepository, DummyContactUsDataRepository>();
             mockControllerContext = new Mock<ControllerContext>();
             var mockSession = new Mock<HttpSessionStateBase>();
             mockSession.SetupGet(s => s[User.UserSessionString]).Returns(DummyData.UserModelData);
@@ -40,7 +41,8 @@ namespace EStoreTest
                 container.Resolve<IProductDataRepository>(),
                 container.Resolve<IUserDataRepository>(),
                 container.Resolve<ITotalSalesDataRepository>(),
-                container.Resolve<IProductDataRepositoryV2>());
+                container.Resolve<IProductDataRepositoryV2>(),
+                container.Resolve <IContactUsDataRepository>());
         }
 
         [TestMethod]
