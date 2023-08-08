@@ -15,6 +15,7 @@ namespace EStore.Controllers
         static int pageSize = 4;
         private readonly string RedirectAction = "Index";
         private readonly string ReadirectController = "Home";
+        private readonly string CreateEditUser = "CreateEditUser";
         private readonly IUserDataRepository _userDataRepository;
         private readonly IProductDataRepository _productDataRepository;
         private readonly ITotalSalesDataRepository _totalSalesDataRepository;
@@ -69,9 +70,9 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
-                TempData["isEdit"] = "false";
+                ViewBag.isEdit = false;
                 User user = new User();
-                return View("CreateEditUser", user);
+                return View(CreateEditUser, user);
             }
             return RedirectToAction(RedirectAction, ReadirectController);
         }
@@ -80,7 +81,10 @@ namespace EStore.Controllers
         {
             if (isAuthorized())
             {
+                ViewBag.isEdit = true;
                 User user = _userDataRepository.GetUser(userid);
+                if (!user.IsEmpty())
+                    return View(CreateEditUser, user);
 
                 return RedirectToAction("Users");
             }
@@ -92,21 +96,22 @@ namespace EStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserDataRepository dataRepository = new UserDataRepository();
                 if (isEdit)
                 {
                     user = _userDataRepository.UpdateUser(user);
+                    if (!user.IsEmpty()) return RedirectToAction("Users");
+                    else ViewBag.Error = "Failed to update user data, try again";
                 }
                 else
                 {
-                    if (dataRepository.CreateUser(user)) return RedirectToAction("Users");
+                    if (_userDataRepository.CreateUser(user)) return RedirectToAction("Users");
+                    else ViewBag.Error = "Username already taken";
                 }
 
             }
-            if (isEdit) TempData["isEdit"] = "true";
-            else TempData["isEdit"] = "false";
+            ViewBag.isEdit = isEdit;
 
-            return View("CreateEditUser", user);
+            return View(CreateEditUser, user);
         }
 
         public ActionResult DeleteUser(string userId)

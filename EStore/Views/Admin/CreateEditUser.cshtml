@@ -8,10 +8,10 @@
 {
 <div class="custom-card bg-light">
         <!-- Heading -->
-        @if (TempData["isEdit"] as string == "true") {
+        @if (ViewBag.isEdit) {
             @Html.Hidden("isEdit", true)
             <h2 class="mt-3 text-center">Edit User</h2>
-        } else { 
+        } else {
             @Html.Hidden("isEdit", false)
             <h2 class="mt-3 text-center">Create User</h2>
         }
@@ -29,12 +29,12 @@
                             <div class="form-outline">
                                 <label class="form-label" for="typeText">First name<span class="text-danger"> *</span></label>
                                 @Html.TextBoxFor(m => m.FirstName, new
-                                {
-                                    @class = "form-control",
-                                    placeholder = "First Name",
-                                    required = "required",
-                                    value = Model.FirstName
-                                })
+                           {
+                               @class = "form-control",
+                               placeholder = "First Name",
+                               required = "required",
+                               value = Model.FirstName
+                           })
                                 @Html.ValidationMessageFor(m => m.FirstName, "", new { @style = "color:red" })
                             </div>
                         </div>
@@ -45,12 +45,12 @@
                             <div class="form-outline">
                                 <label class="form-label" for="typeText">Last name<span class="text-danger"> *</span></label>
                                 @Html.TextBoxFor(m => m.LastName, new
-                                {
-                                    @class = "form-control",
-                                    placeholder = "Last Name",
-                                    required = "required",
-                                    value = Model.LastName
-                                })
+                           {
+                               @class = "form-control",
+                               placeholder = "Last Name",
+                               required = "required",
+                               value = Model.LastName
+                           })
                                 @Html.ValidationMessageFor(m => m.LastName, "", new { @style = "color:red" })
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                     <label class="form-label" for="typeText">Username<span class="text-danger"> *</span></label>
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1"></span>
-                        @if (TempData["isEdit"] as string == "true")
+                        @if (ViewBag.isEdit)
                         {
                             <input type="text" disabled class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="@Model.UserName" />
                             @Html.HiddenFor(m => m.UserName);
@@ -69,12 +69,12 @@
                         else
                         {
                             @Html.TextBoxFor(m => m.UserName, new
-                            {
-                                @class = "form-control",
-                                placeholder = "Username",
-                                required = "required",
-                                value = Model.UserName
-                            })
+                       {
+                           @class = "form-control",
+                           placeholder = "Username",
+                           required = "required",
+                           value = Model.UserName
+                       })
                         }
                     </div>
                     @Html.ValidationMessageFor(m => m.UserName, "", new { @style = "color:red" })
@@ -84,12 +84,12 @@
                     <div class="input-group mb-1">
                         <span class="input-group-text" id="basic-addon1"></span>
                         @Html.PasswordFor(m => m.Password, new
-                        {
-                            @class = "form-control",
-                            placeholder = "Password",
-                            value = Model.Password,
-                            required = "required"
-                        })
+                   {
+                       @class = "form-control",
+                       placeholder = "Password",
+                       value = Model.Password,
+                       required = "required"
+                   })
                     </div>
                     @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red", @class = "mb-2" })
 
@@ -98,26 +98,27 @@
                     <div class="input-group mb-1">
                         <span class="input-group-text" id="basic-addon1"></span>
                         @Html.PasswordFor(m => m.ComfirmPassword, new
-                        {
-                            @class = "form-control",
-                            placeholder = "Confirm Password",
-                            value = Model.Password,
-                            required = "required"
-                        })
+                   {
+                       @class = "form-control",
+                       placeholder = "Confirm Password",
+                       value = Model.Password,
+                       required = "required"
+                   })
                     </div>
                     @Html.ValidationMessageFor(m => m.ComfirmPassword, "", new { @style = "color:red", @class = "mb-2" })
 
                     <!--email-->
                     <p class="mb-0">
-                        Email (optional)
+                        Email<span class="text-danger"> *</span>
                     </p>
                     <div class="form-outline mb-4">
                         @Html.TextBoxFor(m => m.EmailAddress, new
-                        {
-                            @class = "form-control",
-                            placeholder = "youremail@example.com",
-                            value = Model.EmailAddress
-                        })
+                       {
+                           @class = "form-control",
+                           placeholder = "youremail@example.com",
+                           value = Model.EmailAddress,
+                           required = "required"
+                       })
                         @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @style = "color:red" })
                     </div>
 
@@ -127,11 +128,11 @@
                     </p>
                     <div class="form-outline mb-4">
                         @Html.TextBoxFor(m => m.Address, new
-                        {
-                            @class = "form-control",
-                            placeholder = "1234 Main St",
-                            value = Model.Address
-                        })
+                   {
+                       @class = "form-control",
+                       placeholder = "1234 Main St",
+                       value = Model.Address
+                   })
                     </div>
 
                     <!--Grid row-->
@@ -143,11 +144,11 @@
                             </p>
                             <div class="form-outline mb-4">
                                 @Html.TextBoxFor(m => m.Country, new
-                                {
-                                    @class = "form-control",
-                                    placeholder = "United States",
-                                    value = Model.Country
-                                })
+                           {
+                               @class = "form-control",
+                               placeholder = "United States",
+                               value = Model.Country
+                           })
                             </div>
                         </div>
                         <!--Grid column-->
@@ -158,11 +159,11 @@
                             </p>
                             <div class="form-outline mb-4">
                                 @Html.TextBoxFor(m => m.State, new
-                                {
-                                    @class = "form-control",
-                                    placeholder = "California",
-                                    value = Model.State
-                                })
+                           {
+                               @class = "form-control",
+                               placeholder = "California",
+                               value = Model.State
+                           })
                             </div>
                         </div>
                         <!--Grid column-->
@@ -173,11 +174,11 @@
                             </p>
                             <div class="form-outline">
                                 @Html.TextBoxFor(m => m.ZipCode, new
-                                {
-                                    @class = "form-control",
-                                    placeholder = "",
-                                    value = Model.ZipCode
-                                })
+                           {
+                               @class = "form-control",
+                               placeholder = "",
+                               value = Model.ZipCode
+                           })
                                 @Html.ValidationMessageFor(m => m.ZipCode, "", new { @style = "color:red", @class = "mb-2" })
                             </div>
                         </div>
@@ -187,16 +188,22 @@
                             </p>
                             <div class="ml-4 mt-3">
                                 <label class="form-text">
-                                    @Html.RadioButtonFor(m => m.Type, "Admin", new { id = "Admin", @checked = "checked", @class= "form-check-input" })
+                                    @Html.RadioButtonFor(m => m.Type, "Admin", new { id = "Admin", @checked = "checked", @class = "form-check-input" })
                                     Admin
                                 </label>
 
                                 <label class="form-text">
-                                    @Html.RadioButtonFor(m => m.Type, "Customer", new { id = "Customer", @class= "form-check-input" })
+                                    @Html.RadioButtonFor(m => m.Type, "Customer", new { id = "Customer", @class = "form-check-input" })
                                     Customer
                                 </label>
                             </div>
                         </div>
+                        @{ 
+                            if (ViewBag.Error != null) 
+                            {
+                                <p class="text-danger mt-2">@ViewBag.Error</p>
+                            }
+                        }
                         <div class="card-body">
                             <hr />
                         </div>
