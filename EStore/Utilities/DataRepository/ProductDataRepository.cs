@@ -58,6 +58,7 @@ namespace EStore.Utilities.DataRepository
                         }
                     }
                     findProduct.Description = product.Description;
+                    findProduct.AdditionalDescription = product.AdditionalDescription;
                     findProduct.Category = product.Category;
                     findProduct.Cost = product.Cost;
                     _dbContext.SaveChanges();
