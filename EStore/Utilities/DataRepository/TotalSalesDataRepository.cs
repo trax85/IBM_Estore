@@ -21,11 +21,12 @@ namespace EStore.Utilities.DataRepository
             return new List<TotalSales>();
         }
 
-        List<TotalSales> ITotalSalesDataRepository.GetPurchaseHistory(string userName)
+        List<TotalSales> ITotalSalesDataRepository.GetPurchaseHistory(User user)
         {
             try
             {
-                List<TotalSales> totalSales = _dbContext.TotalSalesModel.Where(p => p.UserName.Equals(userName)).ToList();
+                List<TotalSales> totalSales = _dbContext.TotalSalesModel.Where(
+                    p => p.UserName.Equals(user.UserName) && p.Timestamp >= user.timestamp).ToList();
                 return totalSales;
             }
             catch(Exception ex )

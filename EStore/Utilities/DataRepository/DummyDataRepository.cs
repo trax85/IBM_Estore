@@ -1,4 +1,4 @@
-﻿using EStore.Models;
+using EStore.Models;
 using System;
 using System.Collections.Generic;
 
@@ -170,7 +170,7 @@ namespace EStore.Utilities.DataRepository
             throw new NotImplementedException();
         }
 
-        List<TotalSales> ITotalSalesDataRepository.GetPurchaseHistory(string userName)
+        List<TotalSales> ITotalSalesDataRepository.GetPurchaseHistory(User user)
         {
             throw new NotImplementedException();
         }

@@ -189,7 +189,7 @@ namespace EStore.Controllers
             if (isUserLogged())
             {
                 User user = Session[Models.User.UserSessionString] as User;
-                List<TotalSales> userHistory = _productDataRepository.GetImagesForTotalSales(_totalSalesDataRepository.GetPurchaseHistory(user.UserName));
+                List<TotalSales> userHistory = _productDataRepository.GetImagesForTotalSales(_totalSalesDataRepository.GetPurchaseHistory(user));
                 ViewBag.WeekIntervals = _totalSalesDataRepository.GetWeekIntervals(userHistory);
                 ViewBag.Categories = _productDataRepository.GetProductCategories();
                 ViewBag.DateTo = dateTo;

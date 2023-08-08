@@ -44,7 +44,7 @@ namespace EStore.Utilities.DataRepository
 
     public interface ITotalSalesDataRepository
     {
-        List<TotalSales> GetPurchaseHistory(string userName);
+        List<TotalSales> GetPurchaseHistory(User user);
 
         List<TotalSales> GetAllPurchaseHistory();
 
