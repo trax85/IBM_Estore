@@ -40,7 +40,7 @@ namespace EStore.Utilities
                 {
                     try
                     {
-                        user.timestamp = DateTime.Now.Date;
+                        user.timestamp = DateTime.Now;
                         user.Lastseen = DateTime.Now;
                         // Prevent any chances of getting in
                         user.TokenTimeStamp = DateTime.Now.AddMinutes(-10);
